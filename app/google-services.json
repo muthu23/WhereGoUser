@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "376347551838",
+    "firebase_url": "https://wheregodelivery.firebaseio.com",
+    "project_id": "wheregodelivery",
+    "storage_bucket": "wheregodelivery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376347551838:android:488234a9f9931ad9ae2ccf",
+        "android_client_info": {
+          "package_name": "com.wherego.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376347551838-ulggmfq6o3rp1ep796ogvhmmqkrjtrk7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wherego.user",
+            "certificate_hash": "858d796cd8dd9635224cc8a5ad2acb1f06f0b8ea"
+          }
+        },
+        {
+          "client_id": "376347551838-adj1gpqcn3rs27hf610s3hu33svgs7hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh1flTGLNGOuY9MXWhdm4tqOryVSk1b2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376347551838-adj1gpqcn3rs27hf610s3hu33svgs7hi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

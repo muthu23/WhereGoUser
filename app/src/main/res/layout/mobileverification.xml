@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginBottom="@dimen/_minus25sdp"
+        android:background="@drawable/loginbg">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_164sdp"
+                android:layout_height="@dimen/_110sdp"
+
+                android:src="@drawable/appicon"/>
+
+
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_12sdp"
+        android:background="@drawable/bottom_dialog_shape">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_25sdp"
+            android:paddingStart="@dimen/_25sdp"
+            android:paddingEnd="@dimen/_25sdp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:background="@drawable/grey_border_bg"
+                android:orientation="horizontal">
+                <FrameLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="@dimen/_68sdp"
+                        android:layout_height="wrap_content"
+                        app:ccp_contentColor="@color/textColor"
+                        app:ccp_defaultNameCode="in"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_showPhoneCode="true"
+                        app:ccp_textSize="@dimen/_10sdp" />
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/mobile_no"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="Mobile number"
+                    android:textColorHint="@color/textColor"
+                    android:maxLength="12"
+                    android:backgroundTint="@color/transparent"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/textColor"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_1sdp"
+                    />
+            </LinearLayout>
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="We will send you a One time SMS message carrier rate may apply"/>
+
+            <Button
+                android:id="@+id/nextIcon"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_44sdp"
+
+                android:backgroundTint="@color/colorButton"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:clickable="true"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:textColor="@color/black"
+
+                android:textSize="@dimen/_14sdp"
+                android:text="Next"/>
+
+            <View
+                android:layout_width="@dimen/_124sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/home_button"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_248sdp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_20sdp"
+    android:gravity="center"
+    android:backgroundTint="@color/colorPrimary"
+    android:background="@drawable/red_color_rect_shape">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/referral_code"
+        android:textSize="@dimen/_16sdp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/_10sdp"
+        />
+
+    <EditText
+        android:id="@+id/etReferral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:padding="@dimen/_10sdp"
+        android:hint="@string/enter_referral_code"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:maxLines="1"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/red_color_rect_shape"
+        />
+
+    <Button
+        android:id="@+id/btnValidate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_44sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:text="Validate"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14sdp"
+        android:backgroundTint="@android:color/holo_green_dark"/>
+
+
+
+</LinearLayout>

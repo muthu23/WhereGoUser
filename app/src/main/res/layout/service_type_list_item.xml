@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayoutOfList"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+    <RelativeLayout
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp">
+        <ImageView
+            android:id="@+id/serviceImg"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="@dimen/_5sdp"
+            />
+        <FrameLayout
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/_3sdp"
+
+            android:backgroundTint="@color/quantum_googgreen"
+            android:background="@drawable/round_shape">
+            <TextView
+                android:id="@+id/serviceCapacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="1kg"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp" />
+        </FrameLayout>
+    </RelativeLayout>
+
+
+    <com.wherego.user.Utils.MyTextView
+        android:id="@+id/serviceItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp" />
+    <FrameLayout
+        android:id="@+id/selector_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingRight="10dp"
+        android:paddingBottom="@dimen/_2sdp">
+
+        <com.wherego.user.Utils.MyTextView
+            android:id="@+id/serviceItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/_12sdp" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

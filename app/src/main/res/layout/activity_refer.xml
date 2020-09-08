@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".Activities.ReferActivity">
+    <ImageView
+        android:id="@+id/imgback"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_margin="@dimen/_15sdp"
+        android:src="@drawable/back_icon"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingTop="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_20sdp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+
+            android:textSize="@dimen/_24sdp"
+            android:text="@string/send_your_friends_n_refer_and_earn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_40sdp"
+            android:textSize="@dimen/_12sdp"
+            android:text="@string/share_the_app_love_and_give_friends_free_rides_to_try_app_worth_up_to_25_percent_each"/>
+
+
+            <ImageView
+                android:layout_width="@dimen/_224sdp"
+                android:layout_height="@dimen/_196sdp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_minus15sdp"
+                android:src="@drawable/share_image"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_14sdp"
+            android:text="@string/share_your_invite_code"/>
+        
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:cardBackgroundColor="@color/white"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+            <TextView
+                android:id="@+id/tvCode"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="raja1234e"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/black"/>
+                <ImageButton
+                    android:id="@+id/imgShare"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/ic_share_black_24dp"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:cardBackgroundColor="@color/quantum_googgreen"
+            >
+            <TextView
+                android:id="@+id/txtWhatsapp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="WHATSAPP"
+                android:gravity="center"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/white"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</LinearLayout>

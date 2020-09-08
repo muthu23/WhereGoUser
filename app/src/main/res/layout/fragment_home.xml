@@ -1,0 +1,2687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Map frame -->
+        <LinearLayout
+            android:id="@+id/mapLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/provider_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <!--Project Flow-->
+        <LinearLayout
+            android:id="@+id/lnrFlow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <!--Request to providers-->
+            <!--new view first-->
+
+            <LinearLayout
+                android:id="@+id/lnrRequestProviders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                android:backgroundTint="@color/textColor"
+                android:background="@drawable/sourcedestbg"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_1sdp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/imgExpand"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_34sdp"
+                        android:rotation="270"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/back_icon"/>
+
+                    <LinearLayout
+                        android:id="@+id/layoutSingleItem"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/service_type_list_item_new"/>
+                    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcvServiceTypes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:visibility="visible"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:orientation="horizontal" />
+
+
+                    <TextView
+                        android:id="@+id/tvZoneMsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_12sdp"
+
+                        android:visibility="gone"
+                        android:gravity="center"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/view_bg"
+                        android:visibility="gone" />
+
+                    // Cash
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/lvServiceBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lblPaymentType"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Payment"
+                            android:gravity="start|center_vertical"
+
+                            android:textColor="@color/white"
+                            android:paddingStart="@dimen/_12sdp"
+                            android:textSize="@dimen/_12sdp"/>
+
+                        <TextView
+                            android:id="@+id/lblPromo"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Promo Code"
+                            android:gravity="end|center_vertical"
+                            android:paddingEnd="@dimen/_12sdp"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_3sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sdp"
+                        />
+
+
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="@color/colorPrimary"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/imgPaymentType"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/money1" />
+
+
+
+                        <ImageView
+                            android:id="@+id/img_profile"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="20dp"
+                            android:layout_toLeftOf="@+id/imgPaymentType"
+                            android:visibility="visible" />
+
+
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="20dp"
+                            android:paddingRight="@dimen/_2sdp"
+                            android:text="1-4"
+                            android:textSize="20sp"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/btnRequestRides"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+
+                            android:layout_marginEnd="@dimen/_5sdp"
+
+                            android:layout_weight="1"
+                            android:background="@drawable/border_stroke"
+                            android:gravity="center"
+                            android:text="@string/request_xuber"
+
+                            android:textColor="@color/button_text_color"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <ImageView
+                            android:id="@+id/schedule_ride"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+
+                            android:layout_marginEnd="@dimen/_5sdp"
+
+                            android:tint="@color/white"
+                            android:src="@drawable/ic_schedule"
+                            android:background="@drawable/border_stroke"
+                            android:padding="@dimen/_7sdp"
+                            android:text="@string/schedule"
+
+                            android:textColor="@color/button_text_color"
+                            android:textSize="@dimen/_13sdp" />
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!-- Driver popup Layout-->
+            <LinearLayout
+                android:id="@+id/lnrProviderPopup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/home_bottom_layout_shape"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/lnrHidePopup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparent_black"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp">
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Estimated Fare"
+                        android:textColor="@color/black_text_color"
+                        android:textSize="@dimen/_16sdp" />
+
+                    <ImageView
+                        android:id="@+id/imgProviderPopup"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:src="@drawable/pickup_drop_icon" />
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/lblServiceName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@color/black_text_color"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/lnrPriceBase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="start"
+                                android:maxLines="1"
+                                android:text="Cost"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblBasePricePopup"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnrPricekm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:maxLines="1"
+                                android:text="Per Km"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblPriceKm"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnrPricemin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:maxLines="1"
+                                android:text="Per Minutes"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblPriceMin"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:maxLines="1"
+                                android:text=""
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnrCalculationType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:maxLines="1"
+                                android:text="Cost Per Km"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblCalculationType"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:maxLines="2"
+                                android:text=""
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnrCapacity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:maxLines="1"
+                                android:text="Capacity"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_12sdp" />
+
+
+                            <LinearLayout
+                                android:id="@+id/lblPeople"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/people" />
+
+                                <com.wherego.user.Utils.MyBoldTextView
+                                    android:id="@+id/lblCapacity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:maxLines="1"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:text="5"
+                                    android:textColor="@color/black_text_color"
+                                    android:textSize="@dimen/_12sdp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/lblProviderDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:lineSpacingMultiplier="1.3"
+                        android:text="The fare will be the price presented upon booking, or, if the journey changes, the fare will be based on the rates provided. Tap fare for details."
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black_text_color"
+                    android:visibility="gone" />
+
+                <com.wherego.user.Utils.MyButton
+                    android:id="@+id/btnDonePopup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/home_button_shape"
+                    android:text="@string/done"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_14sdp" />
+            </LinearLayout>
+
+            <!--Schedule Layout-->
+            <LinearLayout
+                android:id="@+id/ScheduleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/home_bottom_layout_shape"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:text="@string/schedule"
+                        android:textColor="@color/black_text_color"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/scheduleDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:text="@string/sample_date"
+                            android:textSize="20sp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/scheduleTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sample_time"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/colorPrimaryDark" />
+
+                <com.wherego.user.Utils.MyButton
+                    android:id="@+id/scheduleBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/home_button_shape"
+                    android:text="@string/next"
+                    android:textColor="@color/button_text_color"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <!--Approximate Rate ...-->
+            <!--new view second-->
+
+            <LinearLayout
+                android:id="@+id/lnrApproximate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/_15sdp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_minus10sdp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_marginStart="@dimen/_35sdp"
+                        android:layout_marginEnd="@dimen/_35sdp"
+                        android:backgroundTint="@color/white"
+                        android:elevation="@dimen/_2sdp"
+                        android:background="@drawable/white_color_rect_shape" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_minus5sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:elevation="@dimen/_5sdp"
+                        android:backgroundTint="#F2ffffff"
+                        android:background="@drawable/white_color_rect_shape"
+                        />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:layout_gravity="bottom"
+                    android:elevation="@dimen/_7sdp"
+                    android:background="@drawable/white_color_rect_shape"
+                    android:orientation="vertical">
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/surgeDiscount"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/round_shape"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_22sdp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/surge_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:padding="@dimen/_5sdp"
+                        android:text="@string/surge_pricing_title"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_13sdp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F2ffffff"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_4sdp"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/white_color_rect_shape"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:layout_marginBottom="@dimen/_10sdp"
+                                        android:background="@drawable/sourcelocation" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/map_pin"
+                                        />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/lblfrmConfrmRide"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <com.wherego.user.Utils.MyTextView
+                                        android:id="@+id/lblCmfrmSourceAddress"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="@dimen/_10sdp"
+                                        android:layout_weight="1"
+                                        android:maxLines="2"
+                                        android:ellipsize="end"
+                                      
+                                        android:text="Anamika Enclave"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_12sdp" />
+
+                                    <com.wherego.user.Utils.MyTextView
+                                        android:id="@+id/lblCmfrmDestAddress"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:maxLines="2"
+                                        android:ellipsize="end"
+                                      
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_12sdp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_2sdp">
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+
+                                    <ImageView
+                                        android:id="@+id/ImgConfrmCabType"
+                                        android:layout_width="@dimen/_48sdp"
+                                        android:src="@drawable/car_select"
+                                        android:layout_height="@dimen/_48sdp" />
+                                    <com.wherego.user.Utils.MyBoldTextView
+                                        android:id="@+id/lblType"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="end"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/_10sdp"
+                                        android:visibility="gone" />
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Distance"
+                                        android:textColor="@color/cancel_ride_color"
+                                       
+                                        android:textSize="@dimen/_12sdp" />
+                                    <TextView
+                                        android:id="@+id/lblDis"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                       
+                                        android:gravity="end"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_12sdp" />
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Time"
+                                        android:textColor="@color/cancel_ride_color"
+                                       
+                                        android:textSize="@dimen/_12sdp" />
+                                    <com.wherego.user.Utils.MyBoldTextView
+                                        android:id="@+id/lblEta"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+
+                                        android:gravity="end"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_12sdp" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Price"
+                                        android:textColor="@color/cancel_ride_color"
+                                       
+                                        android:textSize="@dimen/_12sdp" />
+
+                                    <TextView
+                                        android:id="@+id/lblApproxAmount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="end"
+                                       
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_12sdp" />
+                                </LinearLayout>
+
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/lineView"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:visibility="gone"
+                            android:background="@color/view_grey_bg" />
+
+                        <com.wherego.user.Utils.MyCheckbox
+                            android:id="@+id/chkWallet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="@string/use_wallet_amount"
+                            android:textSize="@dimen/_12sdp"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:orientation="horizontal">
+
+                            <com.wherego.user.Utils.MyButton
+                                android:id="@+id/btnRequestRideConfirm"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/_44sdp"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                               android:backgroundTint="@color/colorPrimary"
+                               
+                                android:text="Confirm"
+
+                                android:textSize="@dimen/_12sdp" />
+
+
+                            <TextView
+                                android:layout_width="@dimen/_2sdp"
+                                android:visibility="gone"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_2sdp" />
+
+                            <com.wherego.user.Utils.MyButton
+                                android:id="@+id/imgSchedule"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/red_color_rect_shape"
+                                android:text="Cancel"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/lnrApproximate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                android:background="@drawable/home_bottom_layout_shape"-->
+<!--                android:orientation="vertical"-->
+<!--                android:visibility="gone">-->
+
+<!--                <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                    android:id="@+id/surgeDiscount"-->
+<!--                    android:layout_width="@dimen/_50sdp"-->
+<!--                    android:layout_height="@dimen/_50sdp"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:background="@drawable/black_round_shape"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingTop="@dimen/_3sdp"-->
+<!--                    android:text="1"-->
+<!--                    android:textColor="@color/cpb_white"-->
+<!--                    android:textSize="@dimen/_22sdp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:visibility="gone" />-->
+
+<!--                <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                    android:id="@+id/surge_txt"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@color/surge_txt_bg"-->
+<!--                    android:gravity="center"-->
+<!--                    android:padding="@dimen/_5sdp"-->
+<!--                    android:text="@string/surge_pricing_title"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    android:textSize="@dimen/_13sdp"-->
+<!--                    android:visibility="gone" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                        android:layout_marginTop="@dimen/_10sdp"-->
+<!--                        android:layout_marginRight="@dimen/_10sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                        android:background="@android:color/white">-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/lblImgConfrmRide"-->
+<!--                            android:layout_width="20dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignTop="@+id/lblfrmConfrmRide"-->
+<!--                            android:layout_alignBottom="@+id/lblfrmConfrmRide"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:paddingTop="10dp"-->
+<!--                            android:paddingBottom="10dp"-->
+<!--                            android:src="@drawable/pointers_icon" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/lblfrmConfrmRide"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_toRightOf="@+id/lblImgConfrmRide"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:padding="5dp">-->
+
+<!--                            <com.mycourier.user.Utils.MyTextView-->
+<!--                                android:id="@+id/lblCmfrmSourceAddress"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:text="Amit"-->
+<!--                                android:textColor="@color/text_color_black"-->
+<!--                                android:textSize="14sp" />-->
+
+<!--                            <com.mycourier.user.Utils.MyTextView-->
+<!--                                android:id="@+id/lblCmfrmDestAddress"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:text="Tiwari"-->
+<!--                                android:textColor="@color/text_color_black"-->
+<!--                                android:textSize="14sp" />-->
+
+<!--                        </LinearLayout>-->
+
+<!--                    </RelativeLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                        android:layout_marginRight="@dimen/_10sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Estimated Cost"-->
+<!--                            android:textColor="@color/text_color_black"-->
+<!--                            android:textSize="@dimen/_13sdp" />-->
+
+<!--                        <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                            android:id="@+id/lblApproxAmount"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textColor="@color/text_color_black"-->
+<!--                            android:textSize="@dimen/_13sdp" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                        android:layout_marginRight="@dimen/_10sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="@string/eta_time"-->
+<!--                            android:textColor="@color/text_color_black"-->
+<!--                            android:textSize="@dimen/_13sdp" />-->
+
+<!--                        <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                            android:id="@+id/lblEta"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textColor="@color/text_color_black"-->
+<!--                            android:textSize="@dimen/_13sdp" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                        android:layout_marginRight="@dimen/_10sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Delivery"-->
+<!--                            android:textColor="@color/text_color_black"-->
+<!--                            android:textSize="@dimen/_13sdp" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/ImgConfrmCabType"-->
+<!--                            android:layout_width="@dimen/_60sdp"-->
+<!--                            android:layout_height="@dimen/_60sdp"-->
+<!--                            android:paddingTop="10dp"-->
+<!--                            android:paddingBottom="10dp" />-->
+
+<!--                        <com.mycourier.user.Utils.MyBoldTextView-->
+<!--                            android:id="@+id/lblType"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textColor="@color/text_color_black"-->
+<!--                            android:textSize="@dimen/_13sdp"-->
+<!--                            android:visibility="gone" />-->
+<!--                    </LinearLayout>-->
+
+
+<!--                    <View-->
+<!--                        android:id="@+id/lineView"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:background="@color/view_grey_bg" />-->
+
+<!--                    <com.mycourier.user.Utils.MyCheckbox-->
+<!--                        android:id="@+id/chkWallet"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/_15sdp"-->
+<!--                        android:layout_marginTop="@dimen/_5sdp"-->
+<!--                        android:text="@string/use_wallet_amount"-->
+<!--                        android:textSize="@dimen/_13sdp"-->
+<!--                        android:visibility="visible" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="@dimen/_5sdp"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <com.mycourier.user.Utils.MyButton-->
+<!--                            android:id="@+id/btnRequestRideConfirm"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/_3sdp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="@drawable/home_button_shape"-->
+<!--                            android:text="CONFIRM"-->
+<!--                            android:textColor="@color/button_text_color" />-->
+
+<!--                        <com.mycourier.user.Utils.MyButton-->
+<!--                            android:id="@+id/imgSchedule"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/_3sdp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="@drawable/home_button_shape"-->
+<!--                            android:text="CANCEL"-->
+<!--                            android:textColor="@color/button_text_color" />-->
+
+
+<!--                    </LinearLayout>-->
+
+<!--                </LinearLayout>-->
+
+<!--            </LinearLayout>-->
+
+            <!--Driver Accepted ...-->
+            <LinearLayout
+                android:id="@+id/lnrProviderAccepted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/home_bottom_layout_shape"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/lnrAfterAcceptedStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_11sdp"
+                                android:layout_height="@dimen/_11sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:src="@drawable/round" />
+
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblETA"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:drawablePadding="@dimen/_10sdp"
+                                android:gravity="end"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_5sdp"
+                                android:text=""
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_14sdp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/trip_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:alpha=".12"
+                            android:background="@android:color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgServiceRequested"
+                                android:layout_width="@dimen/_60sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                android:padding="@dimen/_5sdp"
+                                android:src="@drawable/car_select" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblServiceRequested"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="@string/sample_service"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblModelNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:lineSpacingMultiplier="1.3"
+                                android:text="Audi A6 "
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/_13sdp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/lblSurgePrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1.3"
+                        android:padding="@dimen/_5sdp"
+                        android:text="@string/surge_pricing"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/home_bottom_layout_shape"
+                    android:padding="@dimen/_5sdp">
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/lblStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:text="You are on order"
+                        android:textColor="@color/black_text_color"
+                        android:textSize="@dimen/_14sdp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/driverDetail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lblStatus">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgProvider"
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:padding="@dimen/_5sdp"
+                            android:src="@drawable/user"
+                            app:civ_border_color="@color/button_text_color"
+                            app:civ_border_width="2dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblProvider"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:text="@string/sample_name"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp"
+                            app:layout_constraintLeft_toRightOf="@+id/imgProvider"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <RatingBar
+                            android:id="@+id/ratingProvider"
+                            style="?attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:progressTint="#FFCA28"
+                            app:layout_constraintLeft_toRightOf="@+id/imgProvider"
+                            app:layout_constraintTop_toBottomOf="@+id/lblProvider" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/AfterAcceptButtonLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lblStatus">
+
+                        <ImageButton
+                            android:id="@+id/btnCall"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:background="@drawable/call"
+                            android:backgroundTint="@color/colorPrimary"
+                             />
+                        <ImageButton
+                            android:id="@+id/btnchat"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:background="@drawable/chat"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:backgroundTint="@color/colorPrimary"
+                            />
+                        <ImageButton
+                            android:id="@+id/btnInfo"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:background="@drawable/info"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:backgroundTint="@color/colorPrimary"
+                            />
+
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/layoutDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@color/dark_gray"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/driverDetail" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:orientation="horizontal"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/layoutDivider">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Distance" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/tvDistance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="4.0 Kilo"
+                                android:textColor="@color/black_text_color" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Price" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/tvPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="10JOD"
+                                android:textColor="@color/black_text_color" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="ETA" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/tvETA"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/black_text_color" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Payment" />
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/tvCash"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/black_text_color" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/layoutInfo">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_36sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:layout_weight="1"
+
+                            app:cardBackgroundColor="#FAFAFA"
+
+                            app:cardCornerRadius="@dimen/_18sdp"
+                            app:cardElevation="@dimen/_2sdp">
+
+                            <TextView
+                                android:id="@+id/txtPickUpNotes"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:paddingStart="@dimen/_15sdp"
+                                android:text="Any Delivery notes"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <com.google.android.material.button.MaterialButton
+
+                            android:id="@+id/btnCancelTrip"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Cancel"
+                            android:onClick="onClick"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_11sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeWidth="@dimen/_1sdp"
+                            android:textColor="@color/red"
+                            app:strokeColor="@color/red"/>
+
+
+                    </LinearLayout>
+
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <!-- Invoice Layout ...-->
+            <LinearLayout
+                android:id="@+id/lnrInvoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/home_bottom_layout_shape"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/confirm_payment"/>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/lnrInvoiceSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:text="@string/invoice"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/_16sdp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="@string/book_name"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/booking_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="@string/base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblBasePrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/sample_base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="@string/extra_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblExtraPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/sample_base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="@string/distance_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblDistancePrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/sample_base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="@string/tax"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblTaxPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/sample_base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="@string/commision"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblCommision"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/sample_base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:orientation="vertical">
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/myBoldTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/total"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblTotalPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/sample_base_price"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_22sdp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorPrimaryDark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgPaymentTypeInvoice"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            app:srcCompat="@drawable/money1" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblPaymentTypeInvoice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:text="@string/selected_payment_mode"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <com.wherego.user.Utils.MyBoldTextView
+                            android:id="@+id/lblPaymentChangeInvoice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right"
+                            android:text="Paypal"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_13sdp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+<!--                <com.mycourier.user.Utils.MyButton-->
+<!--                    android:id="@+id/btnPayNow"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                    android:layout_marginRight="@dimen/_10sdp"-->
+<!--                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                    android:background="@drawable/home_button_shape"-->
+<!--                    android:text="@string/pay_now"-->
+<!--                    android:textColor="@color/button_text_color" />-->
+
+
+            </LinearLayout>
+
+            <!-- Rate provider Layout ...-->
+            <LinearLayout
+                android:id="@+id/lnrRateProvider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgProviderRate"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="@dimen/_2sdp"
+                    android:elevation="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_minus32sdp"
+                    android:src="@drawable/user"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="2dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_25sdp"
+                    android:backgroundTint="@color/white"
+                    android:paddingTop="@dimen/_35sdp"
+                    android:background="@drawable/white_color_rect_shape"
+                    android:orientation="vertical">
+
+
+                    <com.wherego.user.Utils.MyBoldTextView
+                        android:id="@+id/lblProviderName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Rajan"
+                      
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                      
+                        android:textSize="@dimen/_20sdp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:text="How is your order"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                      
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:text="Your feedback will help"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                      
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_gravity="center"
+                        android:text="Improve driving experience"/>
+
+                    <RatingBar
+                        android:id="@+id/ratingProviderRate"
+                        style="?attr/ratingBarStyleIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:stepSize="1" />
+
+
+                    <EditText
+                        android:id="@+id/txtComments"
+                        android:layout_width="match_parent"
+                        android:minHeight="@dimen/_64sdp"
+                        android:layout_height="@dimen/_72sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:backgroundTint="@color/view_grey_bg"
+                      
+                        android:gravity="start"
+
+                        android:paddingTop="@dimen/_7sdp"
+                        android:paddingStart="@dimen/_7sdp"
+                        android:background="@drawable/white_color_rect_shape"
+                        android:hint="Additional Comments"
+
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <Button
+                        android:id="@+id/btnSubmitReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_44sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/red_color_rect_shape"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Submit Review"
+
+                      
+                        android:layout_margin="@dimen/_10sdp"
+                        android:textColor="@color/button_text_color"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--Static marker-->
+            <RelativeLayout
+                android:id="@+id/rtlStaticMarker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_15sdp"
+                    android:layout_centerHorizontal="true"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    app:contentPadding="@dimen/_10sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/backarrow"/>
+                        <!-- City and Country Selector -->
+                        <TextView
+
+                            android:id="@+id/txtSelectedAddressSource"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="@dimen/_164sdp"
+                            android:inputType="text"
+                            android:maxLines="2"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:text="@string/source_location"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:src="@drawable/cross_icon"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/imgDestination"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_destination_location"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorPrimary">
+
+                    <TextView
+                        android:id="@+id/btnDone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apply"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_25sdp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sdp"
+                      />
+
+                    <ImageView
+                        android:layout_width="@dimen/_110sdp"
+                        android:layout_height="@dimen/_5sdp"
+                        android:scaleType="fitXY"
+                        android:tint="@color/white"
+                        android:src="@drawable/white_color_rect_shape"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <!-- Source and Destination Layout-->
+        <LinearLayout
+            android:id="@+id/sourceAndDestinationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/shadowBack"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:alpha=".1"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/rect_shadow"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imgSos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/sos"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imgShareRide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imgSos"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/share_ride"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imgMenu"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/menu_icon"
+                        android:backgroundTint="@color/colorPrimary" />
+
+                    <ImageView
+                        android:id="@+id/imgBack"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:src="@drawable/back_icon"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_toLeftOf="@+id/mapfocus"
+                        android:layout_toRightOf="@+id/imgMenu"
+                        android:gravity="center"
+                      />
+
+                    <ImageView
+                        android:id="@+id/mapfocus"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/screenlogo"
+
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/alwaysShow"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_below="@+id/imgMenu"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:background="@color/app_blue_color"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Send Package"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Food"
+                            android:textColor="@android:color/white" />
+
+                    </LinearLayout>
+
+                    <!--<androidx.cardview.widget.CardView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/alwaysShow"-->
+                    <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                    <!--android:layout_marginTop="@dimen/_30sdp"-->
+                    <!--android:layout_marginRight="@dimen/_15sdp"-->
+                    <!--android:gravity="center"-->
+                    <!--app:cardBackgroundColor="@android:color/white">-->
+
+                    <RelativeLayout
+                        android:id="@+id/lnrSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:elevation="@dimen/_30sdp">
+
+                        <FrameLayout
+                            android:visibility="visible"
+                            android:id="@+id/frmDestination"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="@dimen/_48sdp">
+
+                            <ImageView
+
+                                android:id="@+id/dest_border_img"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_below="@id/frmDestination"
+                                android:alpha=".40"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/rect_shadow"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_45sdp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/selector_row"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
+                                tools:ignore="RtlHardcoded">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_16sdp"
+                                    android:layout_height="@dimen/_16sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:background="@drawable/location_simple"
+                                    android:backgroundTint="@color/colorPrimary" />
+
+                                <com.wherego.user.Utils.MyBoldTextView
+                                    android:id="@+id/destination"
+                                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="@dimen/_7sdp"
+                                    android:background="@null"
+                                    android:gravity="center_vertical"
+                                    android:hint="@string/where_to_go"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:maxLines="1"
+                                    android:textSize="18sp" />
+
+                            </LinearLayout>
+
+
+
+
+
+                            <LinearLayout
+                                android:id="@+id/sourceDestLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingStart="@dimen/_10sdp"
+                                android:paddingEnd="@dimen/_10sdp"
+                                android:elevation="@dimen/_10sdp"
+                                android:visibility="visible"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical"
+                                android:background="@drawable/sourcedestbg">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_marginBottom="@dimen/_10sdp"
+                                    android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:layout_width="@dimen/_48sdp"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_marginBottom="@dimen/_10sdp"
+                                        android:gravity="center">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/_28sdp"
+                                            android:layout_height="@dimen/_28sdp"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:src="@drawable/sourcelocation" />
+                                        <View
+                                            android:layout_width="@dimen/_2sdp"
+                                            android:layout_height="@dimen/_48sdp"
+                                            android:layout_marginBottom="@dimen/_minus5sdp"
+                                            android:layout_marginTop="@dimen/_minus5sdp"
+                                            android:background="@drawable/dasshed_line"/>
+                                        <ImageView
+                                            android:layout_width="@dimen/_24sdp"
+                                            android:layout_height="@dimen/_24sdp"
+                                            android:layout_marginStart="@dimen/_1sdp"
+                                            android:src="@drawable/map_pin"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|start"
+                                            android:orientation="vertical"
+                                            >
+                                            <com.wherego.user.Utils.MyBoldTextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/montserrat_semibold"
+                                                android:paddingStart="@dimen/_5sdp"
+                                                android:textAllCaps="true"
+                                                android:text="Your Location"
+                                                android:textColor="@color/view_grey_bg"
+                                                android:textSize="@dimen/_13sdp" />
+
+                                            <TextView
+                                                android:id="@+id/frmSource"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:ellipsize="end"
+                                                android:fontFamily="@font/montserrat_semibold"
+                                                android:gravity="center_vertical"
+                                                android:maxLines="1"
+                                                android:paddingTop="@dimen/_5sdp"
+                                                android:paddingStart="@dimen/_5sdp"
+                                                android:paddingBottom="@dimen/_5sdp"
+                                                android:paddingEnd="@dimen/_18sdp"
+                                                android:text="My Current Location"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/_13sdp" />
+
+
+                                        </LinearLayout>
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:background="@color/textColor"/>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center|start"
+
+                                            android:orientation="vertical"
+                                            >
+
+                                            <com.wherego.user.Utils.MyBoldTextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="4dp"
+                                                android:fontFamily="@font/montserrat_semibold"
+                                                android:paddingStart="@dimen/_5sdp"
+                                                android:textAllCaps="true"
+                                                android:text="Delivery Location"
+                                                android:textColor="@color/view_grey_bg"
+                                                android:textSize="@dimen/_13sdp" />
+
+                                            <com.wherego.user.Utils.MyTextView
+                                                android:id="@+id/frmDest"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:ellipsize="end"
+                                                android:paddingTop="@dimen/_5sdp"
+                                                android:gravity="center_vertical"
+                                                android:maxLines="1"
+
+                                                android:textColorHint="@color/white"
+                                                android:hint="Enter Delivery Location"
+                                                android:paddingStart="@dimen/_5sdp"
+                                                android:paddingEnd="@dimen/_18sdp"
+                                                android:paddingBottom="@dimen/_5sdp"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/_13sdp" />
+
+                                        </LinearLayout>
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:background="@color/textColor"/>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="@dimen/_124sdp"
+                                    android:layout_height="@dimen/_3sdp"
+                                    android:layout_marginBottom="@dimen/_7sdp"
+                                    android:src="@drawable/bottom_shape"/>
+                            </LinearLayout>
+
+                        </FrameLayout>
+                    </RelativeLayout>
+
+                    <!--</androidx.cardview.widget.CardView>-->
+
+                    <RelativeLayout
+                        android:id="@+id/lnrWaitingForProviders"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/shadowBack"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent_black">
+
+                            <pl.droidsonroids.gif.GifImageView
+                                android:layout_width="@dimen/_150sdp"
+                                android:layout_height="@dimen/_150sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/location_waves" />
+
+                        </FrameLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_100sdp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:background="@drawable/home_bottom_layout_shape">
+
+                            <com.wherego.user.Utils.MyBoldTextView
+                                android:id="@+id/lblNoMatch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/centerImage"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:gravity="center"
+                                android:text="@string/looking_for_ride"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="@dimen/_13sdp"
+                                android:visibility="visible"
+                                tools:ignore="UnknownId" />
+
+                            <com.wherego.user.Utils.MyButton
+                                android:id="@+id/btnCancelRide"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginLeft="@dimen/_20sdp"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_marginBottom="@dimen/_20sdp"
+                                android:background="@drawable/home_button_shape"
+                                android:text="@string/cancel_ride"
+                                android:textColor="@color/button_text_color" />
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutdriverstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="end"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/driveraccepted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle">
+
+                        <TextView
+                            android:id="@+id/txtdriveraccpted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                        
+                            android:gravity="center"
+                            android:padding="@dimen/_7sdp"
+                            android:text="Driver accepted your request."
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_minus13sdp"
+                        android:background="@drawable/triangle"
+                        android:rotation="90" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/driver_accepted" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@color/cancel_ride_color" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/driverArrived"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle">
+
+                        <TextView
+                            android:id="@+id/txtdriverArrived"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                        
+                            android:gravity="center"
+                            android:padding="@dimen/_7sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_minus13sdp"
+                        android:background="@drawable/triangle"
+                        android:rotation="90" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgarrived"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/arriveddisable" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@color/cancel_ride_color" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/driverPicked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle">
+
+                        <TextView
+                            android:id="@+id/txtdriverpicked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                        
+                            android:gravity="center"
+                            android:padding="@dimen/_7sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_minus13sdp"
+                        android:background="@drawable/triangle"
+                        android:rotation="90" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgPicked"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/pickeddisable" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@color/cancel_ride_color" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/driverCompleted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle">
+
+                        <TextView
+                            android:id="@+id/txtdrivercompleted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                        
+                            android:gravity="center"
+                            android:padding="@dimen/_7sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_minus13sdp"
+                        android:background="@drawable/triangle"
+                        android:rotation="90" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgDropped"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/complete" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>
+
+

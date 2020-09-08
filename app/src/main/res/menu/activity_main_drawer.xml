@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/ic_nav_home_icon"/>
+
+        <item
+            android:id="@+id/nav_yourtrips"
+            android:title="History"
+            android:icon="@drawable/ic_nav_history"/>
+        <item
+            android:id="@+id/nav_Profile"
+            android:title="Profile"
+            android:visible="false"
+            android:icon="@drawable/ic_profile"/>
+
+        <item
+            android:id="@+id/nav_schedule"
+            android:title="Schedule"
+            android:visible="false"
+            android:icon="@drawable/ic_history"/>
+        <item
+            android:visible="false"
+            android:id="@+id/nav_track"
+            android:title="On Going Delivery"
+            android:icon="@drawable/ic_nav_ongoing"/>
+
+        <item
+            android:icon="@drawable/ic_nav_payment"
+            android:id="@+id/nav_payment"
+            android:title="Payment" />
+        <item
+            android:visible="false"
+            android:id="@+id/nav_coupon"
+            android:title=" - Coupon" />
+
+        <item
+            android:id="@+id/nav_wallet"
+            android:title="Wallet"
+            android:icon="@drawable/ic_wallet"/>
+        <item
+            android:id="@+id/nav_help"
+            android:title="Help"
+            android:icon="@drawable/ic_nav_customer_support"/>
+        <item
+            android:id="@+id/nav_share"
+            android:title="Referral"
+            android:icon="@drawable/ic_nav_share_icon"/>
+        <item
+            android:id="@+id/nav_refers"
+            android:title="Referral"
+            android:visible="false"
+            android:icon="@drawable/ic_referrals"/>
+
+        <item
+            android:visible="false"
+            android:id="@+id/nav_terms"
+            android:title=" - Terms and Conditions" />
+
+        <item
+            android:icon="@drawable/ic_logout"
+            android:id="@+id/nav_logout"
+            android:visible="false"
+            android:title="Logout" />
+    </group>
+</menu>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginBottom="@dimen/_minus15sdp"
+        android:background="@drawable/loginbg">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_124sdp"
+                android:layout_height="@dimen/_110sdp"
+
+                android:src="@drawable/appicon"/>
+
+
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_12sdp"
+        android:background="@drawable/bottom_dialog_shape">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_25sdp"
+            android:paddingStart="@dimen/_25sdp"
+            android:paddingEnd="@dimen/_25sdp"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/etname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:hint="Name"
+                android:textColorHint="@color/textColor"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sdp"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/red_color_rect_shape"/>
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:hint="@string/email"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColorHint="@color/textColor"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sdp"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/red_color_rect_shape"/>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:hint="@string/password"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColorHint="@color/textColor"
+                android:textColor="@color/textColor"
+                android:inputType="textPassword"
+                android:textSize="@dimen/_12sdp"
+                android:background="@drawable/red_color_rect_shape"/>
+
+            <CheckBox
+                android:id="@+id/chkPromoCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorAccent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                android:text="Have a referral code?"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <com.wherego.user.Utils.MyBoldTextView
+                    android:id="@+id/txtLogIn"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:text="Already have a account? LogIn"
+                    android:textSize="@dimen/_12sdp" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/nextIcon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red_color_rect_shape"
+                android:backgroundTint="@color/colorButton"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_14sdp"
+                android:text="Sign Up"/>
+
+
+            <View
+                android:layout_width="@dimen/_124sdp"
+                android:layout_height="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/colorPrimary"
+                android:background="@drawable/home_button"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>
