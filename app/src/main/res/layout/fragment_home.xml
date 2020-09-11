@@ -235,7 +235,7 @@
             </LinearLayout>
 
 
-            <!-- Driver popup Layout-->
+            <!-- Driver Estimated popup Layout-->
             <LinearLayout
                 android:id="@+id/lnrProviderPopup"
                 android:layout_width="match_parent"
@@ -255,7 +255,7 @@
                     android:layout_weight="1"
                     android:background="@color/transparent_black"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                 </LinearLayout>
 

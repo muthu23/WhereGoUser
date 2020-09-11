@@ -3135,6 +3135,10 @@ public class HomeFragment extends Fragment implements
                         return headers;
                     }
                 };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyCourier.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -4755,6 +4759,7 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onDestroy() {
+        PreviousStatus="";
         handleCheckStatus.removeCallbacksAndMessages(null);
         if (mapRipple != null && mapRipple.isAnimationRunning()) {
             mapRipple.stopRippleMapAnimation();

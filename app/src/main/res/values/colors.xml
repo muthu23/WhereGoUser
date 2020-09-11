@@ -3,7 +3,7 @@
     <color name="colorPrimary">#05529f</color>
     <color name="colorPrimaryDark">#134A81</color>
     <color name="colorAccent">#e31e25</color>
-    <color name="colorButton">#e31e25</color>
+    <color name="colorButton">#05529f</color>
     <color name="transparent">#00000000</color>
 
     <!-- App customization -->

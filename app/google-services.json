@@ -8,17 +8,54 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:376347551838:android:488234a9f9931ad9ae2ccf",
+        "mobilesdk_app_id": "1:376347551838:android:384e69ad499ba640ae2ccf",
         "android_client_info": {
-          "package_name": "com.wherego.user"
+          "package_name": "com.brockdigit.user"
         }
       },
       "oauth_client": [
         {
-          "client_id": "376347551838-ulggmfq6o3rp1ep796ogvhmmqkrjtrk7.apps.googleusercontent.com",
+          "client_id": "376347551838-8u1l4r34cd0h4tplc167jd99fvfu8js1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.wherego.user",
+            "package_name": "com.brockdigit.user",
+            "certificate_hash": "d94ab2d203fa8f34df9720e161e2c06f3731bc3c"
+          }
+        },
+        {
+          "client_id": "376347551838-adj1gpqcn3rs27hf610s3hu33svgs7hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh1flTGLNGOuY9MXWhdm4tqOryVSk1b2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376347551838-adj1gpqcn3rs27hf610s3hu33svgs7hi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376347551838:android:4cd7b958148b5c09ae2ccf",
+        "android_client_info": {
+          "package_name": "com.wherego.delivery.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376347551838-1g0qoo11pp6kflfsjfkdeeibshuh15lt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wherego.delivery.user",
             "certificate_hash": "858d796cd8dd9635224cc8a5ad2acb1f06f0b8ea"
           }
         },

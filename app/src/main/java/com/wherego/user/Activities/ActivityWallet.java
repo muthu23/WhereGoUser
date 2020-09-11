@@ -120,9 +120,9 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
                     add_fund_button.setVisibility(View.GONE);
                 else add_fund_button.setVisibility(View.VISIBLE);
                 if (count == 1 || count == 0) {
-                    one.setBackground(getResources().getDrawable(R.drawable.border_stroke));
+                   /* one.setBackground(getResources().getDrawable(R.drawable.border_stroke));
                     two.setBackground(getResources().getDrawable(R.drawable.border_stroke));
-                    three.setBackground(getResources().getDrawable(R.drawable.border_stroke));
+                    three.setBackground(getResources().getDrawable(R.drawable.border_stroke));*/
                 }
             }
 

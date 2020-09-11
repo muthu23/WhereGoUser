@@ -30,14 +30,14 @@ android {
             storeFile file('jks/com_wherego_user.jks')
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId "com.wherego.user"
+        applicationId "com.wherego.delivery.user"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 7
-        versionName "1.0.0.6"
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
         resConfigs "en"
         vectorDrawables.useSupportLibrary = true

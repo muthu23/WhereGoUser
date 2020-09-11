@@ -166,7 +166,7 @@ public class SplashScreen extends AppCompatActivity {
                     SharedHelper.putKey(context, "wallet_balance", response.optString("wallet_balance"));
                     SharedHelper.putKey(context, "payment_mode", response.optString("payment_mode"));
                     if(!response.optString("currency").equalsIgnoreCase("") && response.optString("currency") != null)
-                        SharedHelper.putKey(context, "currency","$");
+                        SharedHelper.putKey(context, "currency",response.optString("currency"));
                     else
                         SharedHelper.putKey(context, "currency","$");
                     SharedHelper.putKey(context,"sos",response.optString("sos"));
