@@ -296,7 +296,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_8sdp">
 
-                <com.wherego.user.Utils.MyTextView
+                <com.wherego.delivery.user.Utils.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -326,7 +326,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.wherego.user.Utils.MyTextView
+                    <com.wherego.delivery.user.Utils.MyTextView
                         android:id="@+id/tvLocationHome"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -338,7 +338,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <com.wherego.user.Utils.MyTextView
+                    <com.wherego.delivery.user.Utils.MyTextView
                         android:id="@+id/tvLocationHomeAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -386,7 +386,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.wherego.user.Utils.MyTextView
+                    <com.wherego.delivery.user.Utils.MyTextView
                         android:id="@+id/tvLocationWork"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -399,7 +399,7 @@
 
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.wherego.user.Utils.MyTextView
+                    <com.wherego.delivery.user.Utils.MyTextView
                         android:id="@+id/tvLocationWorkAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

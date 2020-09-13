@@ -24,7 +24,7 @@
             android:padding="@dimen/_7sdp"
             android:src="@drawable/back_icon" />
 
-        <com.wherego.user.Utils.MyTextView
+        <com.wherego.delivery.user.Utils.MyTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,7 +74,7 @@
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/calendar_clock" />
 
-        <com.wherego.user.Utils.MyTextView
+        <com.wherego.delivery.user.Utils.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/error_image"

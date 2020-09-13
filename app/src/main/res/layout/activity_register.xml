@@ -90,7 +90,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:orientation="horizontal">
 
-                <com.wherego.user.Utils.MyBoldTextView
+                <com.wherego.delivery.user.Utils.MyBoldTextView
                     android:id="@+id/txtLogIn"
                     android:layout_weight="1"
                     android:layout_width="match_parent"

@@ -40,7 +40,7 @@
     </RelativeLayout>
 
 
-    <com.wherego.user.Utils.MyTextView
+    <com.wherego.delivery.user.Utils.MyTextView
         android:id="@+id/serviceItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="@dimen/_2sdp">
 
-        <com.wherego.user.Utils.MyTextView
+        <com.wherego.delivery.user.Utils.MyTextView
             android:id="@+id/serviceItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

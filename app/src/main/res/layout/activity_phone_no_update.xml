@@ -24,7 +24,7 @@
             android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
             android:padding="5dp"/>
-        <com.wherego.user.Utils.MyBoldTextView
+        <com.wherego.delivery.user.Utils.MyBoldTextView
             android:id="@+id/toolName"
             android:text="Update Name"
             android:textSize="18sp"
@@ -80,7 +80,7 @@
         </LinearLayout>
 
 
-        <com.wherego.user.Utils.MyButton
+        <com.wherego.delivery.user.Utils.MyButton
             android:id="@+id/btnUpdate"
             android:layout_marginTop="@dimen/_30sdp"
             android:layout_width="match_parent"

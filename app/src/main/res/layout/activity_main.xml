@@ -44,7 +44,7 @@
                 android:padding="@dimen/_3sdp"
                 android:weightSum="2">
 
-                <com.wherego.user.Utils.MyBoldTextView
+                <com.wherego.delivery.user.Utils.MyBoldTextView
                     android:id="@+id/legal_id"
                     android:layout_width="match_parent"
                     android:paddingStart="@dimen/_10sdp"
@@ -58,7 +58,7 @@
                     android:text="Legal"
                     android:textSize="@dimen/_10sdp" />
 
-                <com.wherego.user.Utils.MyTextView
+                <com.wherego.delivery.user.Utils.MyTextView
                     android:id="@+id/footer_item_version"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

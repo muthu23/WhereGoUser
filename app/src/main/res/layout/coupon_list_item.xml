@@ -24,7 +24,7 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <com.wherego.user.Utils.MyBoldTextView
+            <com.wherego.delivery.user.Utils.MyBoldTextView
                 android:id="@+id/discount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <com.wherego.user.Utils.MyBoldTextView
+            <com.wherego.delivery.user.Utils.MyBoldTextView
                 android:id="@+id/promo_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
-                <com.wherego.user.Utils.MyBoldTextView
+                <com.wherego.delivery.user.Utils.MyBoldTextView
                     android:id="@+id/expiry"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

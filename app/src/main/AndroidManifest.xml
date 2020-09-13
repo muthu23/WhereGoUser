@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wherego.user">
+    package="com.wherego.delivery.user">
 
     <permission
-        android:name="com.wherego.user.permission.MAPS_RECEIVE"
+        android:name="com.wherego.delivery.user.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-feature
@@ -33,7 +33,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-        android:name="com.wherego.user.MyCourier"
+        android:name=".MyCourier"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -41,8 +41,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="m">
-        <activity android:name="com.wherego.user.Activities.WebPage"
+        <activity android:name=".Activities.WebPage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <uses-library
@@ -64,7 +65,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
-            android:name="com.wherego.user.Activities.WelcomeActivity"
+            android:name=".Activities.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="InnerclassSeparator">
@@ -75,133 +76,133 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wherego.user.Activities.SplashScreen"
+            android:name=".Activities.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.wherego.user.Activities.PhoneNoUpdateActivity"
+            android:name=".Activities.PhoneNoUpdateActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.UserReview"
+            android:name=".Activities.UserReview"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.ReferActivity"
+            android:name=".Activities.ReferActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.FavouritePlaceSearch"
+            android:name=".Activities.FavouritePlaceSearch"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.UplaodImage"
+            android:name=".Activities.UplaodImage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.wherego.user.chat.UserChatActivity"
+            android:name=".chat.UserChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.RegisterActivity"
+            android:name=".Activities.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.Payment"
+            android:name=".Activities.Payment"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.ForgetPassword"
+            android:name=".Activities.ForgetPassword"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.wherego.user.Activities.EditProfile"
+            android:name=".Activities.EditProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.wherego.user.Activities.ShowProfile"
+            android:name=".Activities.ShowProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.wherego.user.Activities.AddCard"
+            android:name=".Activities.AddCard"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.HistoryDetails"
+            android:name=".Activities.HistoryDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.HistoryActivity"
+            android:name=".Activities.HistoryActivity"
             android:label="History"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wherego.user.Activities.ActivityWallet"
+            android:name=".Activities.ActivityWallet"
             android:label="Wallet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.LostItem"
+            android:name=".Activities.LostItem"
             android:label="Wallet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.CouponActivity"
+            android:name=".Activities.CouponActivity"
             android:label="Coupon"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.wherego.user.Activities.ChangePassword"
+            android:name=".Activities.ChangePassword"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.CustomGooglePlacesSearch"
+            android:name=".Activities.CustomGooglePlacesSearch"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" /> <!-- Firebase Notifications -->
-        <service android:name="com.wherego.user.FCM.MyFirebaseMessagingService">
+        <service android:name=".FCM.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name="com.wherego.user.Activities.ActivityHelp" />
+        <activity android:name=".Activities.ActivityHelp" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="com.wherego.user.Activities.OtpVerification"
+            android:name=".Activities.OtpVerification"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -227,30 +228,30 @@
         <!-- android:resource="@xml/file_paths" /> -->
         <!-- </provider> -->
         <activity
-            android:name="com.wherego.user.Activities.HistoryListActivity"
+            android:name=".Activities.HistoryListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.PickUpNotes"
+            android:name=".Activities.PickUpNotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.wherego.user.Activities.ScheduleListActivity"
+            android:name=".Activities.ScheduleListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.Profile"
+            android:name=".Activities.Profile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.TrackingDetails"
+            android:name=".Activities.TrackingDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -267,22 +268,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wherego.user.Activities.UpdateProfile"
+            android:name=".Activities.UpdateProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.wherego.user.Activities.LegalActivity"
+            android:name=".Activities.LegalActivity"
             android:hardwareAccelerated="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.TermsOfUseActivity"
+            android:name=".Activities.TermsOfUseActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.wherego.user.Activities.PrivacyPolicyActivity"
+            android:name=".Activities.PrivacyPolicyActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

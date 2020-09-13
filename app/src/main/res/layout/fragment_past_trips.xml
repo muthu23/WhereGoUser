@@ -36,7 +36,7 @@
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/calendar_clock" />
 
-        <com.wherego.user.Utils.MyBoldTextView
+        <com.wherego.delivery.user.Utils.MyBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/error_image"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wherego.user.Activities.AddCard">
+    tools:context=".Activities.AddCard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:padding="2dp"
             android:src="@drawable/back_icon" />
 
-        <com.wherego.user.Utils.MyBoldTextView
+        <com.wherego.delivery.user.Utils.MyBoldTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -40,7 +40,7 @@
         android:layout_margin="20dp"
         />
 
-    <com.wherego.user.Utils.MyButton
+    <com.wherego.delivery.user.Utils.MyButton
         android:id="@+id/addCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

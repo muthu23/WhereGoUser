@@ -173,7 +173,7 @@
 
 
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -195,7 +195,7 @@
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:orientation="horizontal">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/btnRequestRides"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_40sdp"
@@ -268,7 +268,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/_10sdp">
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -285,7 +285,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:src="@drawable/pickup_drop_icon" />
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/lblServiceName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -311,7 +311,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -321,7 +321,7 @@
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblBasePricePopup"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -340,7 +340,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:orientation="horizontal">
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -350,7 +350,7 @@
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblPriceKm"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -369,7 +369,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:orientation="horizontal">
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -379,7 +379,7 @@
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblPriceMin"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -398,7 +398,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:orientation="horizontal">
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -408,7 +408,7 @@
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblCalculationType"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -428,7 +428,7 @@
                             android:orientation="horizontal"
                             android:visibility="gone">
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -452,7 +452,7 @@
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/people" />
 
-                                <com.wherego.user.Utils.MyBoldTextView
+                                <com.wherego.delivery.user.Utils.MyBoldTextView
                                     android:id="@+id/lblCapacity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -468,7 +468,7 @@
 
                     </LinearLayout>
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/lblProviderDesc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -485,7 +485,7 @@
                     android:background="@color/black_text_color"
                     android:visibility="gone" />
 
-                <com.wherego.user.Utils.MyButton
+                <com.wherego.delivery.user.Utils.MyButton
                     android:id="@+id/btnDonePopup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -521,7 +521,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="25dp"
@@ -537,7 +537,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/scheduleDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -545,7 +545,7 @@
                             android:text="@string/sample_date"
                             android:textSize="20sp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/scheduleTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -562,7 +562,7 @@
                     android:layout_marginRight="20dp"
                     android:background="@color/colorPrimaryDark" />
 
-                <com.wherego.user.Utils.MyButton
+                <com.wherego.delivery.user.Utils.MyButton
                     android:id="@+id/scheduleBtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -623,7 +623,7 @@
                     android:elevation="@dimen/_7sdp"
                     android:background="@drawable/white_color_rect_shape"
                     android:orientation="vertical">
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/surgeDiscount"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
@@ -637,7 +637,7 @@
                         android:textStyle="bold"
                         android:visibility="gone" />
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/surge_txt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -704,7 +704,7 @@
                                     android:orientation="vertical"
                                     android:padding="5dp">
 
-                                    <com.wherego.user.Utils.MyTextView
+                                    <com.wherego.delivery.user.Utils.MyTextView
                                         android:id="@+id/lblCmfrmSourceAddress"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -717,7 +717,7 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/_12sdp" />
 
-                                    <com.wherego.user.Utils.MyTextView
+                                    <com.wherego.delivery.user.Utils.MyTextView
                                         android:id="@+id/lblCmfrmDestAddress"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -753,7 +753,7 @@
                                         android:layout_width="@dimen/_48sdp"
                                         android:src="@drawable/car_select"
                                         android:layout_height="@dimen/_48sdp" />
-                                    <com.wherego.user.Utils.MyBoldTextView
+                                    <com.wherego.delivery.user.Utils.MyBoldTextView
                                         android:id="@+id/lblType"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -802,7 +802,7 @@
                                         android:textColor="@color/cancel_ride_color"
                                        
                                         android:textSize="@dimen/_12sdp" />
-                                    <com.wherego.user.Utils.MyBoldTextView
+                                    <com.wherego.delivery.user.Utils.MyBoldTextView
                                         android:id="@+id/lblEta"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -851,7 +851,7 @@
                             android:visibility="gone"
                             android:background="@color/view_grey_bg" />
 
-                        <com.wherego.user.Utils.MyCheckbox
+                        <com.wherego.delivery.user.Utils.MyCheckbox
                             android:id="@+id/chkWallet"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -870,7 +870,7 @@
                             android:layout_marginBottom="@dimen/_15sdp"
                             android:orientation="horizontal">
 
-                            <com.wherego.user.Utils.MyButton
+                            <com.wherego.delivery.user.Utils.MyButton
                                 android:id="@+id/btnRequestRideConfirm"
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/_44sdp"
@@ -889,7 +889,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/_2sdp" />
 
-                            <com.wherego.user.Utils.MyButton
+                            <com.wherego.delivery.user.Utils.MyButton
                                 android:id="@+id/imgSchedule"
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/_30sdp"
@@ -1185,7 +1185,7 @@
                                 android:src="@drawable/round" />
 
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblETA"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1232,7 +1232,7 @@
                                 android:padding="@dimen/_5sdp"
                                 android:src="@drawable/car_select" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblServiceRequested"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -1241,7 +1241,7 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_13sdp" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblModelNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -1257,7 +1257,7 @@
 
                     </LinearLayout>
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/lblSurgePrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1281,7 +1281,7 @@
                     android:background="@drawable/home_bottom_layout_shape"
                     android:padding="@dimen/_5sdp">
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/lblStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1321,7 +1321,7 @@
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblProvider"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -1425,7 +1425,7 @@
                                 android:gravity="center"
                                 android:text="Distance" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/tvDistance"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1449,7 +1449,7 @@
                                 android:gravity="center"
                                 android:text="Price" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/tvPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1473,7 +1473,7 @@
                                 android:gravity="center"
                                 android:text="ETA" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/tvETA"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1497,7 +1497,7 @@
                                 android:gravity="center"
                                 android:text="Payment" />
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/tvCash"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1597,7 +1597,7 @@
                     android:layout_marginRight="@dimen/_10sdp"
                     android:orientation="vertical">
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -1615,7 +1615,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1625,7 +1625,7 @@
                             android:textSize="@dimen/_13sdp" />
 
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/booking_id"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1641,7 +1641,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:orientation="horizontal">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1650,7 +1650,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblBasePrice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1668,7 +1668,7 @@
                         android:orientation="horizontal"
                         android:visibility="gone">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1677,7 +1677,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblExtraPrice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1694,7 +1694,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:orientation="horizontal">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1703,7 +1703,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblDistancePrice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1720,7 +1720,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:orientation="horizontal">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1729,7 +1729,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblTaxPrice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1747,7 +1747,7 @@
                         android:orientation="horizontal"
                         android:visibility="gone">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1756,7 +1756,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblCommision"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1774,7 +1774,7 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:orientation="vertical">
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/myBoldTextView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1784,7 +1784,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_15sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblTotalPrice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1814,7 +1814,7 @@
                             android:layout_height="@dimen/_20sdp"
                             app:srcCompat="@drawable/money1" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblPaymentTypeInvoice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -1824,7 +1824,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/_13sdp" />
 
-                        <com.wherego.user.Utils.MyBoldTextView
+                        <com.wherego.delivery.user.Utils.MyBoldTextView
                             android:id="@+id/lblPaymentChangeInvoice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -1887,7 +1887,7 @@
                     android:orientation="vertical">
 
 
-                    <com.wherego.user.Utils.MyBoldTextView
+                    <com.wherego.delivery.user.Utils.MyBoldTextView
                         android:id="@+id/lblProviderName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -2235,7 +2235,7 @@
                                     android:background="@drawable/location_simple"
                                     android:backgroundTint="@color/colorPrimary" />
 
-                                <com.wherego.user.Utils.MyBoldTextView
+                                <com.wherego.delivery.user.Utils.MyBoldTextView
                                     android:id="@+id/destination"
                                     style="@style/Base.TextAppearance.AppCompat.Body1"
                                     android:layout_width="match_parent"
@@ -2309,7 +2309,7 @@
                                             android:gravity="center|start"
                                             android:orientation="vertical"
                                             >
-                                            <com.wherego.user.Utils.MyBoldTextView
+                                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:fontFamily="@font/montserrat_semibold"
@@ -2351,7 +2351,7 @@
                                             android:orientation="vertical"
                                             >
 
-                                            <com.wherego.user.Utils.MyBoldTextView
+                                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginTop="4dp"
@@ -2362,7 +2362,7 @@
                                                 android:textColor="@color/view_grey_bg"
                                                 android:textSize="@dimen/_13sdp" />
 
-                                            <com.wherego.user.Utils.MyTextView
+                                            <com.wherego.delivery.user.Utils.MyTextView
                                                 android:id="@+id/frmDest"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
@@ -2431,7 +2431,7 @@
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:background="@drawable/home_bottom_layout_shape">
 
-                            <com.wherego.user.Utils.MyBoldTextView
+                            <com.wherego.delivery.user.Utils.MyBoldTextView
                                 android:id="@+id/lblNoMatch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -2447,7 +2447,7 @@
                                 android:visibility="visible"
                                 tools:ignore="UnknownId" />
 
-                            <com.wherego.user.Utils.MyButton
+                            <com.wherego.delivery.user.Utils.MyButton
                                 android:id="@+id/btnCancelRide"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

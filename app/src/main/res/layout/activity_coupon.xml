@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wherego.user.Activities.CouponActivity">
+    tools:context=".Activities.CouponActivity">
 
     <LinearLayout
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.wherego.user.Utils.MyBoldTextView
+            <com.wherego.delivery.user.Utils.MyBoldTextView
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 android:inputType="textCapCharacters"
                 android:layout_marginTop="8dp" />
 
-            <com.wherego.user.Utils.MyButton
+            <com.wherego.delivery.user.Utils.MyButton
                 android:id="@+id/apply_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
-            <com.wherego.user.Utils.MyBoldTextView
+            <com.wherego.delivery.user.Utils.MyBoldTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/added_coupon"
