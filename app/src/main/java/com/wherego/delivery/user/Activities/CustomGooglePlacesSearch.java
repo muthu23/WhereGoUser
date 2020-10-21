@@ -1,12 +1,16 @@
 package com.wherego.delivery.user.Activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -14,138 +18,211 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.gson.Gson;
-import com.wherego.delivery.user.Constants.AutoCompleteAdapter;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.wherego.delivery.user.Adapter.PlacesAutoCompleteAdapter;
 import com.wherego.delivery.user.Helper.SharedHelper;
-import com.wherego.delivery.user.MyCourier;
 import com.wherego.delivery.user.Models.PlacePredictions;
 import com.wherego.delivery.user.R;
+import com.wherego.delivery.user.Utils.MyBoldTextView;
 import com.wherego.delivery.user.Utils.Utilities;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class CustomGooglePlacesSearch extends AppCompatActivity
-        implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class CustomGooglePlacesSearch extends AppCompatActivity implements PlacesAutoCompleteAdapter.ClickListener, GoogleMap.OnCameraMoveListener,
+        GoogleMap.OnCameraIdleListener, OnMapReadyCallback {
 
+    private static final int MY_PERMISSIONS_REQUEST_LOC = 30;
+    public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    public static final int PICK_LOCATION_REQUEST_CODE = 3;
     double latitude;
     double longitude;
-    private ListView mAutoCompleteList;
+    TextView txtPickLocation;
+    public static float DEFAULT_ZOOM = 18;
+    Utilities utils = new Utilities();
+    ImageView backArrow, imgDestClose, imgSourceClose;
+    LinearLayout lnrFavorite;
+    Activity thisActivity;
+    String strSource = "";
+    String strSelected = "";
+    Bundle extras;
+    TextView txtHomeLocation, txtWorkLocation;
+    LinearLayout lnrHome, lnrWork;
+    RelativeLayout rytAddressSource;
+    RecyclerView rvRecentResults, rvLocation;
+    String formatted_address = "";
     private EditText txtDestination, txtaddressSource;
+    private TextView loc_done;
     private String GETPLACESHIT = "places_hit";
     private PlacePredictions predictions = new PlacePredictions();
     private Location mLastLocation;
-    private AutoCompleteAdapter mAutoCompleteAdapter;
-    private static final int MY_PERMISSIONS_REQUEST_LOC = 30;
     private Handler handler;
-    private GoogleApiClient mGoogleApiClient;
-    TextView txtPickLocation;
-    Utilities utils = new Utilities();
-    ImageView backArrow, imgDestClose, imgSourceClose;
-    TextView txtHomeAddress, txtWorkAddress;
-    LinearLayout layoutWork, layoutHome;
-    Activity thisActivity;
-    String strSource = "";
-    CardView cardExtra;
-    String strSelected = "";
     private PlacePredictions placePredictions = new PlacePredictions();
-    Bundle extras;
+    private int UPDATE_HOME_WORK = 1;
 
-    LinearLayout llSavedAddress, llHome, llWork, llOther;
-    TextView tvLocationTypeHome, tvLocationTypeWork, tvLocationTypeOther;
-    TextView tvLocationAddressHome, tvLocationAddressWork, tvLocationAddressOther;
-    PlacesClient placesClient;
+    private FusedLocationProviderClient fusedLocationClient;
+    private PlacesClient placesClient;
+
+    private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
+    LinearLayoutManager mLinearLayoutManager;
+
+    private CardView locationBsLayout;
+    private CoordinatorLayout dd;
+
+    public Location mLastKnownLocation;
+    private boolean isLocationRvClick = false;
+    private boolean isSettingLocationClick = false;
+    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private boolean mLocationPermissionGranted;
+    private GoogleMap mGoogleMap;
+    private String s_address;
+    private Double s_latitude;
+    private Double s_longitude;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
+    private BottomSheetBehavior mBottomSheetBehavior;
+    boolean isEnableIdle = false;
+    private boolean isMapKeyShow = false;
+    String address = "";
+    LatLng target;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SharedHelper.getKey(this,"selectedlanguage").contains("ar")) {
-            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
-        } else {
-            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        }
         setContentView(R.layout.fragment_soruce_and_destination);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         thisActivity = this;
-        // Initialize the SDK
-        Places.initialize(getApplicationContext(),
-                getResources().getString(R.string.google_map_api));
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        initializePlacesApiClient();
 
-// Create a new Places client instance
-         placesClient = Places.createClient(this);
-        txtDestination =  findViewById(R.id.txtDestination);
-        txtaddressSource =  findViewById(R.id.txtaddressSource);
-        mAutoCompleteList = (ListView) findViewById(R.id.searchResultLV);
+        com.google.android.libraries.places.api.Places.initialize(getApplicationContext(), getResources().getString(R.string.google_api_key));
+        placesClient = Places.createClient(this);
 
-        txtWorkAddress = findViewById(R.id.txtWorkAddress);
-        txtHomeAddress = findViewById(R.id.txtHomeAddress);
-        layoutWork = findViewById(R.id.layoutWork);
-        layoutHome = findViewById(R.id.layoutHome);
-        backArrow =  findViewById(R.id.backArrow);
-        imgDestClose =  findViewById(R.id.imgDestClose);
-        imgSourceClose =  findViewById(R.id.imgSourceClose);
-        cardExtra = findViewById(R.id.cardExtra);
-        txtPickLocation =  findViewById(R.id.txtPickLocation);
+        txtDestination = (EditText) findViewById(R.id.txtDestination);
+        txtaddressSource = (EditText) findViewById(R.id.txtaddressSource);
+        loc_done = (TextView) findViewById(R.id.loc_done);
 
+        backArrow = (ImageView) findViewById(R.id.backArrow);
+        imgDestClose = (ImageView) findViewById(R.id.imgDestClose);
+        imgSourceClose = (ImageView) findViewById(R.id.imgSourceClose);
+
+        txtPickLocation = (TextView) findViewById(R.id.txtPickLocation);
+        txtWorkLocation = (TextView) findViewById(R.id.txtWorkLocation);
+        txtHomeLocation = (TextView) findViewById(R.id.txtHomeLocation);
+
+        lnrFavorite = (LinearLayout) findViewById(R.id.lnrFavorite);
+        lnrHome = (LinearLayout) findViewById(R.id.lnrHome);
+        lnrWork = (LinearLayout) findViewById(R.id.lnrWork);
+
+        rytAddressSource = (RelativeLayout) findViewById(R.id.rytAddressSource);
+
+        rvRecentResults = (RecyclerView) findViewById(R.id.rvRecentResults);
+        rvLocation = findViewById(R.id.locations_rv);
+
+        locationBsLayout = findViewById(R.id.location_bs_layout);
+        dd = findViewById(R.id.dd);
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         String cursor = getIntent().getExtras().getString("cursor");
-        String s_address = getIntent().getExtras().getString("s_address");
-        String d_address = getIntent().getExtras().getString("d_address");
-        Log.e("CustomGoogleSearch", "onCreate: source " + s_address);
-        Log.e("CustomGoogleSearch", "onCreate: destination" + d_address);
-        txtaddressSource.setText(s_address);
+        if (getIntent().getExtras().getString("s_address") != null) {
+            String s_address = getIntent().getExtras().getString("s_address");
+            txtaddressSource.setText(s_address);
+        }
+        if (getIntent().getExtras().getString("s_address") != null) {
+            String d_address = getIntent().getExtras().getString("d_address");
 
-        if (d_address != null && !d_address.equalsIgnoreCase("")) {
-            txtDestination.setText(d_address);
+            if (d_address != null && !d_address.equalsIgnoreCase("")) {
+                txtDestination.setText(d_address);
+            }
         }
 
         if (cursor.equalsIgnoreCase("source")) {
             strSelected = "source";
             txtaddressSource.requestFocus();
-            imgSourceClose.setVisibility(View.VISIBLE);
+            imgSourceClose.setVisibility(View.GONE);
             imgDestClose.setVisibility(View.GONE);
         } else {
             txtDestination.requestFocus();
             strSelected = "destination";
-            imgDestClose.setVisibility(View.VISIBLE);
+            imgDestClose.setVisibility(View.GONE);
             imgSourceClose.setVisibility(View.GONE);
         }
+
+        String strStatus = SharedHelper.getKey(thisActivity, "req_status");
+
+        if (strStatus.equalsIgnoreCase("PICKEDUP")) {
+            if (SharedHelper.getKey(thisActivity, "track_status").equalsIgnoreCase("YES")) {
+                rytAddressSource.setVisibility(View.GONE);
+            } else {
+                rytAddressSource.setVisibility(View.VISIBLE);
+            }
+        }
+
+        loc_done.setOnClickListener(v -> {
+            if(target!=null && address!=null)
+                setGoogleAddress(target, address);
+        });
+
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(locationBsLayout);
+        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+
 
         txtaddressSource.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     strSelected = "source";
-                    imgSourceClose.setVisibility(View.VISIBLE);
+                    imgSourceClose.setVisibility(View.GONE);
                 } else {
                     imgSourceClose.setVisibility(View.GONE);
                 }
@@ -157,25 +234,29 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     strSelected = "destination";
-                    imgDestClose.setVisibility(View.VISIBLE);
+                    // imgDestClose.setVisibility(View.VISIBLE);
                 } else {
                     imgDestClose.setVisibility(View.GONE);
                 }
             }
         });
 
-        imgDestClose.setOnClickListener(v -> {
-            txtDestination.setText("");
-            mAutoCompleteList.setVisibility(View.GONE);
-            imgDestClose.setVisibility(View.GONE);
-            txtDestination.requestFocus();
+        imgDestClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtDestination.setText("");
+                //  imgDestClose.setVisibility(View.GONE);
+                txtDestination.requestFocus();
+            }
         });
 
-        imgSourceClose.setOnClickListener(v -> {
-            txtaddressSource.setText("");
-            mAutoCompleteList.setVisibility(View.GONE);
-            imgSourceClose.setVisibility(View.GONE);
-            txtaddressSource.requestFocus();
+        imgSourceClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtaddressSource.setText("");
+                imgSourceClose.setVisibility(View.GONE);
+                txtaddressSource.requestFocus();
+            }
         });
 
         txtPickLocation.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +267,6 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
                     @Override
                     public void run() {
                         Intent intent = new Intent();
-                        intent.putExtra("Location Address", placePredictions);
                         intent.putExtra("pick_location", "yes");
                         intent.putExtra("type", strSelected);
                         setResult(RESULT_OK, intent);
@@ -196,141 +276,125 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
             }
         });
 
-        if (SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address") != null
-                && SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address") != "") {
-            txtHomeAddress.setVisibility(View.VISIBLE);
-            txtHomeAddress.setText(SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address"));
-            layoutHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String longitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Homelatitude");
-                    String latitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Homelongitude");
-                    LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                    placePredictions.strDestAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address");
-                    placePredictions.strDestLatLng = latLng + "";
-                    placePredictions.strDestLatitude = latitude + "";
-                    placePredictions.strDestLongitude = longitude + "";
-                    if (!placePredictions.strDestAddress.equalsIgnoreCase(placePredictions.strSourceAddress)) {
-                        setAddress();
+        lnrHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedHelper.getKey(CustomGooglePlacesSearch.this, "home").equalsIgnoreCase("")) {
+                    gotoHomeWork("home");
+                } else {
+                    if (strSelected.equalsIgnoreCase("destination")) {
+                        placePredictions.strDestAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "home");
+                        placePredictions.strDestLatitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "home_lat");
+                        placePredictions.strDestLongitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "home_lng");
+                        LatLng latlng = new LatLng(Double.parseDouble(placePredictions.strDestLatitude), Double.parseDouble(placePredictions.strDestLatitude));
+                        placePredictions.strDestLatLng = "" + latlng;
+                        if (!txtaddressSource.getText().toString().equalsIgnoreCase(SharedHelper.getKey(CustomGooglePlacesSearch.this, "home"))) {
+                            txtDestination.setText(SharedHelper.getKey(CustomGooglePlacesSearch.this, "home"));
+                            txtDestination.setSelection(0);
+                        } else {
+                            Toast.makeText(thisActivity, getResources().getString(R.string.source_dest_not_same), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        utils.showAlert(thisActivity, "Source and Destination address should not be same!");
+                        placePredictions.strSourceAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "home");
+                        placePredictions.strSourceLatitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "home_lat");
+                        placePredictions.strSourceLongitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "home_lng");
+                        LatLng latlng = new LatLng(Double.parseDouble(placePredictions.strSourceLatitude), Double.parseDouble(placePredictions.strSourceLongitude));
+                        placePredictions.strSourceLatLng = "" + latlng;
+                        txtaddressSource.setText(placePredictions.strSourceAddress);
+                        txtaddressSource.setSelection(0);
+                        txtDestination.requestFocus();
+                        mAutoCompleteAdapter = null;
                     }
 
+                    if (!txtDestination.getText().toString().equalsIgnoreCase("")) {
+                        setAddress();
+                    }
                 }
-            });
+            }
+        });
+
+        lnrWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!txtaddressSource.getText().toString().equalsIgnoreCase(txtDestination.getText().toString())) {
+                    if (SharedHelper.getKey(CustomGooglePlacesSearch.this, "work").equalsIgnoreCase("")) {
+                        gotoHomeWork("work");
+                    } else {
+                        if (strSelected.equalsIgnoreCase("destination")) {
+                            placePredictions.strDestAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "work");
+                            placePredictions.strDestLatitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "work_lat");
+                            placePredictions.strDestLongitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "work_lng");
+                            LatLng latlng = new LatLng(Double.parseDouble(placePredictions.strDestLatitude), Double.parseDouble(placePredictions.strDestLatitude));
+                            placePredictions.strDestLatLng = "" + latlng;
+                            if (!txtaddressSource.getText().toString().equalsIgnoreCase(SharedHelper.getKey(CustomGooglePlacesSearch.this, "work"))) {
+                                txtDestination.setText(SharedHelper.getKey(CustomGooglePlacesSearch.this, "work"));
+                                txtDestination.setSelection(0);
+                            } else {
+                                Toast.makeText(thisActivity, getResources().getString(R.string.source_dest_not_same), Toast.LENGTH_SHORT).show();
+                            }
+                            txtDestination.setSelection(0);
+                        } else {
+                            placePredictions.strSourceAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "work");
+                            placePredictions.strSourceLatitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "work_lat");
+                            placePredictions.strSourceLongitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "work_lng");
+                            LatLng latlng = new LatLng(Double.parseDouble(placePredictions.strSourceLatitude), Double.parseDouble(placePredictions.strSourceLongitude));
+                            placePredictions.strSourceLatLng = "" + latlng;
+                            txtaddressSource.setText(placePredictions.strSourceAddress);
+                            txtaddressSource.setSelection(0);
+                            txtDestination.requestFocus();
+                            mAutoCompleteAdapter = null;
+                        }
+
+                        if (!txtDestination.getText().toString().equalsIgnoreCase("")) {
+                            setAddress();
+                        }
+                    }
+                }
+            }
+        });
+
+        //get permission for Android M
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            getLastKnownLocation();
         } else {
-            layoutHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CustomGooglePlacesSearch.this, FavouritePlaceSearch.class);
-                    intent.putExtra("type", "Home");
-                    startActivityForResult(intent, 2);
-                }
-            });
-        }
-        if (SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address") != null &&
-                SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address") != "") {
-            txtWorkAddress.setVisibility(View.VISIBLE);
-            txtWorkAddress.setText(SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address"));
-            layoutWork.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String longitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Worklatitude");
-                    String latitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Worklongitude");
-                    LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                    placePredictions.strDestAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address");
-                    placePredictions.strDestLatLng = latLng + "";
-                    placePredictions.strDestLatitude = latitude + "";
-                    placePredictions.strDestLongitude = longitude + "";
-                    setAddress();
-                }
-            });
-        } else {
-            layoutWork.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CustomGooglePlacesSearch.this, FavouritePlaceSearch.class);
-                    intent.putExtra("type", "Work");
-                    startActivityForResult(intent, 2);
-                }
-            });
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOC);
+            } else {
+                getLastKnownLocation();
+            }
         }
 
+        //Add a text change listener to implement autocomplete functionality
         txtDestination.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                imgDestClose.setVisibility(View.VISIBLE);
-                cardExtra.setVisibility(View.VISIBLE);
+                imgDestClose.setVisibility(View.GONE);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // optimised way is to start searching for laction after user has typed minimum 3 chars
-                imgDestClose.setVisibility(View.VISIBLE);
-                cardExtra.setVisibility(View.GONE);
+                imgDestClose.setVisibility(View.GONE);
                 strSelected = "destination";
-                if (txtDestination.getText().length() > 0) {
-                    txtPickLocation.setVisibility(View.VISIBLE);
-                    imgDestClose.setVisibility(View.VISIBLE);
-                    txtPickLocation.setText(getString(R.string.pin_location));
-                    Runnable run = new Runnable() {
-                        @Override
-                        public void run() {
-                            // cancel all the previous requests in the queue to optimise your network calls during autocomplete search
-                            MyCourier.getInstance().cancelRequestInQueue(GETPLACESHIT);
-
-                            JSONObject object = new JSONObject();
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getPlaceAutoCompleteUrl(txtDestination.getText().toString()), object, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.v("PayNowRequestResponse", response.toString());
-                                    Log.v("PayNowRequestResponse", response.toString());
-                                    Gson gson = new Gson();
-                                    predictions = gson.fromJson(response.toString(), PlacePredictions.class);
-                                    if (predictions.getPlaces()!=null) {
-                                        if (mAutoCompleteAdapter == null) {
-                                            mAutoCompleteList.setVisibility(View.VISIBLE);
-                                            mAutoCompleteAdapter = new AutoCompleteAdapter(CustomGooglePlacesSearch.this, predictions.getPlaces(), CustomGooglePlacesSearch.this);
-                                            mAutoCompleteList.setAdapter(mAutoCompleteAdapter);
-                                        } else {
-                                            mAutoCompleteList.setVisibility(View.VISIBLE);
-                                            mAutoCompleteAdapter.clear();
-                                            mAutoCompleteAdapter.addAll(predictions.getPlaces());
-                                            mAutoCompleteAdapter.notifyDataSetChanged();
-                                            mAutoCompleteList.invalidate();
-                                        }
-                                    }
-                                    else {
-                                        Log.v("prediction error",predictions.getPlaces()+"");
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.v("PayNowRequestResponse", error.toString());
-                                }
-                            });
-                            MyCourier.getInstance().addToRequestQueue(jsonObjectRequest);
-
-                        }
-
-                    };
-
-                    // only canceling the network calls will not help, you need to remove all callbacks as well
-                    // otherwise the pending callbacks and messages will again invoke the handler and will send the request
-                    if (handler != null) {
-                        handler.removeCallbacksAndMessages(null);
-                    } else {
-                        handler = new Handler();
-                    }
-                    handler.postDelayed(run, 1000);
-
+                if (!s.toString().equals("")) {
+                    rvLocation.setVisibility(View.VISIBLE);
+                    loc_done.setVisibility(View.GONE);
+                    mAutoCompleteAdapter.getFilter().filter(s.toString());
+                    if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
+                        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                if (s.toString().equals("")) {
+                    rvLocation.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                imgDestClose.setVisibility(View.VISIBLE);
+                imgDestClose.setVisibility(View.GONE);
             }
 
         });
@@ -339,73 +403,28 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
         txtaddressSource.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                imgSourceClose.setVisibility(View.VISIBLE);
+                imgSourceClose.setVisibility(View.GONE);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // optimised way is to start searching for laction after user has typed minimum 3 chars
                 strSelected = "source";
-                if (txtaddressSource.getText().length() > 0) {
-                    txtPickLocation.setVisibility(View.VISIBLE);
-                    imgSourceClose.setVisibility(View.VISIBLE);
-                    txtPickLocation.setText(getString(R.string.pin_location));
-                    if (mAutoCompleteAdapter == null)
-                        mAutoCompleteList.setVisibility(View.VISIBLE);
-                    Runnable run = new Runnable() {
-
-                        @Override
-                        public void run() {
-                            // cancel all the previous requests in the queue to optimise your network calls during autocomplete search
-                            MyCourier.getInstance().cancelRequestInQueue(GETPLACESHIT);
-
-                            JSONObject object = new JSONObject();
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getPlaceAutoCompleteUrl(txtaddressSource.getText().toString()),
-                                    object, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.v("PayNowRequestResponse", response.toString());
-                                    Log.v("PayNowRequestResponse", response.toString());
-                                    Gson gson = new Gson();
-                                    predictions = gson.fromJson(response.toString(), PlacePredictions.class);
-                                    if (mAutoCompleteAdapter == null) {
-                                        mAutoCompleteAdapter = new AutoCompleteAdapter(CustomGooglePlacesSearch.this, predictions.getPlaces(), CustomGooglePlacesSearch.this);
-                                        mAutoCompleteList.setAdapter(mAutoCompleteAdapter);
-                                    } else {
-                                        mAutoCompleteList.setVisibility(View.VISIBLE);
-                                        mAutoCompleteAdapter.clear();
-                                        mAutoCompleteAdapter.addAll(predictions.getPlaces());
-                                        mAutoCompleteAdapter.notifyDataSetChanged();
-                                        mAutoCompleteList.invalidate();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.v("PayNowRequestResponse", error.toString());
-                                }
-                            });
-                            MyCourier.getInstance().addToRequestQueue(jsonObjectRequest);
-
-                        }
-
-                    };
-
-                    // only canceling the network calls will not help, you need to remove all callbacks as well
-                    // otherwise the pending callbacks and messages will again invoke the handler and will send the request
-                    if (handler != null) {
-                        handler.removeCallbacksAndMessages(null);
-                    } else {
-                        handler = new Handler();
-                    }
-                    handler.postDelayed(run, 1000);
-
+                if (!s.toString().equals("")) {
+                    rvLocation.setVisibility(View.VISIBLE);
+                    loc_done.setVisibility(View.GONE);
+                    mAutoCompleteAdapter.getFilter().filter(s.toString());
+                    if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
+                        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                if (s.toString().equals("")) {
+                    rvLocation.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                imgSourceClose.setVisibility(View.VISIBLE);
+                imgSourceClose.setVisibility(View.GONE);
             }
 
         });
@@ -413,113 +432,104 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
         //txtDestination.setText("");
         txtDestination.setSelection(txtDestination.getText().length());
 
-        mAutoCompleteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (txtaddressSource.getText().toString().equalsIgnoreCase("")) {
-                    try {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
-                        LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        builder.setMessage("Please choose pickup location")
-                                .setTitle(thisActivity.getString(R.string.app_name))
-                                .setCancelable(true)
-                                .setIcon(R.mipmap.ic_launcher_round)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        txtaddressSource.requestFocus();
-                                        txtDestination.setText("");
-                                        imgDestClose.setVisibility(View.GONE);
-                                        mAutoCompleteList.setVisibility(View.GONE);
-                                        dialog.dismiss();
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        setGoogleAddress(position);
-                    }catch (Exception e)
-                    {e.printStackTrace();}
-                }
-            }
-        });
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                setAddress();
-                finish();
+                onBackPressed();
             }
         });
-
+        initializeadapter();
     }
-        String TAG="CustomGoogleplacesearch";
-    private void setGoogleAddress(int position)throws Exception {
-//        if (mGoogleApiClient != null) {
 
 
-            // Define a Place ID.
-            String placeId = predictions.getPlaces().get(position).getPlaceID();
 
-// Specify the fields to return.
-            List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME
-                    , Place.Field.ADDRESS, Place.Field.LAT_LNG);
+/*    private void setGoogleAddress(int position) {
+        if (mGoogleApiClient != null) {
+            utils.print("", "Place ID == >" + predictions.getPlaces().get(position).getPlaceID());
+            Places.GeoDataApi.getPlaceById(mGoogleApiClient, predictions.getPlaces().get(position).getPlaceID())
+                    .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                        @Override
+                        public void onResult(PlaceBuffer places) {
+                            if (places.getStatus().isSuccess()) {
+                                Place myPlace = places.get(0);
+                                LatLng queriedLocation = myPlace.getLatLng();
+                                Log.v("Latitude is", "" + queriedLocation.latitude);
+                                Log.v("Longitude is", "" + queriedLocation.longitude);
+                                if (strSelected.equalsIgnoreCase("destination")) {
+                                    placePredictions.strDestAddress = myPlace.getAddress().toString();
+                                    placePredictions.strDestLatLng = myPlace.getLatLng().toString();
+                                    placePredictions.strDestLatitude = myPlace.getLatLng().latitude + "";
+                                    placePredictions.strDestLongitude = myPlace.getLatLng().longitude + "";
+                                    txtDestination.setText(placePredictions.strDestAddress);
+                                    txtDestination.setSelection(0);
+                                } else {
+                                    placePredictions.strSourceAddress = myPlace.getAddress().toString();
+                                    placePredictions.strSourceLatLng = myPlace.getLatLng().toString();
+                                    placePredictions.strSourceLatitude = myPlace.getLatLng().latitude + "";
+                                    placePredictions.strSourceLongitude = myPlace.getLatLng().longitude + "";
+                                    txtaddressSource.setText(placePredictions.strSourceAddress);
+                                    txtaddressSource.setSelection(0);
+                                    txtDestination.requestFocus();
+                                    mAutoCompleteAdapter = null;
+                                }
+                            }
 
-// Construct a request object, passing the place ID and fields array.
-            FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
-
-            placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
-                Place place = response.getPlace();
-
-                if (strSelected.equalsIgnoreCase("destination")) {
-//                                    placePredictions.strDestAddress = myPlace.getAddress().toString();
-                    placePredictions.strDestAddress =  predictions.getPlaces().get(position).getPlaceDesc();
-                    placePredictions.strDestLatLng = place.getLatLng().toString();
-                    placePredictions.strDestLatitude = place.getLatLng().latitude + "";
-                    placePredictions.strDestLongitude = place.getLatLng().longitude + "";
-                    txtDestination.setText(placePredictions.strDestAddress);
-                    txtDestination.setSelection(0);
-                } else {
-                    placePredictions.strSourceAddress =predictions.getPlaces().get(position).getPlaceDesc();
-                    placePredictions.strSourceLatLng = place.getLatLng().toString();
-                    placePredictions.strSourceLatitude = place.getLatLng().latitude + "";
-                    placePredictions.strSourceLongitude = place.getLatLng().longitude + "";
-                    txtaddressSource.setText(placePredictions.strSourceAddress);
-                    txtaddressSource.setSelection(0);
-                    txtDestination.requestFocus();
-                    mAutoCompleteAdapter = null;
-                }
-
-                mAutoCompleteList.setVisibility(View.GONE);
-
-                if (txtDestination.getText().toString().length() > 0) {
-                    if (strSelected.equalsIgnoreCase("destination")) {
-                        if (!placePredictions.strDestLatitude.equalsIgnoreCase(placePredictions.strSourceLatitude)) {
-                            setAddress();
-                        } else {
-                            utils.showAlert(thisActivity, "Source and Destination address should not be same!");
+                            if (txtDestination.getText().toString().length() > 0) {
+                                places.release();
+                                if (strSelected.equalsIgnoreCase("destination")) {
+                                    if (!placePredictions.strDestAddress.equalsIgnoreCase(placePredictions.strSourceAddress)) {
+                                        setAddress();
+                                    } else {
+                                        utils.showAlert(thisActivity, thisActivity.getResources().getString(R.string.source_dest_not_same));
+                                    }
+                                }
+                            } else {
+                                txtDestination.requestFocus();
+                                txtDestination.setText("");
+                                imgDestClose.setVisibility(View.GONE);
+                            }
                         }
-                    }
+                    });
+        }
+    }*/
+
+    private void setGoogleAddress(Place place) {
+        if (strSelected.equalsIgnoreCase("destination")) {
+            placePredictions.strDestAddress = place.getAddress();
+            if (place.getLatLng() != null) {
+                placePredictions.strDestLatLng = place.getLatLng().toString();
+                placePredictions.strDestLatitude = place.getLatLng().latitude + "";
+                placePredictions.strDestLongitude = place.getLatLng().longitude + "";
+            }
+            txtDestination.setText(placePredictions.strDestAddress);
+            txtDestination.setSelection(0);
+        } else {
+            placePredictions.strSourceAddress = place.getAddress();
+            if (place.getLatLng() != null) {
+                placePredictions.strSourceLatLng = place.getLatLng().toString();
+                placePredictions.strSourceLatitude = place.getLatLng().latitude + "";
+                placePredictions.strSourceLongitude = place.getLatLng().longitude + "";
+            }
+            txtaddressSource.setText(placePredictions.strSourceAddress);
+            txtaddressSource.setSelection(0);
+            txtDestination.requestFocus();
+        }
+
+        if (txtDestination.getText().toString().length() > 0) {
+            if (strSelected.equalsIgnoreCase("destination")) {
+                if (!placePredictions.strDestAddress
+                        .equalsIgnoreCase(placePredictions.strSourceAddress)) {
+                    setAddress();
                 } else {
-                    txtDestination.requestFocus();
-                    txtDestination.setText("");
-                    imgDestClose.setVisibility(View.GONE);
-                    mAutoCompleteList.setVisibility(View.GONE);
+                    utils.showAlert(thisActivity,
+                            getResources().getString(R.string.source_dest_not_same));
                 }
-
-
-                Log.i(TAG, "Place found: " + place.getName());
-            }).addOnFailureListener((exception) -> {
-                if (exception instanceof ApiException) {
-                    ApiException apiException = (ApiException) exception;
-                    int statusCode = apiException.getStatusCode();
-                    // Handle error with given status code.
-                    Log.e(TAG, "Place not found: " + exception.getMessage());
-                }
-            });
-
+            }
+        } else {
+            txtDestination.requestFocus();
+            txtDestination.setText("");
+            //imgDestClose.setVisibility(View.GONE);
+        }
     }
 
     public String getPlaceAutoCompleteUrl(String input) {
@@ -534,131 +544,83 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
         urlString.append("&location=");
         urlString.append(latitude + "," + longitude); // append lat long of current location to show nearby results.
         urlString.append("&radius=500&language=en");
-        urlString.append("&key=" + getResources().getString(R.string.google_map_api));
+        urlString.append("&key=" + getResources().getString(R.string.google_api_key));
 
         Log.d("FINAL URL:::   ", urlString.toString());
         return urlString.toString();
     }
 
-//    protected synchronized void buildGoogleApiClient() {
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .addApi(Places.GEO_DATA_API)
-//                .addApi(Places.PLACE_DETECTION_API)
-//                .build();
-//    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        try {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
-
-            if (mLastLocation != null) {
-                latitude = mLastLocation.getLatitude();
-                longitude = mLastLocation.getLongitude();
-            }
-
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    public void fetchLocation() {
-//        //Build google API client to use fused location
-//        buildGoogleApiClient();
-//
-//        if (mGoogleApiClient != null) {
-//            mGoogleApiClient.connect();
-//        }
-//    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
-            try {
-                String result = data.getStringExtra("result");
-                String type = data.getStringExtra("type");
-                if (type.equalsIgnoreCase("home")) {
-                    if (SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address") != "" && SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address") != null) {
-                        String longitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Homelatitude");
-                        String latitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Homelongitude");
-                        LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                        placePredictions.strDestAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Home_address");
-                        placePredictions.strDestLatLng = latLng + "";
-                        placePredictions.strDestLatitude = latitude + "";
-                        placePredictions.strDestLongitude = longitude + "";
-                        if (!placePredictions.strDestAddress.equalsIgnoreCase(placePredictions.strSourceAddress)) {
-                            setAddress();
-                        } else {
-                            utils.showAlert(thisActivity, "Source and Destination address should not be same!");
+    @SuppressLint("MissingPermission")
+    private void getLastKnownLocation() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            mLastLocation = location;
+                            latitude = mLastLocation.getLatitude();
+                            longitude = mLastLocation.getLongitude();
                         }
-
-
                     }
-                } else if (type.equalsIgnoreCase("work")) {
-                    if (SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address") != "" && SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address") != null) {
-                        String longitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Worklatitude");
-                        String latitude = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Worklongitude");
-                        LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                        placePredictions.strDestAddress = SharedHelper.getKey(CustomGooglePlacesSearch.this, "Work_address");
-                        placePredictions.strDestLatLng = latLng + "";
-                        placePredictions.strDestLatitude = latitude + "";
-                        placePredictions.strDestLongitude = longitude + "";
-                        if (!placePredictions.strDestAddress.equalsIgnoreCase(placePredictions.strSourceAddress)) {
-                            setAddress();
-                        } else {
-                            utils.showAlert(thisActivity, "Source and Destination address should not be same!");
-                        }
-
-                    }
-                }
-
-            } catch (Exception e) {
-
-            }
+                });
+    }
 
 
-        }
-
-    }//on
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOC: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted!
-//                    fetchLocation();
+                    getLastKnownLocation();
                 } else {
                     // permission denied!
                     Toast.makeText(this, "Please grant permission for using this app!", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                    updateLocationUI();
+                    getDeviceLocation();
+                }
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
-        setAddress();
-        super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
+    }
+
+    @Override
+    public void place(Place place) {
+        if (place != null) {
+            LatLng latLng = place.getLatLng();
+            setGoogleAddress(place);
+        }
+    }
+
+    private void initializePlacesApiClient() {
+        // Initialize the SDK
+        Places.initialize(getApplicationContext(), getString(R.string.google_api_key));
+        // Create a new Places client instance
+        placesClient = com.google.android.libraries.places.api.Places.createClient(this);
+    }
+
+    public void initializeadapter() {
+        mAutoCompleteAdapter = new PlacesAutoCompleteAdapter(this, placesClient);
+        mAutoCompleteAdapter.setClickListener(this);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        rvLocation.setLayoutManager(mLinearLayoutManager);
+        rvLocation.setAdapter(mAutoCompleteAdapter);
     }
 
     void setAddress() {
@@ -669,7 +631,8 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
                 Intent intent = new Intent();
                 if (placePredictions != null) {
                     intent.putExtra("Location Address", placePredictions);
-                    intent.putExtra("pick_location", "no");
+                    intent.putExtra("pick_lo" +
+                            "cation", "no");
                     setResult(RESULT_OK, intent);
                 } else {
                     setResult(RESULT_CANCELED, intent);
@@ -682,16 +645,220 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
     }
 
     @Override
     public void onStop() {
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
         super.onStop();
     }
+
+    private void gotoHomeWork(String strTag) {
+       /* Intent intentHomeWork = new Intent(CustomGooglePlacesSearch.this, .class);
+        intentHomeWork.putExtra("tag", strTag);
+        startActivityForResult(intentHomeWork, UPDATE_HOME_WORK);*/
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPDATE_HOME_WORK) {
+            if (resultCode == Activity.RESULT_OK) {
+                //getFavoriteLocations();
+            }
+        }
+    }
+
+    @Override
+    public void onCameraIdle() {
+        rvLocation.setVisibility(View.GONE);
+        imgDestClose.setVisibility(View.VISIBLE);
+        try {
+            CameraPosition cameraPosition = mGoogleMap.getCameraPosition();
+            if (isEnableIdle) {
+                rvLocation.setVisibility(View.GONE);
+                String address = getAddress(cameraPosition.target);
+                System.out.println("onCameraIdle " + address);
+                isMapKeyShow = true;
+                if (isMapKeyShow) hideKeyboard();
+                else showKeyboard();
+                setLocationText(address, cameraPosition.target);
+            }
+            isEnableIdle = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setLocationText(String address, LatLng target) {
+
+        if (address != null && target != null) {
+            txtDestination.setText(address);
+            Log.d("LocationPick", "setLocationText1: " + txtDestination.getTag());
+            loc_done.setVisibility(View.VISIBLE);
+            rvLocation.setVisibility(View.GONE);
+            this.address = address;
+            this.target = target;
+            imgDestClose.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setGoogleAddress(LatLng place, String address) {
+        if (strSelected.equalsIgnoreCase("destination")) {
+            placePredictions.strDestAddress = address;
+            if (place != null) {
+                placePredictions.strDestLatLng = place.toString() + "";
+                placePredictions.strDestLatitude = place.latitude + "";
+                placePredictions.strDestLongitude = place.longitude + "";
+            }
+            txtDestination.setText(placePredictions.strDestAddress);
+            txtDestination.setSelection(0);
+        } else {
+            placePredictions.strSourceAddress = address;
+            if (place != null) {
+                placePredictions.strSourceLatLng = place.toString() + "";
+                placePredictions.strSourceLatitude = place.latitude + "";
+                placePredictions.strSourceLongitude = place.longitude + "";
+            }
+            txtaddressSource.setText(placePredictions.strSourceAddress);
+            txtaddressSource.setSelection(0);
+            txtDestination.requestFocus();
+        }
+
+        if (txtDestination.getText().toString().length() > 0) {
+            if (strSelected.equalsIgnoreCase("destination")) {
+                if (!placePredictions.strDestAddress
+                        .equalsIgnoreCase(placePredictions.strSourceAddress)) {
+                    setAddress();
+                } else {
+                    utils.showAlert(thisActivity,
+                            getResources().getString(R.string.source_dest_not_same));
+                }
+            }
+        } else {
+            txtDestination.requestFocus();
+            txtDestination.setText("");
+            imgDestClose.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onCameraMove() {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        try {
+            boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json));
+        } catch (Resources.NotFoundException e) {
+            Log.d("Map:Style", "Can't find style. Error: ");
+        }
+        this.mGoogleMap = googleMap;
+        getLocationPermission();
+        updateLocationUI();
+        getDeviceLocation();
+    }
+
+    public void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            mLocationPermissionGranted = true;
+        else
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    }
+
+    private void updateLocationUI() {
+        if (mGoogleMap == null) return;
+        try {
+            if (mLocationPermissionGranted) {
+                mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mGoogleMap.setOnCameraMoveListener(this);
+                mGoogleMap.setOnCameraIdleListener(this);
+            } else {
+                mGoogleMap.setMyLocationEnabled(false);
+                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mLastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+
+    void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = task.getResult();
+                        mLastLocation = mLastKnownLocation;
+                        latitude = mLastLocation.getLatitude();
+                        longitude = mLastLocation.getLongitude();
+                        mGoogleMap.moveCamera(CameraUpdateFactory
+                                .newLatLngZoom(new LatLng(
+                                        mLastKnownLocation.getLatitude(),
+                                        mLastKnownLocation.getLongitude()
+                                ), DEFAULT_ZOOM));
+                    } else {
+                        Log.d("Map", "Current location is null. Using defaults.");
+                        Log.e("Map", "Exception: %s", task.getException());
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    public void showKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public String getAddress(LatLng currentLocation) {
+        String address = null;
+        try {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1);
+//            List<Address> addresses = geocoder.getFromLocation(36.851547, 10.297449, 1);
+            if ((addresses != null) && !addresses.isEmpty()) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder();
+                if (returnedAddress.getMaxAddressLineIndex() > 0)
+                    for (int j = 0; j < returnedAddress.getMaxAddressLineIndex(); j++)
+                        strReturnedAddress.append(returnedAddress.getAddressLine(j)).append("");
+                else strReturnedAddress.append(returnedAddress.getAddressLine(0)).append("");
+                address = strReturnedAddress.toString();
+            }
+        } catch (Exception e) {
+            Log.e("MAP", "getAddress: " + e);
+        }
+        return address;
+    }
+
+
 }

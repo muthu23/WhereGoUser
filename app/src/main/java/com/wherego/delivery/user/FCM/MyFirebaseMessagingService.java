@@ -79,7 +79,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(0,notifiBuilder.build());
             }
-            else if (msg_type.equalsIgnoreCase("Videochat")) {
+            else if (msg_type.equalsIgnoreCase("+")) {
                 Log.e("callVideochat", "callVideochat");
                 // handleNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getClickAction());
                 if (getTopAppName().equals(MainActivity.class.getName())) {

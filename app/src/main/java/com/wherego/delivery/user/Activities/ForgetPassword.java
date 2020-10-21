@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     String TAG = "ForgetPassword";
     public Context context = ForgetPassword.this;
     Button nextIcon;
+    ImageView imgBack;
     TextInputLayout newPasswordLayout, confirmPasswordLayout, OtpLay;
     LinearLayout ll_resend;
     EditText newPassowrd, confirmPassword, OTP;
@@ -81,11 +83,12 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     EditText number;
     public static int APP_REQUEST_CODE = 99;
     String phoneNumberString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         findViewById();
 
         if (Build.VERSION.SDK_INT > 15) {
@@ -104,17 +107,18 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         email = findViewById(R.id.email);
         number = findViewById(R.id.number);
 
-        nextIcon =findViewById(R.id.nextIcon);
+        nextIcon = findViewById(R.id.nextIcon);
+        imgBack = findViewById(R.id.imgBack);
 
-        note_txt =  findViewById(R.id.note);
+        note_txt = findViewById(R.id.note);
         newPassowrd = findViewById(R.id.new_password);
         OTP = findViewById(R.id.otp);
         confirmPassword = findViewById(R.id.confirm_password);
-        confirmPasswordLayout =  findViewById(R.id.confirm_password_lay);
-        OtpLay =  findViewById(R.id.otp_lay);
-        newPasswordLayout =  findViewById(R.id.new_password_lay);
-        resend =  findViewById(R.id.resend);
-        ll_resend =  findViewById(R.id.ll_resend);
+        confirmPasswordLayout = findViewById(R.id.confirm_password_lay);
+        OtpLay = findViewById(R.id.otp_lay);
+        newPasswordLayout = findViewById(R.id.new_password_lay);
+        resend = findViewById(R.id.resend);
+        ll_resend = findViewById(R.id.ll_resend);
         helper = new ConnectionHelper(context);
         isInternet = helper.isConnectingToInternet();
         str_email = SharedHelper.getKey(ForgetPassword.this, "email");
@@ -125,14 +129,14 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         }
 
         nextIcon.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.nextIcon:
-
                 str_email = email.getText().toString();
                 str_number = number.getText().toString();
                 if (validation.equalsIgnoreCase("")) {
@@ -140,14 +144,12 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
                         displayMessage(getString(R.string.email_validation));
                     } else if (!Utilities.isValidEmail(email.getText().toString())) {
                         displayMessage(getString(R.string.not_valid_email));
-                    }
-                    else {
+                    } else {
                         if (isInternet) {
                             forgetPassword();
                         } else {
                             displayMessage(getString(R.string.something_went_wrong_net));
                         }
-
                     }
                 } else {
                     str_newPassword = newPassowrd.getText().toString();
@@ -190,7 +192,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
 
     public void displayMessage(String toastString) {
         Log.e("displayMessage", "" + toastString);
-        Snackbar.make(findViewById(R.id.mobile_no), toastString, Snackbar.LENGTH_SHORT)
+        Snackbar.make(findViewById(R.id.parent_layout), toastString, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
 
@@ -417,6 +419,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         MyCourier.getInstance().addToRequestQueue(jsonObjectRequest);
 
     }
+
     private void refreshAccessToken(final String tag) {
 
         JSONObject object = new JSONObject();
@@ -476,9 +479,10 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
 
         MyCourier.getInstance().addToRequestQueue(jsonObjectRequest);
     }
+
     private void openphonelogin() {
 
-        dialog = new Dialog(ForgetPassword.this,R.style.AppTheme_NoActionBar);
+        dialog = new Dialog(ForgetPassword.this, R.style.AppTheme_NoActionBar);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
@@ -486,23 +490,34 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         dialog.setContentView(R.layout.mobileverification);
         dialog.setCancelable(false);
         dialog.show();
-        CountryCodePicker ccp=(CountryCodePicker)dialog.findViewById(R.id.ccp);
-        Button nextIcon=dialog.findViewById(R.id.nextIcon);
-        EditText mobile_no=dialog.findViewById(R.id.mobile_no);
-        final String countryCode=ccp.getDefaultCountryCode();
-        final String countryIso=ccp.getSelectedCountryNameCode();
+        CountryCodePicker ccp = (CountryCodePicker) dialog.findViewById(R.id.ccp);
+        Button nextIcon = dialog.findViewById(R.id.nextIcon);
+        EditText mobile_no = dialog.findViewById(R.id.mobile_no);
+        ImageView imgBack = dialog.findViewById(R.id.imgBack);
+        final String countryCode = ccp.getDefaultCountryCode();
+        final String countryIso = ccp.getSelectedCountryNameCode();
+        imgBack.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
         nextIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                phoneNumberString = ccp.getSelectedCountryCodeWithPlus() + mobile_no.getText().toString();
 
-                SharedHelper.putKey(getApplicationContext(), "mobile_number", phoneNumberString);
-                Log.v("Phonecode",phoneNumberString+" ");
-                Intent intent =new Intent(ForgetPassword.this, OtpVerification.class);
-                intent.putExtra("phonenumber",phoneNumberString);
-                startActivityForResult(intent,APP_REQUEST_CODE);
-                dialog.dismiss();
+                if (getmobile.equalsIgnoreCase(mobile_no.getText().toString())) {
+                    phoneNumberString = countryCode + mobile_no.getText().toString();
+
+                    SharedHelper.putKey(getApplicationContext(), "mobile_number", phoneNumberString);
+                    Log.v("Phonecode", phoneNumberString + " ");
+                    Intent intent = new Intent(ForgetPassword.this, OtpVerification.class);
+                    intent.putExtra("phonenumber", phoneNumberString);
+                    startActivityForResult(intent, APP_REQUEST_CODE);
+                    dialog.dismiss();
+                } else {
+                    displayMessage("Mobile no is not exist with your email_id");
+                    Toast.makeText(context, "Mobile no is not exist with your email_id", Toast.LENGTH_SHORT).show();
+                }
 //                String phone=ccp.getDefaultCountryCode()+mobile_no.getText().toString();
 //                PhoneNumber phoneNumber = new PhoneNumber(ccp.getSelectedCountryCode(),mobile_no.getText().toString(),ccp.getSelectedCountryNameCode());
 //                phoneLogin(phoneNumber);
@@ -523,10 +538,6 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         Log.e(TAG, "onActivityResult");
         if (data != null) {
             if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
-
-
-
-
                 if (getmobile != null) {
                     String[] separated = phoneNumberString.split("\\+");
                     String phoneSplit = separated[1];
@@ -536,7 +547,6 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
                         email.setClickable(false);
 
                         validation = "reset";
-//                                    titleText.setText(R.string.reset_password);
                         newPasswordLayout.setVisibility(View.VISIBLE);
                         confirmPasswordLayout.setVisibility(View.VISIBLE);
                         OtpLay.setVisibility(View.GONE);
@@ -547,10 +557,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
                         displayMessage("Mobile no is not match with register emailid");
                     }
                 }
-
                 SharedHelper.putKey(ForgetPassword.this, "mobile", phoneNumberString);
-
-
 
             }
         }

@@ -27,19 +27,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -67,6 +54,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -84,7 +83,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-//import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -101,34 +99,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
-import com.wherego.delivery.user.Activities.PickUpNotes;
-import com.wherego.delivery.user.Adapter.ImageAdapter;
-import com.wherego.delivery.user.MyCourier;
-import com.wherego.delivery.user.R;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.wherego.delivery.user.Activities.CouponActivity;
-import com.wherego.delivery.user.Activities.CustomGooglePlacesSearch;
-import com.wherego.delivery.user.Activities.HistoryActivity;
-import com.wherego.delivery.user.Activities.Payment;
-import com.wherego.delivery.user.Activities.ShowProfile;
-import com.wherego.delivery.user.Activities.UplaodImage;
-import com.wherego.delivery.user.Helper.ConnectionHelper;
-import com.wherego.delivery.user.Helper.CustomDialog;
-import com.wherego.delivery.user.Helper.DataParser;
-import com.wherego.delivery.user.Helper.SharedHelper;
-import com.wherego.delivery.user.Helper.URLHelper;
-import com.wherego.delivery.user.Models.CardInfo;
-import com.wherego.delivery.user.Models.Driver;
-import com.wherego.delivery.user.Models.PlacePredictions;
-import com.wherego.delivery.user.Utils.MapAnimator;
-import com.wherego.delivery.user.Utils.MapRipple;
-
-import com.wherego.delivery.user.Utils.MyButton;
-import com.wherego.delivery.user.Utils.MyTextView;
-import com.wherego.delivery.user.Utils.ResponseListener;
-import com.wherego.delivery.user.Utils.Utilities;
-import com.wherego.delivery.user.chat.UserChatActivity;
 import com.nguyenhoanglam.imagepicker.model.Image;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -139,6 +111,32 @@ import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 import com.skyfishjy.library.RippleBackground;
 import com.squareup.picasso.Picasso;
+import com.wherego.delivery.user.Activities.CouponActivity;
+import com.wherego.delivery.user.Activities.CustomGooglePlacesSearch;
+import com.wherego.delivery.user.Activities.HistoryActivity;
+import com.wherego.delivery.user.Activities.LocationAndGoodsActivity;
+import com.wherego.delivery.user.Activities.Payment;
+import com.wherego.delivery.user.Activities.PickUpNotes;
+import com.wherego.delivery.user.Activities.ShowProfile;
+import com.wherego.delivery.user.Activities.UplaodImage;
+import com.wherego.delivery.user.Adapter.ImageAdapter;
+import com.wherego.delivery.user.Helper.ConnectionHelper;
+import com.wherego.delivery.user.Helper.CustomDialog;
+import com.wherego.delivery.user.Helper.DataParser;
+import com.wherego.delivery.user.Helper.SharedHelper;
+import com.wherego.delivery.user.Helper.URLHelper;
+import com.wherego.delivery.user.Models.CardInfo;
+import com.wherego.delivery.user.Models.Driver;
+import com.wherego.delivery.user.Models.Locations;
+import com.wherego.delivery.user.MyCourier;
+import com.wherego.delivery.user.R;
+import com.wherego.delivery.user.Utils.MapAnimator;
+import com.wherego.delivery.user.Utils.MapRipple;
+import com.wherego.delivery.user.Utils.MyButton;
+import com.wherego.delivery.user.Utils.MyTextView;
+import com.wherego.delivery.user.Utils.ResponseListener;
+import com.wherego.delivery.user.Utils.Utilities;
+import com.wherego.delivery.user.chat.UserChatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -166,6 +164,8 @@ import java.util.Objects;
 
 import static com.wherego.delivery.user.MyCourier.trimMessage;
 
+//import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+
 public class HomeFragment extends Fragment implements
         OnMapReadyCallback,
         LocationListener,
@@ -185,13 +185,12 @@ public class HomeFragment extends Fragment implements
     String ETA;
     String service_type, service;
     String item_id = "";
-
-
+    ArrayList<Locations> location_array = new ArrayList<>();
+    private JSONArray userdrop;
     ArrayList<String> sourceAddress, sourcelat, sourceLng, destiAddress, destilat, destiLng;
     String ip_address = "";
 
     Boolean favourite = false;
-
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -249,6 +248,7 @@ public class HomeFragment extends Fragment implements
     public String PreviousStatus = "";
     public String CurrentStatus = "";
     private Handler handleCheckStatus;
+    private Runnable runnableCheckStatus;
     String strPickLocation = "", strTag = "", strPickType = "";
     int size = 1;
     boolean once = true;
@@ -807,6 +807,14 @@ public class HomeFragment extends Fragment implements
             }
         });
 
+        View googleLogo = rootView.findViewWithTag("GoogleWatermark");
+        RelativeLayout.LayoutParams glLayoutParams = (RelativeLayout.LayoutParams)googleLogo.getLayoutParams();
+        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
+        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+        googleLogo.setLayoutParams(glLayoutParams);
     }
 
     private void exitConfirmation() {
@@ -956,25 +964,43 @@ public class HomeFragment extends Fragment implements
                     startActivity(intentPickuP);
                     break;
                 case R.id.frmSource:
-                    Intent intent = new Intent(getActivity(), CustomGooglePlacesSearch.class);
+
+                    SharedHelper.putKey(context, "curr_lat", source_lat);
+                    SharedHelper.putKey(context, "curr_lng", source_lng);
+
+                    Intent intent = new Intent(getActivity(), LocationAndGoodsActivity.class);
                     intent.putExtra("cursor", "source");
                     intent.putExtra("s_address", frmSource.getText().toString());
+                    intent.putExtra("s_latitude", source_lat);
+                    intent.putExtra("s_longitude", source_lng);
+
                     intent.putExtra("d_address", destination.getText().toString());
                     intent.putExtra("d_address", frmDest.getText().toString());
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
                     break;
                 case R.id.frmDestination:
-                    Intent intent2 = new Intent(getActivity(), CustomGooglePlacesSearch.class);
+                    SharedHelper.putKey(context, "curr_lat", source_lat);
+                    SharedHelper.putKey(context, "curr_lng", source_lng);
+
+                    Intent intent2 = new Intent(getActivity(), LocationAndGoodsActivity.class);
                     intent2.putExtra("cursor", "destination");
                     intent2.putExtra("s_address", frmSource.getText().toString());
+                    intent2.putExtra("s_latitude", source_lat);
+                    intent2.putExtra("s_longitude", source_lng);
                     intent2.putExtra("d_address", destination.getText().toString());
                     intent2.putExtra("d_address", frmDest.getText().toString());
                     startActivityForResult(intent2, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
                     break;
                 case R.id.frmDest:
-                    Intent intent3 = new Intent(getActivity(), CustomGooglePlacesSearch.class);
+
+                    SharedHelper.putKey(context, "curr_lat", source_lat);
+                    SharedHelper.putKey(context, "curr_lng", source_lng);
+
+                    Intent intent3 = new Intent(getActivity(), LocationAndGoodsActivity.class);
                     intent3.putExtra("cursor", "destination");
                     intent3.putExtra("s_address", frmSource.getText().toString());
+                    intent3.putExtra("s_latitude", source_lat);
+                    intent3.putExtra("s_longitude", source_lng);
                     intent3.putExtra("d_address", destination.getText().toString());
                     intent3.putExtra("d_address", frmDest.getText().toString());
                     startActivityForResult(intent3, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
@@ -1239,6 +1265,8 @@ public class HomeFragment extends Fragment implements
                                 Toast.makeText(context, "Select destination", Toast.LENGTH_SHORT).show();
                                 Intent intentDest = new Intent(getActivity(), CustomGooglePlacesSearch.class);
                                 intentDest.putExtra("cursor", "destination");
+                                intentDest.putExtra("s_latitude", source_lat);
+                                intentDest.putExtra("s_longitude", source_lng);
                                 intentDest.putExtra("s_address", source_address);
                                 startActivityForResult(intentDest, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
                             } else {
@@ -1265,6 +1293,8 @@ public class HomeFragment extends Fragment implements
                             if (dest_lat.equalsIgnoreCase(source_lat)) {
                                 Toast.makeText(context, "Both source and destination are same", Toast.LENGTH_SHORT).show();
                                 Intent intentDest = new Intent(getActivity(), CustomGooglePlacesSearch.class);
+                                intentDest.putExtra("s_latitude", source_lat);
+                                intentDest.putExtra("s_longitude", source_lng);
                                 intentDest.putExtra("cursor", "destination");
                                 intentDest.putExtra("s_address", frmSource.getText().toString());
                                 startActivityForResult(intentDest, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
@@ -1827,54 +1857,19 @@ public class HomeFragment extends Fragment implements
         sourceLng = new ArrayList<>();
         destiAddress = new ArrayList<>();
 
-//        if (size == 1) {
-        if (destLatLng != null) {
-            constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
-                    "?s_latitude=" + source_lat
-                    + "&s_latitude_2=" + ""
-                    + "&s_latitude_3=" + ""
-                    + "&s_address=" + source_address
-                    + "&s_address_2=" + ""
-                    + "&s_address_3=" + ""
-                    + "&d_address=" + dest_address
-                    + "&d_address_2=" + ""
-                    + "&d_address_3=" + ""
-                    + "&s_longitude=" + source_lng
-                    + "&s_longitude_2=" + ""
-                    + "&s_longitude_3=" + ""
-                    + "&d_latitude=" + destLatLng.latitude + ""
-                    + "&d_latitude_2=" + ""
-                    + "&d_latitude_3=" + ""
-                    + "&d_longitude=" + destLatLng.longitude + ""
-                    + "&d_longitude_2=" + ""
-                    + "&d_longitude_3=" + ""
-                    + "&service_type=" + service_type1
+        String place = "";
+        for (int i = 1; i <= location_array.size(); i++) {
+            place = place + "s_latitude[" + i + "]=" + location_array.get(i - 1).getsLatitude()
+                    + "&s_longitude[" + i + "]=" + location_array.get(i - 1).getsLongitude()
+                    + "&d_latitude[" + i + "]=" + location_array.get(i - 1).getdLatitude()
+                    + "&d_longitude[" + i + "]=" + location_array.get(i - 1).getdLongitude()
+                    + "&description[" + i + "]=" + location_array.get(i - 1).getDescription()
+                    + "&service_type=" + SharedHelper.getKey(context, "service_type")
                     + "&ip_address=" + ip_address;
-        } else {
-            constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
-                    "?s_latitude=" + source_lat
-                    + "&s_latitude_2=" + ""
-                    + "&s_latitude_3=" + ""
-                    + "&s_address=" + source_address
-                    + "&s_address_2=" + ""
-                    + "&s_address_3=" + ""
-                    + "&d_address=" + dest_address
-                    + "&d_address_2=" + ""
-                    + "&d_address_3=" + ""
-                    + "&s_longitude=" + source_lng
-                    + "&s_longitude_2=" + ""
-                    + "&s_longitude_3=" + ""
-                    + "&d_latitude=" + dest_lat + ""
-                    + "&d_latitude_2=" + ""
-                    + "&d_latitude_3=" + ""
-                    + "&d_longitude=" + dest_lng + ""
-                    + "&d_longitude_2=" + ""
-                    + "&d_longitude_3=" + ""
-                    + "&service_type=" + service_type1
-                    + "&ip_address=" + ip_address;
-        }
-//        }
 
+        }
+
+        constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "/" + "?" + place;
 
         Log.e("constructedURL", constructedURL + "constructedURL");
         System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
@@ -2515,14 +2510,20 @@ public class HomeFragment extends Fragment implements
 
                 destilat = new ArrayList<>();
                 destiLng = new ArrayList<>();
-                PlacePredictions placePredictions;
-                placePredictions = (PlacePredictions) data.getSerializableExtra("Location Address");
+                int location_size = (int) data.getSerializableExtra("Location size");
+                Locations placePredictions = (Locations) data.getSerializableExtra("Location Address1");
+                location_array = new ArrayList<>();
                 strPickLocation = data.getExtras().getString("pick_location");
                 strPickType = data.getExtras().getString("type");
                 size = data.getExtras().getInt("size");
+                if (location_size >= 0) {
+                    for (int i = 1; i <= location_size; i++) {
+                        location_array.add((Locations) data.getSerializableExtra("Location Address" + i));
+                    }
+                }
 
+                Log.e(TAG, "onActivityResult: " + location_array.toString());
 
-                Log.e("size", size + " size");
                 if (strPickLocation.equalsIgnoreCase("yes")) {
                     pick_first = true;
                     mMap.clear();
@@ -2532,14 +2533,14 @@ public class HomeFragment extends Fragment implements
                     stopAnim();
                 } else {
                     if (placePredictions != null) {
-                        if (!placePredictions.strSourceAddress.equalsIgnoreCase("")) {
-                            source_lat = "" + placePredictions.strSourceLatitude;
-                            source_lng = "" + placePredictions.strSourceLongitude;
-                            source_address = placePredictions.strSourceAddress;
-                            if (!placePredictions.strSourceLatitude.equalsIgnoreCase("")
-                                    && !placePredictions.strSourceLongitude.equalsIgnoreCase("")) {
-                                double latitude = Double.parseDouble(placePredictions.strSourceLatitude);
-                                double longitude = Double.parseDouble(placePredictions.strSourceLongitude);
+                        if (!placePredictions.getsAddress().equalsIgnoreCase("")) {
+                            source_lat = "" + placePredictions.getsLatitude();
+                            source_lng = "" + placePredictions.getdLongitude();
+                            source_address = placePredictions.getsAddress();
+                            if (!placePredictions.getsLatitude().equalsIgnoreCase("")
+                                    && !placePredictions.getdLongitude().equalsIgnoreCase("")) {
+                                double latitude = Double.parseDouble(placePredictions.getsLatitude());
+                                double longitude = Double.parseDouble(placePredictions.getdLongitude());
                                 LatLng location = new LatLng(latitude, longitude);
 
                                 //mMap.clear();
@@ -2556,10 +2557,10 @@ public class HomeFragment extends Fragment implements
                         }
 
 
-                        if (!placePredictions.strDestAddress.equalsIgnoreCase("")) {
-                            dest_lat = "" + placePredictions.strDestLatitude;
-                            dest_lng = "" + placePredictions.strDestLongitude;
-                            dest_address = placePredictions.strDestAddress;
+                        if (!placePredictions.getdAddress().equalsIgnoreCase("")) {
+                            dest_lat = "" + placePredictions.getdLatitude();
+                            dest_lng = "" + placePredictions.getdLongitude();
+                            dest_address = placePredictions.getdAddress();
                             dropLocationName = dest_address;
 
 //                            sourceAddress,sourcelat,sourceLng,destiAddress,destilat,destiLng
@@ -2735,7 +2736,7 @@ public class HomeFragment extends Fragment implements
 
             lblCmfrmSourceAddress.setText(source_address);
             lblCmfrmDestAddress.setText(dest_address);
-            lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + "" +
+            lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + " " +
                     SharedHelper.getKey(context, "estimated_fare"));
             lblEta.setText(SharedHelper.getKey(context, "eta_time"));
             lblDis.setText(SharedHelper.getKey(context, "distance") + " Km");
@@ -2769,7 +2770,9 @@ public class HomeFragment extends Fragment implements
                         try {
                             if (response.getHeaders().code() == 200) {
                                 try {
-                                    JSONArray jsonArray = new JSONArray(response.getResult());
+                                    JSONArray jsonArray = null;
+                                    if (response.getResult() != null)
+                                        jsonArray = new JSONArray(response.getResult());
                                     if (jsonArray.length() > 0) {
                                         CardInfo cardInfo = new CardInfo();
                                         cardInfo.setCardId("CASH");
@@ -2815,7 +2818,7 @@ public class HomeFragment extends Fragment implements
                         response -> {
                             Log.e("service_list_response", response + "response");
                             utils.print("GetServices", response.toString());
-                            if (SharedHelper.getKey(context, "service_type")
+                            if (SharedHelper.getKey(context, "adservice_type")
                                     .equalsIgnoreCase("")) {
                                 SharedHelper.putKey(context, "service_type", "" +
                                         response.optJSONObject(0).optString("id"));
@@ -2927,28 +2930,19 @@ public class HomeFragment extends Fragment implements
             customDialog.show();
         JSONObject object = new JSONObject();
 
-        constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
-                "?s_latitude=" + source_lat
-                + "&s_latitude_2=" + ""
-                + "&s_latitude_3=" + ""
-                + "&s_address=" + source_address
-                + "&s_address_2=" + ""
-                + "&s_address_3=" + ""
-                + "&d_address=" + dest_address
-                + "&d_address_2=" + ""
-                + "&d_address_3=" + ""
-                + "&s_longitude=" + source_lng
-                + "&s_longitude_2=" + ""
-                + "&s_longitude_3=" + ""
-                + "&d_latitude=" + dest_lat
-                + "&d_latitude_2=" + ""
-                + "&d_latitude_3=" + ""
-                + "&d_longitude=" + dest_lng
-                + "&d_longitude_2=" + ""
-                + "&d_longitude_3=" + ""
-                + "&service_type=" + SharedHelper.getKey(context, "service_type")
-                + "&ip_address=" + ip_address;
+        String place = "";
+        for (int i = 1; i <= location_array.size(); i++) {
 
+            place = place + "s_latitude[" + i + "]=" + location_array.get(i - 1).getsLatitude()
+                    + "&s_longitude[" + i + "]=" + location_array.get(i - 1).getsLongitude()
+                    + "&d_latitude[" + i + "]=" + location_array.get(i - 1).getdLatitude()
+                    + "&d_longitude[" + i + "]=" + location_array.get(i - 1).getdLongitude()
+                    + "&description[" + i + "]=" + location_array.get(i - 1).getDescription()
+                    + "&service_type=" + SharedHelper.getKey(context, "service_type")
+                    + "&ip_address=" + ip_address;
+        }
+
+        constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "/" + "?" + place;
 
         System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
         JsonObjectRequest jsonObjectRequest = new
@@ -2973,7 +2967,7 @@ public class HomeFragment extends Fragment implements
                                     try {
 
                                         JSONObject object1 = response.getJSONObject("country");
-                                        String curncy = object1.getString("currency_symbol");
+                                        String curncy = response.getString("currency");
                                         SharedHelper.putKey(context, "currency", curncy);
                                         Log.e("currency", curncy + "currency");
                                     } catch (JSONException e) {
@@ -3057,16 +3051,23 @@ public class HomeFragment extends Fragment implements
         Double driver_longi = DriverLocation.longitude;
         Log.e("TAG", "DRIVER LOCATION:" + driver_lat + "," + driver_longi);
         JSONObject object = new JSONObject();
-        String constructedURL1 = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
-                "?s_latitude=" + driver_lat
-                + "&s_longitude=" + driver_longi
-                + "&d_latitude=" + source_lat
-                + "&d_longitude=" + source_lng
-                + "&service_type=" + SharedHelper.getKey(context, "service_type");
+
+        String place = "";
+        for (int i = 0; i < location_array.size(); i++) {
+            place = place + "s_latitude[" + i + "]=" + location_array.get(i - 1).getsLatitude()
+                    + "&s_longitude[" + i + "]=" + location_array.get(i - 1).getsLongitude()
+                    + "&d_latitude[" + i + "]=" + location_array.get(i - 1).getdLatitude()
+                    + "&d_longitude[" + i + "]=" + location_array.get(i - 1).getdLongitude()
+                    + "&description[" + i + "]=" + location_array.get(i - 1).getDescription()
+                    + "&service_type=" + SharedHelper.getKey(context, "service_type")
+                    + "&ip_address=" + ip_address;
+        }
+
+        constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "/" + "?" + place;
 
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.GET,
-                        constructedURL1,
+                        constructedURL,
                         object,
                         response -> {
                             if (response != null) {
@@ -3259,27 +3260,41 @@ public class HomeFragment extends Fragment implements
             Log.e("s_latitude", source_lat + "source_lat");
 //            if (size == 1) {
             Log.e("call1", "call1");
-            objects.put("s_latitude", source_lat);
-            objects.put("s_longitude", source_lng);
-            objects.put("d_latitude", dest_lat);
-            objects.put("d_longitude", dest_lng);
-            objects.put("s_address", source_address);
-            objects.put("d_address", dest_address);
 
-            objects.put("s_latitude_2", "");
-            objects.put("s_longitude_2", "");
-            objects.put("d_latitude_2", "");
-            objects.put("d_longitude_2", "");
-            objects.put("s_address_2", "");
-            objects.put("d_address_2", "");
+            JSONArray mSourceLatitude = new JSONArray();
+            JSONArray mSourceLongitude = new JSONArray();
 
-            objects.put("s_latitude_3", "");
-            objects.put("s_longitude_3", "");
-            objects.put("d_latitude_3", "");
-            objects.put("d_longitude_3", "");
-            objects.put("s_address_3", "");
-            objects.put("d_address_3", "");
-//            }
+            JSONArray mDestinationLatitude = new JSONArray();
+            JSONArray mDestinationLongitude = new JSONArray();
+
+            JSONArray mSourceAddress = new JSONArray();
+            JSONArray mDestinationAddress = new JSONArray();
+
+            JSONArray mDescription = new JSONArray();
+
+            if (!location_array.isEmpty()) {
+                for (int i = 0; i < location_array.size(); i++) {
+                    mSourceLatitude.put(location_array.get(i).getsLatitude());
+                    mSourceLongitude.put(location_array.get(i).getsLongitude());
+                    mSourceAddress.put(location_array.get(i).getsAddress().replace(",", ""));
+
+                    mDestinationLatitude.put(location_array.get(i).getdLatitude());
+                    mDestinationLongitude.put(location_array.get(i).getdLongitude());
+                    mDestinationAddress.put(location_array.get(i).getdAddress().replace(",", ""));
+                    mDescription.put(location_array.get(i).getDescription().replace(",", ""));
+                }
+            } else {
+                Toast.makeText(activity, "No delivery address found !", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            objects.put("s_latitude", mSourceLatitude);
+            objects.put("s_longitude", mSourceLongitude);
+            objects.put("s_address", mSourceAddress);
+            objects.put("d_latitude", mDestinationLatitude);
+            objects.put("d_longitude", mDestinationLongitude);
+            objects.put("d_address", mDestinationAddress);
+            objects.put("description", mDescription);
 
             objects.put("service_type", SharedHelper.getKey(context, "service_type"));
             objects.put("distance", SharedHelper.getKey(context, "distance"));
@@ -3323,8 +3338,11 @@ public class HomeFragment extends Fragment implements
                                 if ((customDialog != null) && (customDialog.isShowing()))
                                     customDialog.dismiss();
                                 if (response.optString("request_id", "").equals("")) {
-                                    utils.displayMessage(getView(),
-                                            response.optString("message"));
+                                    if (!response.optString("message").isEmpty())
+                                        utils.displayMessage(getView(),
+                                                response.optString("message"));
+                                    else utils.displayMessage(getView(),
+                                            response.optString("error"));
                                 } else {
                                     SharedHelper.putKey(context,
                                             "current_status", "");
@@ -3445,8 +3463,11 @@ public class HomeFragment extends Fragment implements
                                     response.statusCode == 405 ||
                                     response.statusCode == 500) {
                                 try {
+                                    if(errorObj.optString("message").isEmpty())
                                     utils.displayMessage(getView(), errorObj.optString("message"));
+                                    else utils.displayMessage(getView(), errorObj.optString("error"));
                                 } catch (Exception e) {
+
                                     utils.displayMessage(getView(), getString(R.string.something_went_wrong));
                                 }
                                 layoutChanges();
@@ -3761,8 +3782,7 @@ public class HomeFragment extends Fragment implements
 //                                    Log.e("handleeresponse", response+"");
                                     utils.print("CheckStatusResponse", "" + response.toString());
 
-                                    if (response.optJSONArray("data") != null &&
-                                            response.optJSONArray("data").length() > 0) {
+                                    if (response.optJSONArray("data") != null && response.optJSONArray("data").length() > 0) {
                                         utils.print("response", "not null");
                                         try {
                                             JSONArray requestStatusCheck = response.optJSONArray("data");
@@ -3794,15 +3814,45 @@ public class HomeFragment extends Fragment implements
                                             if (requestStatusCheckObject.optJSONObject("item") != null) {
                                                 itemObject = requestStatusCheckObject.optJSONObject("item");
                                             }
-                                            String status = requestStatusCheckObject.optString("status");
+
+                                            String status = "";
+
                                             reqStatus = requestStatusCheckObject.optString("status");
+                                            try {
+                                                if (requestStatusCheckObject != null) {
+                                                    userdrop = requestStatusCheckObject.getJSONArray("userdrop");
+                                                }
+                                                // locationArrayList = new ArrayList<>();
+                                                // flowArrayList = new ArrayList<>();
+                                                for (int i = 0; i < userdrop.length(); i++) {
+                                                    if (!userdrop.getJSONObject(i).optString("status").equals("COMPLETED")) {
+                                                        source_lat = requestStatusCheckObject.optString("s_latitude");
+                                                        source_lng = requestStatusCheckObject.optString("s_longitude");
+                                                        dest_lat = userdrop.getJSONObject(i).optString("d_latitude");
+                                                        dest_lng = userdrop.getJSONObject(i).optString("d_longitude");
+                                                        status = userdrop.getJSONObject(i).optString("status");
+                                                        reqStatus = userdrop.getJSONObject(i).optString("status");
+                                                        break;
+                                                    } else {
+                                                        status = requestStatusCheckObject.optString("status");
+                                                        reqStatus = userdrop.getJSONObject(i).optString("status");
+
+                                                    }
+
+
+
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            if (status.equalsIgnoreCase("ACCEPTED")
+                                                    && requestStatusCheckObject.optString("status").equalsIgnoreCase("SEARCHING"))
+                                                status = "SEARCHING";
+
                                             SharedHelper.putKey(context, "req_status",
                                                     requestStatusCheckObject.optString("status"));
                                             String wallet = requestStatusCheckObject.optString("use_wallet");
-                                            source_lat = requestStatusCheckObject.optString("s_latitude");
-                                            source_lng = requestStatusCheckObject.optString("s_longitude");
-                                            dest_lat = requestStatusCheckObject.optString("d_latitude");
-                                            dest_lng = requestStatusCheckObject.optString("d_longitude");
 
                                             if (!source_lat.equalsIgnoreCase("") &&
                                                     !source_lng.equalsIgnoreCase("")) {
@@ -3858,7 +3908,7 @@ public class HomeFragment extends Fragment implements
                                                         strTag = "";
                                                         imgSos.setVisibility(View.GONE);
                                                         break;
-                                                    case "ACCEPTED":
+                                                    /*case "ACCEPTED":
                                                         driveraccepted.setVisibility(View.VISIBLE);
                                                         driverArrived.setVisibility(View.GONE);
                                                         driverPicked.setVisibility(View.GONE);
@@ -3913,7 +3963,8 @@ public class HomeFragment extends Fragment implements
                                                         } catch (Exception e) {
                                                             e.printStackTrace();
                                                         }
-                                                        break;
+                                                        break;*/
+                                                    case "ACCEPTED":
                                                     case "STARTED":
                                                         strTag = "ride_started";
                                                         driveraccepted.setVisibility(View.VISIBLE);
@@ -4012,7 +4063,7 @@ public class HomeFragment extends Fragment implements
                                                             e.printStackTrace();
                                                         }
                                                         break;
-
+                                                    case "DROPPED":
                                                     case "PICKEDUP":
                                                         once = true;
                                                         driveraccepted.setVisibility(View.GONE);
@@ -4060,96 +4111,9 @@ public class HomeFragment extends Fragment implements
                                                         }
                                                         break;
 
-                                                    case "DROPPED":
-                                                        once = true;
-                                                        strTag = "";
-                                                        driveraccepted.setVisibility(View.GONE);
-                                                        driverArrived.setVisibility(View.GONE);
-                                                        driverPicked.setVisibility(View.GONE);
-                                                        driverCompleted.setVisibility(View.VISIBLE);
-                                                        txtdrivercompleted.setText("Trip completed");
-                                                        imgarrived.setImageResource(R.drawable.arriveddisable);
-                                                        imgPicked.setImageResource(R.drawable.pickeddisable);
-                                                        imgDropped.setImageResource(R.drawable.complete);
-                                                        layoutdriverstatus.setVisibility(View.VISIBLE);
-                                                        imgSos.setVisibility(View.VISIBLE);
-                                                        //imgShareRide.setVisibility(View.VISIBLE);
-                                                        try {
-                                                            JSONObject provider = requestStatusCheckObject.optJSONObject("provider");
-                                                            if (requestStatusCheckObject.optJSONObject("payment") != null) {
-                                                                JSONObject payment = requestStatusCheckObject.optJSONObject("payment");
-                                                                isPaid = requestStatusCheckObject.optString("paid");
-                                                                paymentMode = requestStatusCheckObject.optString("payment_mode");
-                                                                lblBasePrice.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("fixed"));
-                                                                lblTaxPrice.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("tax"));
-                                                                lblDistancePrice.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("distance"));
-                                                                //lblCommision.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("commision"));
-                                                                lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
-                                                                        + payment.optString("total"));
-
-                                                                promocode_id = payment.optString("promocode_id");
-                                                                fixed = payment.optString("fixed");
-                                                                commision = payment.optString("commision");
-                                                                discount = payment.optString("discount");
-                                                                tax = payment.optString("tax");
-                                                                surge = payment.optString("surge");
-                                                                total = payment.optString("total");
-
-                                                            }
-                                                            if (requestStatusCheckObject.optString("booking_id") != null &&
-                                                                    !requestStatusCheckObject.optString("booking_id").equalsIgnoreCase("")) {
-                                                                booking_id.setText(requestStatusCheckObject.optString("booking_id"));
-                                                                tvPaymentLabel.setText(SharedHelper.getKey(getActivity(), "first_name").split(",")[0] + " owes");
-                                                            } else {
-                                                                booking_id.setVisibility(View.GONE);
-                                                            }
-                                                            if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CASH")) {
-                                                                btnPayNow.setVisibility(View.GONE);
-                                                                flowValue = 5;
-                                                                layoutChanges();
-                                                                imgPaymentTypeInvoice.setImageResource(R.drawable.money1);
-                                                                lblPaymentTypeInvoice.setText("CASH");
-                                                            } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CASH")
-                                                                    && wallet.equalsIgnoreCase("1")) {
-                                                                btnPayNow.setVisibility(View.GONE);
-                                                                flowValue = 5;
-                                                                layoutChanges();
-                                                                imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                                lblPaymentTypeInvoice.setText("CASH AND WALLET");
-                                                            } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CARD")) {
-                                                                btnPayNow.setVisibility(View.VISIBLE);
-                                                                flowValue = 5;
-                                                                layoutChanges();
-                                                                imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                                lblPaymentTypeInvoice.setText("CARD");
-                                                            } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("PAYPAL")) {
-                                                                btnPayNow.setVisibility(View.VISIBLE);
-                                                                flowValue = 5;
-                                                                layoutChanges();
-                                                                imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                                lblPaymentTypeInvoice.setText("PAYPAL");
-                                                            } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("RAZORPAY")) {
-                                                                btnPayNow.setVisibility(View.VISIBLE);
-                                                                flowValue = 5;
-                                                                layoutChanges();
-                                                                imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                                lblPaymentTypeInvoice.setText("RAZORPAY");
-                                                            } else if (isPaid.equalsIgnoreCase("1")) {
-                                                                btnPayNow.setVisibility(View.GONE);
-                                                                lblProviderNameRate.setText(getString(R.string.rate_provider) + " " + provider.optString("first_name") + " " + provider.optString("last_name"));
-//                                                                lblProviderNameRate1.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
-                                                                if (provider.optString("avatar").startsWith("http"))
-                                                                    Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProvider);
-                                                                else
-                                                                    Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProvider);
-                                                                flowValue = 6;
-                                                                layoutChanges();
-                                                            }
-
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        break;
+                                                    //imgShareRide.setVisibility(View.VISIBLE);
+                                                    //lblCommision.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("commision"));
+                                                    //                                                                lblProviderNameRate1.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
 
                                                     case "COMPLETED":
                                                         strTag = "";
@@ -4216,7 +4180,7 @@ public class HomeFragment extends Fragment implements
                                             e.printStackTrace();
                                             Activity activity = getActivity();
                                             if (activity != null && isAdded()) {
-                                                utils.displayMessage(getView(), getString(R.string.something_went_wrong));
+                                                // utils.displayMessage(getView(), getString(R.string.something_went_wrong));
                                             }
                                         }
                                     } else if (PreviousStatus.equalsIgnoreCase("SEARCHING")) {
@@ -4259,6 +4223,7 @@ public class HomeFragment extends Fragment implements
                                         mapClear();
                                         mMap.setPadding(0, 0, 0, 0);
                                     }
+
                                 }, error -> {
                             Log.e("handleeError", error + "Error");
                             utils.print("CheckStatusError", error.toString());
@@ -4446,10 +4411,10 @@ public class HomeFragment extends Fragment implements
     }
 
     public void statusCheck() {
-        final LocationManager manager = (LocationManager) getActivity()
+        final LocationManager manager = (LocationManager) Objects.requireNonNull(getActivity())
                 .getSystemService(Context.LOCATION_SERVICE);
 
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (!Objects.requireNonNull(manager).isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             enableLoc();
         }
     }
@@ -4638,25 +4603,25 @@ public class HomeFragment extends Fragment implements
                 System.out.println("POSITION IS ssssssssssssssss 0 " +
                         SharedHelper.getKey(context, "estimated_fare"));
                 /* holder.serviceItemPrice.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));*/
-                getNewApproximateFare(String.valueOf(position + 1), holder.serviceItemPrice);
+                getNewApproximateFare(SharedHelper.getKey(context, "service_type"), holder.serviceItemPrice);
             }
             if (position == 1) {
                 System.out.println("POSITION IS ssssssssssssssss 1 " +
                         SharedHelper.getKey(context, "estimated_fare2"));
                 /*holder.serviceItemPrice.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare2"));*/
-                getNewApproximateFare(String.valueOf(position + 1), holder.serviceItemPrice);
+                getNewApproximateFare(SharedHelper.getKey(context, "service_type"), holder.serviceItemPrice);
             }
             if (position == 2) {
                 System.out.println("POSITION IS ssssssssssssssss 2 " +
                         SharedHelper.getKey(context, "estimated_fare3"));
                 /*holder.serviceItemPrice.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare2"));*/
-                getNewApproximateFare(String.valueOf(position + 1), holder.serviceItemPrice);
+                getNewApproximateFare(SharedHelper.getKey(context, "service_type"), holder.serviceItemPrice);
             }
             if (position == 3) {
                 System.out.println("POSITION IS ssssssssssssssss 3 " +
                         SharedHelper.getKey(context, "estimated_fare4"));
                 /*holder.serviceItemPrice.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare2"));*/
-                getNewApproximateFare(String.valueOf(9), holder.serviceItemPrice);
+                getNewApproximateFare(SharedHelper.getKey(context, "service_type"), holder.serviceItemPrice);
             }
 
             if (position == currentPostion) {
@@ -4760,12 +4725,18 @@ public class HomeFragment extends Fragment implements
 
     @Override
     public void onDestroy() {
-        PreviousStatus="";
-        handleCheckStatus.removeCallbacksAndMessages(null);
+        PreviousStatus = "";
+        handleCheckStatus.removeCallbacksAndMessages(runnableCheckStatus);
         if (mapRipple != null && mapRipple.isAnimationRunning()) {
             mapRipple.stopRippleMapAnimation();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        handleCheckStatus.removeCallbacks(runnableCheckStatus);
     }
 
     private void stopAnim() {
@@ -5112,7 +5083,7 @@ public class HomeFragment extends Fragment implements
 
 
         // Sensor enabled
-        String sensor = "sensor=false" + "&key=" + Objects.requireNonNull(getActivity()).getResources().getString(R.string.google_place_api);
+        String sensor = "sensor=false" + "&key=" + Objects.requireNonNull(getActivity()).getResources().getString(R.string.google_api_key);
 
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor;
@@ -5135,7 +5106,25 @@ public class HomeFragment extends Fragment implements
             wallet_balance = Double.parseDouble(SharedHelper.getKey(context, "wallet_balance"));
         }
 
-        handleCheckStatus.postDelayed(new Runnable() {
+        handleCheckStatus.post(runnableCheckStatus);
+        runnableCheckStatus = () -> {
+            if (helper.isConnectingToInternet()) {
+                if (!isAdded()) {
+                    return;
+                }
+                checkStatus();
+                utils.print("Handler", "Called");
+                if (alert != null && alert.isShowing()) {
+                    alert.dismiss();
+                    alert = null;
+                }
+            } else {
+                showDialog();
+            }
+            handleCheckStatus.postDelayed(runnableCheckStatus, 10000);
+        };
+
+        /*handleCheckStatus.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (helper.isConnectingToInternet()) {
@@ -5153,7 +5142,8 @@ public class HomeFragment extends Fragment implements
                 }
                 handleCheckStatus.postDelayed(this, 10000);
             }
-        }, 10000);
+        }, 10000);*/
+
 
         if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
             if (lineView != null && chkWallet != null) {

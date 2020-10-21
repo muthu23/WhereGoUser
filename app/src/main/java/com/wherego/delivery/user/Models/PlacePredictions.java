@@ -29,4 +29,68 @@ public class PlacePredictions implements Serializable{
 
     private ArrayList<PlaceAutoComplete> predictions;
 
+
+    public String getStrSourceLatitude() {
+        return strSourceLatitude;
+    }
+
+    public void setStrSourceLatitude(String strSourceLatitude) {
+        this.strSourceLatitude = strSourceLatitude;
+    }
+
+    public String getStrSourceLongitude() {
+        return strSourceLongitude;
+    }
+
+    public void setStrSourceLongitude(String strSourceLongitude) {
+        this.strSourceLongitude = strSourceLongitude;
+    }
+
+    public String getStrSourceLatLng() {
+        return strSourceLatLng;
+    }
+
+    public void setStrSourceLatLng(String strSourceLatLng) {
+        this.strSourceLatLng = strSourceLatLng;
+    }
+
+    public String getStrSourceAddress() {
+        return strSourceAddress;
+    }
+
+    public void setStrSourceAddress(String strSourceAddress) {
+        this.strSourceAddress = strSourceAddress;
+    }
+
+    public String getStrDestLatitude() {
+        return strDestLatitude;
+    }
+
+    public void setStrDestLatitude(String strDestLatitude) {
+        this.strDestLatitude = strDestLatitude;
+    }
+
+    public String getStrDestLongitude() {
+        return strDestLongitude;
+    }
+
+    public void setStrDestLongitude(String strDestLongitude) {
+        this.strDestLongitude = strDestLongitude;
+    }
+
+    public String getStrDestLatLng() {
+        return strDestLatLng;
+    }
+
+    public void setStrDestLatLng(String strDestLatLng) {
+        this.strDestLatLng = strDestLatLng;
+    }
+
+    public String getStrDestAddress() {
+        return strDestAddress;
+    }
+
+    public void setStrDestAddress(String strDestAddress) {
+        this.strDestAddress = strDestAddress;
+    }
 }

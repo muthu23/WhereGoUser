@@ -8,9 +8,18 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/_minus25sdp">
 
-        android:layout_marginBottom="@dimen/_minus25sdp"
-        android:background="@drawable/loginbg">
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/back_icon"
+
+            />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,10 +27,10 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="@dimen/_164sdp"
-                android:layout_height="@dimen/_110sdp"
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_250sdp"
                 android:src="@drawable/appicon"/>
 
 
@@ -58,7 +67,7 @@
                         android:layout_width="@dimen/_68sdp"
                         android:layout_height="wrap_content"
                         app:ccp_contentColor="@color/textColor"
-                        app:ccp_defaultNameCode="in"
+                        app:ccp_defaultNameCode="my"
                         app:ccp_showFlag="true"
                         app:ccp_showNameCode="false"
                         app:ccp_showPhoneCode="true"

@@ -232,11 +232,11 @@ public class FavouritePlaceSearch extends AppCompatActivity implements View.OnCl
                 Log.v("Latitude is", "" + queriedLocation.latitude);
                 Log.v("Longitude is", "" + queriedLocation.longitude);
 
-                placePredictions.strSourceAddress =txtaddressSource.getText().toString()+ "";
-                placePredictions.strSourceLatLng = place.getLatLng().toString()+ "";
-                placePredictions.strSourceLatitude = place.getLatLng().latitude + "";
-                placePredictions.strSourceLongitude = place.getLatLng().longitude + "";
-                txtaddressSource.setText(placePredictions.strSourceAddress);
+                placePredictions.setStrSourceAddress(txtaddressSource.getText().toString()+ "");
+                placePredictions.setStrSourceLatLng(place.getLatLng().toString()+ "");
+                placePredictions.setStrSourceLatitude(place.getLatLng().latitude + "");
+                placePredictions.setStrSourceLongitude(place.getLatLng().longitude + "");
+                txtaddressSource.setText(placePredictions.getStrSourceAddress());
                 saveLocationAddress(type, place.getLatLng().latitude + "", place.getLatLng().longitude + "",
                         place.getAddress().toString());
                 mAutoCompleteList.setVisibility(View.GONE);

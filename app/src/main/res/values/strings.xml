@@ -85,7 +85,7 @@
     <string name="sample_name">Will Smith</string>
     <string name="sample_service">BMW</string>
     <string name="call_btn">Call</string>
-    <string name="cancel_trip">Cancel Order</string>
+    <string name="cancel_trip">Cancel</string>
     <string name="surge_pricing">Due to peak hours, charges will be vary based on availability of providers</string>
 
 
@@ -292,4 +292,20 @@
     <string name="send_your_friends_n_refer_and_earn">Send your friends   refer and earn</string>
     <string name="share_the_app_love_and_give_friends_free_rides_to_try_app_worth_up_to_25_percent_each">Share the app love and give friends free rides to try app, worth up to 25 percent each!</string>
     <string name="share_your_invite_code">Share your invite code</string>
+    <string name="alert">Are you sure want to remove this location ?</string>
+    <string name="empty_goods" translatable="false">Description required</string>
+    <string name="empty_dest" translatable="false">Destination address required</string>
+    <string name="what_are_moving_for_u" translatable="false">Let us deliver it for you</string>
+    <string name="source_dest_not_same">Source and Destination address should not be same!</string>
+    <string name="enter_loc" translatable="false">Enter location</string>
+    <string name="home_location">Home</string>
+    <string name="delete">Delete</string>
+    <string name="add_home_location">Add Home</string>
+    <string name="work_location">Work</string>
+    <string name="add_work_location">Add Work</string>
+    <string name="save_location">Saved places</string>
+    <string name="enter_your_goods" translatable="false">What are you sending?</string>
+    <string name="cancel" translatable="false">Cancel</string>
+    <string name="ok" translatable="false">Ok</string>
+
 </resources>

@@ -2144,11 +2144,12 @@
                         android:gravity="center"
                       />
 
-                    <ImageView
+                    <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/mapfocus"
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_25sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:src="@drawable/screenlogo"
 
@@ -2347,7 +2348,6 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="center|start"
-
                                             android:orientation="vertical"
                                             >
 
@@ -2370,7 +2370,6 @@
                                                 android:paddingTop="@dimen/_5sdp"
                                                 android:gravity="center_vertical"
                                                 android:maxLines="1"
-
                                                 android:textColorHint="@color/white"
                                                 android:hint="Enter Delivery Location"
                                                 android:paddingStart="@dimen/_5sdp"
