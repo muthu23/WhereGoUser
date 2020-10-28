@@ -3811,8 +3811,8 @@ public class HomeFragment extends Fragment implements
 
                                             }
 
-                                            if (requestStatusCheckObject.optJSONObject("item") != null) {
-                                                itemObject = requestStatusCheckObject.optJSONObject("item");
+                                            if (response.optJSONObject("item") != null) {
+                                                itemObject = response.optJSONObject("item");
                                             }
 
                                             String status = "";
