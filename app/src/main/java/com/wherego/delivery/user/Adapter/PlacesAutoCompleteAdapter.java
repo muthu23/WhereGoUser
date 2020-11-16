@@ -113,7 +113,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
                 //.setLocationBias(bounds)
                 //.setLocationBias(mBounds)
                 //.setTypeFilter(TypeFilter.ADDRESS)
-//                .setCountry("BR")
+                .setCountry("MY")
                 .setSessionToken(token)
                 .setQuery(constraint.toString())
                 .build();

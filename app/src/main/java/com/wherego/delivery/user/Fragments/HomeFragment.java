@@ -150,6 +150,7 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class HomeFragment extends Fragment implements
     String ip_address = "";
 
     Boolean favourite = false;
-
+    NumberFormat format = new DecimalFormat("#.##");
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -486,10 +487,27 @@ public class HomeFragment extends Fragment implements
         }
         Locale defaultLocale = Locale.getDefault();
         displayCurrencyInfoForLocale(defaultLocale);
-
+        showPaymentDialog();
 
         return rootView;
     }
+
+
+    public void showPaymentDialog() {
+        AlertDialog alertDialog;
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle(context.getResources().getString(R.string.app_name));
+        alert.setIcon(R.mipmap.ic_launcher);
+        View custom = LayoutInflater.from(context).inflate(R.layout.custom_payment_info, null);
+        final Button btnok = custom.findViewById(R.id.btnOkay);
+        alertDialog = alert.create();
+        alertDialog.show();
+        btnok.setOnClickListener(v -> {
+            alertDialog.cancel();
+        });
+
+    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -808,7 +826,7 @@ public class HomeFragment extends Fragment implements
         });
 
         View googleLogo = rootView.findViewWithTag("GoogleWatermark");
-        RelativeLayout.LayoutParams glLayoutParams = (RelativeLayout.LayoutParams)googleLogo.getLayoutParams();
+        RelativeLayout.LayoutParams glLayoutParams = (RelativeLayout.LayoutParams) googleLogo.getLayoutParams();
         glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
         glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
         glLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, 0);
@@ -1075,6 +1093,7 @@ public class HomeFragment extends Fragment implements
                         payNow();
 
                     } else if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase("PAYPAL")) {
+
                         Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
                         //   confirmFinalPayment(lblTotalPrice.getText().toString());
 //       payNowCard();
@@ -1886,7 +1905,7 @@ public class HomeFragment extends Fragment implements
                                     String stringPrice = response.optString("estimated_fare");
                                     float floatPrice = Float.parseFloat(stringPrice);
                                     int intPrice = Math.round(floatPrice);
-                                    SharedHelper.putKey(context, "estimated_fare", String.valueOf(intPrice));
+                                    SharedHelper.putKey(context, "estimated_fare", format.format(floatPrice));
 
 //                                    SharedHelper.putKey(context, "estimated_fare",
 //                                            response.optString("estimated_fare"));
@@ -2958,7 +2977,7 @@ public class HomeFragment extends Fragment implements
                                     String stringPrice = response.optString("estimated_fare");
                                     float floatPrice = Float.parseFloat(stringPrice);
                                     int intPrice = Math.round(floatPrice);
-                                    SharedHelper.putKey(context, "estimated_fare", String.valueOf(intPrice));
+                                    SharedHelper.putKey(context, "estimated_fare", format.format(floatPrice));
 
                                     SharedHelper.putKey(context, "distance", response.optString("distance"));
                                     SharedHelper.putKey(context, "eta_time", response.optString("time"));
@@ -3463,9 +3482,10 @@ public class HomeFragment extends Fragment implements
                                     response.statusCode == 405 ||
                                     response.statusCode == 500) {
                                 try {
-                                    if(errorObj.optString("message").isEmpty())
-                                    utils.displayMessage(getView(), errorObj.optString("message"));
-                                    else utils.displayMessage(getView(), errorObj.optString("error"));
+                                    if (errorObj.optString("message").isEmpty())
+                                        utils.displayMessage(getView(), errorObj.optString("message"));
+                                    else
+                                        utils.displayMessage(getView(), errorObj.optString("error"));
                                 } catch (Exception e) {
 
                                     utils.displayMessage(getView(), getString(R.string.something_went_wrong));
@@ -3840,7 +3860,6 @@ public class HomeFragment extends Fragment implements
                                                     }
 
 
-
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -4127,9 +4146,12 @@ public class HomeFragment extends Fragment implements
                                                                         + payment.optString("tax"));
                                                                 lblDistancePrice.setText(SharedHelper.getKey(context, "currency") + ""
                                                                         + payment.optString("distance"));
+                                                                float mTotel = Float.parseFloat(payment.optString("total"));
                                                                 lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
-                                                                        + payment.optString("total"));
+                                                                        + format.format(mTotel));
                                                             }
+
+
                                                             JSONObject provider = requestStatusCheckObject.optJSONObject("provider");
                                                             isPaid = requestStatusCheckObject.optString("paid");
                                                             paymentMode = requestStatusCheckObject.optString("payment_mode");

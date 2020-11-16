@@ -11,17 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -41,21 +37,26 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.nguyenhoanglam.imagepicker.model.Image;
 import com.wherego.delivery.user.Adapter.ImageAdapter;
-import com.wherego.delivery.user.MyCourier;
-import com.wherego.delivery.user.R;
 import com.wherego.delivery.user.Helper.ConnectionHelper;
 import com.wherego.delivery.user.Helper.CustomDialog;
 import com.wherego.delivery.user.Helper.SharedHelper;
 import com.wherego.delivery.user.Helper.URLHelper;
 import com.wherego.delivery.user.Models.Driver;
+import com.wherego.delivery.user.MyCourier;
+import com.wherego.delivery.user.R;
 import com.wherego.delivery.user.Utils.MyBoldTextView;
-import com.nguyenhoanglam.imagepicker.model.Image;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,17 +97,19 @@ public class HistoryDetails extends AppCompatActivity {
     ImageView backArrow;
     LinearLayout parentLayout;
     LinearLayout profileLayout;
-    TextView tvLostItem,tvSupportItem;
-    LinearLayout lnrInvoice, lnrInvoiceSub,lnrHelp,lnrHelpSub;
+    TextView tvLostItem, tvSupportItem;
+    LinearLayout lnrInvoice, lnrInvoiceSub, lnrHelp, lnrHelpSub;
     String tag = "";
     MaterialButton btnCancelRide;
     Driver driver;
     String reason = "";
     String trip_id = "";
     LinearLayout layoutInfo;
-    Button btnViewInvoice, btnViewHelp ;
+    Button btnViewInvoice, btnViewHelp;
     MaterialButton btnCall;
+    NumberFormat format = new DecimalFormat("#.##");
     JSONObject itemObject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,10 +166,10 @@ public class HistoryDetails extends AppCompatActivity {
         isInternet = helper.isConnectingToInternet();
         parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
         profileLayout = (LinearLayout) findViewById(R.id.profile_detail_layout);
-        lnrInvoice =  findViewById(R.id.lnrInvoice);
+        lnrInvoice = findViewById(R.id.lnrInvoice);
         lnrHelp = findViewById(R.id.lnrHelp);
-        lnrInvoiceSub =  findViewById(R.id.lnrInvoiceSub);
-        lnrHelpSub=  findViewById(R.id.lnrHelpSub);
+        lnrInvoiceSub = findViewById(R.id.lnrInvoiceSub);
+        lnrHelpSub = findViewById(R.id.lnrHelpSub);
 
         parentLayout.setVisibility(View.GONE);
         backArrow = (ImageView) findViewById(R.id.backArrow);
@@ -188,7 +191,7 @@ public class HistoryDetails extends AppCompatActivity {
         lblDistancePrice = (MyBoldTextView) findViewById(R.id.lblDistancePrice);
         lblTotalPrice = (MyBoldTextView) findViewById(R.id.lblTotalPrice);
         lblTitle = (MyBoldTextView) findViewById(R.id.lblTitle);
-        btnCancelRide =  findViewById(R.id.btnCancelRide);
+        btnCancelRide = findViewById(R.id.btnCancelRide);
         sourceAndDestinationLayout = (LinearLayout) findViewById(R.id.sourceAndDestinationLayout);
         lnrComments = (LinearLayout) findViewById(R.id.lnrComments);
         viewLayout = (View) findViewById(R.id.ViewLayout);
@@ -197,8 +200,8 @@ public class HistoryDetails extends AppCompatActivity {
         btnViewInvoice = (Button) findViewById(R.id.btnViewInvoice);
         btnCall = findViewById(R.id.btnCall);
         btnViewHelp = findViewById(R.id.btnViewHelp);
-        tvLostItem  = findViewById(R.id.tvLostItem);
-        tvSupportItem  = findViewById(R.id.tvSupportItem);
+        tvLostItem = findViewById(R.id.tvLostItem);
+        tvSupportItem = findViewById(R.id.tvSupportItem);
         btnCancelRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,12 +248,12 @@ public class HistoryDetails extends AppCompatActivity {
             }
         });
 
-        tvSupportItem.setOnClickListener(v -> startActivity(new Intent(HistoryDetails.this,ActivityHelp.class)));
+        tvSupportItem.setOnClickListener(v -> startActivity(new Intent(HistoryDetails.this, ActivityHelp.class)));
         tvLostItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent lostIntent = new Intent(HistoryDetails.this,LostItem.class);
-                lostIntent.putExtra("trip_id",trip_id);
+                Intent lostIntent = new Intent(HistoryDetails.this, LostItem.class);
+                lostIntent.putExtra("trip_id", trip_id);
                 startActivity(lostIntent);
             }
         });
@@ -269,18 +272,18 @@ public class HistoryDetails extends AppCompatActivity {
         layoutInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog =new BottomSheetDialog(HistoryDetails.this);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(HistoryDetails.this);
                 bottomSheetDialog.setContentView(R.layout.courier_info);
                 bottomSheetDialog.show();
                 ArrayList<Image> images = new ArrayList<>();
                 ImageView imgClose = bottomSheetDialog.findViewById(R.id.imgClose);
-                TextView tvParcelname  = bottomSheetDialog.findViewById(R.id.tvParcelname);
-                TextView tvParcelQty  = bottomSheetDialog.findViewById(R.id.tvParcelQty);
-                TextView tvParcelWeight  = bottomSheetDialog.findViewById(R.id.tvParcelWeight);
-                TextView tvReceiverName  = bottomSheetDialog.findViewById(R.id.tvReceiverName);
-                TextView tvReceiverEmail  = bottomSheetDialog.findViewById(R.id.tvReceiverEmail);
-                TextView tvreceiverMobile  = bottomSheetDialog.findViewById(R.id.tvreceiverMobile);
-                TextView tvReceiverAddress  = bottomSheetDialog.findViewById(R.id.tvReceiverAddress);
+                TextView tvParcelname = bottomSheetDialog.findViewById(R.id.tvParcelname);
+                TextView tvParcelQty = bottomSheetDialog.findViewById(R.id.tvParcelQty);
+                TextView tvParcelWeight = bottomSheetDialog.findViewById(R.id.tvParcelWeight);
+                TextView tvReceiverName = bottomSheetDialog.findViewById(R.id.tvReceiverName);
+                TextView tvReceiverEmail = bottomSheetDialog.findViewById(R.id.tvReceiverEmail);
+                TextView tvreceiverMobile = bottomSheetDialog.findViewById(R.id.tvreceiverMobile);
+                TextView tvReceiverAddress = bottomSheetDialog.findViewById(R.id.tvReceiverAddress);
                 ImageView imgCourier = bottomSheetDialog.findViewById(R.id.imgCourier);
                 TextView tvTitle = bottomSheetDialog.findViewById(R.id.tvTitle);
                 TextView tvname = bottomSheetDialog.findViewById(R.id.tvname);
@@ -288,32 +291,29 @@ public class HistoryDetails extends AppCompatActivity {
                 TextView tvQuantity = bottomSheetDialog.findViewById(R.id.tvQuantity);
                 LinearLayout layoutSign = bottomSheetDialog.findViewById(R.id.layoutSign);
                 ImageView imgSign = bottomSheetDialog.findViewById(R.id.imgSign);
-               RecyclerView recyclerView  = bottomSheetDialog.findViewById(R.id.recyclerView);
-                ImageAdapter  adapter = new ImageAdapter(HistoryDetails.this);
+                RecyclerView recyclerView = bottomSheetDialog.findViewById(R.id.recyclerView);
+                ImageAdapter adapter = new ImageAdapter(HistoryDetails.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(HistoryDetails.this, LinearLayoutManager.HORIZONTAL, false);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
-                if (itemObject!=null)
-                {
+                if (itemObject != null) {
 
-                    tvTitle.setText(itemObject.optString("document_type") +"  Info");
-                    tvname.setText(itemObject.optString("document_type") +"  Name");
-                    tvWeight.setText(itemObject.optString("document_type") +"  Weight");
-                    tvQuantity.setText(itemObject.optString("document_type") +"  Quantity");
+                    tvTitle.setText(itemObject.optString("document_type") + "  Info");
+                    tvname.setText(itemObject.optString("document_type") + "  Name");
+                    tvWeight.setText(itemObject.optString("document_type") + "  Weight");
+                    tvQuantity.setText(itemObject.optString("document_type") + "  Quantity");
                     tvParcelname.setText(itemObject.optString("name"));
-                    tvParcelQty.setText(itemObject.optString("qty")+" Pcs");
-                    tvParcelWeight.setText(itemObject.optString("weight")+ " Gm");
+                    tvParcelQty.setText(itemObject.optString("qty") + " Pcs");
+                    tvParcelWeight.setText(itemObject.optString("weight") + " Gm");
                     tvReceiverName.setText(itemObject.optString("rec_name"));
                     tvReceiverEmail.setText(itemObject.optString("rec_email"));
                     tvreceiverMobile.setText(itemObject.optString("rec_mobile"));
                     tvReceiverAddress.setText(itemObject.optString("rec_address"));
-                    if (itemObject.optJSONArray("item_image")!=null)
-                    {
-                        for (int k =0; k<itemObject.optJSONArray("item_image").length();k++)
-                        {
-                            String imagePath =URLHelper.base+itemObject.optJSONArray("item_image")
+                    if (itemObject.optJSONArray("item_image") != null) {
+                        for (int k = 0; k < itemObject.optJSONArray("item_image").length(); k++) {
+                            String imagePath = URLHelper.base + itemObject.optJSONArray("item_image")
                                     .optJSONObject(k).optString("image_path");
-                            Image image = new Image(k,"a",imagePath);
+                            Image image = new Image(k, "a", imagePath);
                             images.add(image);
                         }
                         adapter.setData(images);
@@ -337,7 +337,7 @@ public class HistoryDetails extends AppCompatActivity {
                     }
                 });
 
-                if (signature!=""&&signature!=null) {
+                if (signature != "" && signature != null) {
                     layoutSign.setVisibility(View.VISIBLE);
                     byte[] decodedString = Base64.decode(signature, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -348,7 +348,8 @@ public class HistoryDetails extends AppCompatActivity {
 
 
     }
-    String signature ="";
+
+    String signature = "";
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -378,7 +379,7 @@ public class HistoryDetails extends AppCompatActivity {
 
     private void showreasonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
         final EditText reasonEtxt = (EditText) view.findViewById(R.id.reason_etxt);
         Button submitBtn = (Button) view.findViewById(R.id.submit_btn);
         builder.setIcon(R.mipmap.ic_launcher)
@@ -401,15 +402,14 @@ public class HistoryDetails extends AppCompatActivity {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLHelper.GET_HISTORY_DETAILS_API + "?request_id=" + jsonObject.optString("id"), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 
-                if (response.optJSONObject(0).optJSONObject("item")!=null)
-                {
-                    itemObject =response.optJSONObject(0).optJSONObject("item");
+                if (response.optJSONObject(0).optJSONObject("item") != null) {
+                    itemObject = response.optJSONObject(0).optJSONObject("item");
                 }
                 Log.v("GetPaymentList", response.toString());
                 if (response != null && response.length() > 0) {
@@ -430,8 +430,8 @@ public class HistoryDetails extends AppCompatActivity {
                                 !response.optJSONObject(0).optString("booking_id").equalsIgnoreCase("")) {
                             booking_id.setText(response.optJSONObject(0).optString("booking_id"));
                             lblBookingID.setText(response.optJSONObject(0).optString("booking_id"));
-                            trip_id =response.optJSONObject(0).optString("id");
-                            signature =response.optJSONObject(0).optString("signature");
+                            trip_id = response.optJSONObject(0).optString("id");
+                            signature = response.optJSONObject(0).optString("signature");
                         }
                         String form;
                         if (tag.equalsIgnoreCase("past_trips")) {
@@ -441,7 +441,11 @@ public class HistoryDetails extends AppCompatActivity {
                         }
                         if (response.optJSONObject(0).optJSONObject("payment") != null && response.optJSONObject(0).optJSONObject("payment").optString("total") != null &&
                                 !response.optJSONObject(0).optJSONObject("payment").optString("total").equalsIgnoreCase("")) {
-                            tripAmount.setText(SharedHelper.getKey(context, "currency") + "" + response.optJSONObject(0).optJSONObject("payment").optString("total"));
+
+                            String stringPrice = response.optJSONObject(0).optJSONObject("payment").optString("total");
+                            float floatPrice = Float.parseFloat(stringPrice);
+
+                            tripAmount.setText(SharedHelper.getKey(context, "currency") + "" + format.format(floatPrice));
                             response.optJSONObject(0).optJSONObject("payment");
                             lblBasePrice.setText((SharedHelper.getKey(context, "currency") + ""
                                     + response.optJSONObject(0).optJSONObject("payment").optString("fixed")));
@@ -467,7 +471,7 @@ public class HistoryDetails extends AppCompatActivity {
                         } else {
                             paymentTypeImg.setImageResource(R.drawable.visa);
                         }
-                        Glide.with(activity).load(URLHelper.base  + response.optJSONObject(0).optJSONObject("provider").optString("avatar"))
+                        Glide.with(activity).load(URLHelper.base + response.optJSONObject(0).optJSONObject("provider").optString("avatar"))
                                 .placeholder(R.drawable.loading).error(R.drawable.user).dontAnimate().into(tripProviderImg);
                         if (response.optJSONObject(0).optJSONObject("rating") != null &&
                                 !response.optJSONObject(0).optJSONObject("rating").optString("provider_comment").equalsIgnoreCase("")) {
@@ -492,16 +496,16 @@ public class HistoryDetails extends AppCompatActivity {
 
                     }
                 }
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 parentLayout.setVisibility(View.VISIBLE);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -563,7 +567,7 @@ public class HistoryDetails extends AppCompatActivity {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLHelper.UPCOMING_TRIP_DETAILS + "?request_id=" + jsonObject.optString("id"), new Response.Listener<JSONArray>() {
             @Override
@@ -572,9 +576,8 @@ public class HistoryDetails extends AppCompatActivity {
                 Log.v("GetPaymentList", response.toString());
                 if (response != null && response.length() > 0) {
                     if (response.optJSONObject(0) != null) {
-                        if (response.optJSONObject(0).optJSONObject("item")!=null)
-                        {
-                            itemObject =response.optJSONObject(0).optJSONObject("item");
+                        if (response.optJSONObject(0).optJSONObject("item") != null) {
+                            itemObject = response.optJSONObject(0).optJSONObject("item");
                         }
                         Glide.with(activity).load(response.optJSONObject(0).optString("static_map")).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(tripImg);
 //                    tripDate.setText(response.optJSONObject(0).optString("assigned_at"));
@@ -584,7 +587,7 @@ public class HistoryDetails extends AppCompatActivity {
                         if (response.optJSONObject(0).optString("booking_id") != null &&
                                 !response.optJSONObject(0).optString("booking_id").equalsIgnoreCase("")) {
                             booking_id.setText(response.optJSONObject(0).optString("booking_id"));
-                            signature =response.optJSONObject(0).optString("signature");
+                            signature = response.optJSONObject(0).optString("signature");
                         }
                         if (providerObj != null) {
                             driver = new Driver();
@@ -625,11 +628,13 @@ public class HistoryDetails extends AppCompatActivity {
                             if (serviceObj != null) {
 //                            holder.car_name.setText(serviceObj.optString("name"));
                                 if (tag.equalsIgnoreCase("past_trips")) {
-                                    tripAmount.setText(SharedHelper.getKey(context, "currency") + serviceObj.optString("price"));
+                                    String stringPrice = serviceObj.optString("price");
+                                    float floatPrice = Float.parseFloat(stringPrice);
+                                    tripAmount.setText(SharedHelper.getKey(context, "currency") + format.format(floatPrice));
                                 } else {
                                     tripAmount.setVisibility(View.GONE);
                                 }
-                                Glide.with(activity).load(URLHelper.base+serviceObj.optString("image"))
+                                Glide.with(activity).load(URLHelper.base + serviceObj.optString("image"))
                                         .placeholder(R.drawable.loading).error(R.drawable.user)
                                         .dontAnimate().into(tripProviderImg);
                             }
@@ -648,8 +653,8 @@ public class HistoryDetails extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -707,7 +712,6 @@ public class HistoryDetails extends AppCompatActivity {
     }
 
 
-
     private void refreshAccessToken(final String tag) {
 
 
@@ -731,11 +735,11 @@ public class HistoryDetails extends AppCompatActivity {
                 SharedHelper.putKey(context, "access_token", response.optString("access_token"));
                 SharedHelper.putKey(context, "refresh_token", response.optString("refresh_token"));
                 SharedHelper.putKey(context, "token_type", response.optString("token_type"));
-                if(tag.equalsIgnoreCase("PAST_TRIPS")){
+                if (tag.equalsIgnoreCase("PAST_TRIPS")) {
                     getRequestDetails();
-                }else if(tag.equalsIgnoreCase("UPCOMING_TRIPS")){
+                } else if (tag.equalsIgnoreCase("UPCOMING_TRIPS")) {
                     getUpcomingDetails();
-                }else if(tag.equalsIgnoreCase("CANCEL_REQUEST")){
+                } else if (tag.equalsIgnoreCase("CANCEL_REQUEST")) {
                     cancelRequest();
                 }
             }
@@ -778,9 +782,9 @@ public class HistoryDetails extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (lnrInvoice.getVisibility() == View.VISIBLE){
+        if (lnrInvoice.getVisibility() == View.VISIBLE) {
             lnrInvoice.setVisibility(View.GONE);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -790,11 +794,11 @@ public class HistoryDetails extends AppCompatActivity {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
         JSONObject object = new JSONObject();
         try {
             object.put("request_id", jsonObject.optString("id"));
-            object.put("cancel_reason",reason);
+            object.put("cancel_reason", reason);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -802,15 +806,15 @@ public class HistoryDetails extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.v("CancelRequestResponse", response.toString());
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -869,14 +873,16 @@ public class HistoryDetails extends AppCompatActivity {
         String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
         return monthName;
     }
-    private String getDate(String date) throws ParseException{
+
+    private String getDate(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String dateName = new SimpleDateFormat("dd").format(cal.getTime());
         return dateName;
     }
-    private String getYear(String date) throws ParseException{
+
+    private String getYear(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);

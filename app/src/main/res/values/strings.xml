@@ -307,5 +307,11 @@
     <string name="enter_your_goods" translatable="false">What are you sending?</string>
     <string name="cancel" translatable="false">Cancel</string>
     <string name="ok" translatable="false">Ok</string>
+    <string name="payment_info">Dear valued customer,
+WHEREGO would only accept delivery charges via ONLINE transaction.
+        Please avoid  cash payment to our riders. Thank you.</string>
+    <string name="payment_acc_info">Company Name: WhereGo Cab Sdn Bhd
+        Account No : 512316644591
+        Maybank</string>
 
 </resources>

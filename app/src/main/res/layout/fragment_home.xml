@@ -317,7 +317,7 @@
                                 android:layout_weight="1"
                                 android:gravity="start"
                                 android:maxLines="1"
-                                android:text="Cost"
+                                android:text="Base Fare"
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -346,7 +346,7 @@
                                 android:layout_weight="1"
                                 android:gravity="start|center"
                                 android:maxLines="1"
-                                android:text="Per Km"
+                                android:text="Cost Per Km"
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -396,6 +396,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
+                            android:visibility="gone"
                             android:orientation="horizontal">
 
                             <com.wherego.delivery.user.Utils.MyBoldTextView
@@ -474,6 +475,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:lineSpacingMultiplier="1.3"
                         android:text="The fare will be the price presented upon booking, or, if the journey changes, the fare will be based on the rates provided. Tap fare for details."
                         android:textSize="@dimen/_10sdp" />
