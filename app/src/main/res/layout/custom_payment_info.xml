@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_height="@dimen/_250sdp"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:paddingTop="@dimen/_5sdp"
         android:text="@string/payment_info"
         android:textColor="@color/black"
-        android:textSize="@dimen/_16sdp"
+        android:textSize="@dimen/_12sdp"
         android:textStyle="bold"
         tools:ignore="TextViewEdits" />
 
@@ -26,9 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
+        android:autoLink="phone"
         android:gravity="start"
         android:inputType="textMultiLine"
-        android:autoLink="phone"
         android:paddingLeft="@dimen/_10sdp"
         android:paddingTop="@dimen/_10sdp"
         android:text="@string/payment_acc_info"
@@ -42,72 +42,80 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
+        android:orientation="horizontal"
         android:padding="@dimen/_5sdp">
+
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:text="Compaly Name : "
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
+
         <TextView
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="WhereGo Cab Sdn Bhd"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
+        android:orientation="horizontal"
         android:padding="@dimen/_5sdp">
+
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:text="Account No :"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
+
         <TextView
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoLink="all"
             android:text="512316644591"
             android:textColor="@color/black"
-            android:autoLink="all"
-            android:textStyle="bold"
-            android:textSize="@dimen/_14sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
+        android:orientation="horizontal"
         android:padding="@dimen/_5sdp">
+
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:text="Bank :"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
+
         <TextView
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Maybank"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14sdp"/>
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Button
@@ -119,6 +127,6 @@
         android:drawableStart="@drawable/right_arrow_new"
         android:text="@string/ok"
         android:textColor="@color/white"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/_10sdp" />
 
 </LinearLayout>

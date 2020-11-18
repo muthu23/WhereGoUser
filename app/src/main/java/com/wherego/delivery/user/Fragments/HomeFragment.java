@@ -498,14 +498,25 @@ public class HomeFragment extends Fragment implements
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle(context.getResources().getString(R.string.app_name));
         alert.setIcon(R.mipmap.ic_launcher);
+        alert.setCancelable(false);
         View custom = LayoutInflater.from(context).inflate(R.layout.custom_payment_info, null);
+        alert.setView(custom);
         final Button btnok = custom.findViewById(R.id.btnOkay);
         alertDialog = alert.create();
-        alertDialog.show();
+
         btnok.setOnClickListener(v -> {
             alertDialog.cancel();
         });
 
+       /* Rect displayRectangle = new Rect();
+        Window window = getActivity().getWindow();
+
+        window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+
+        alertDialog.getWindow().setLayout((int)(displayRectangle.width() *
+                0.8f), (int)(displayRectangle.height() * 0.8f));*/
+
+        alertDialog.show();
     }
 
 
@@ -3896,7 +3907,8 @@ public class HomeFragment extends Fragment implements
                                             utils.print("PreviousStatus", "" + PreviousStatus);
 
                                             if (!PreviousStatus.equals(status)) {
-                                                mMap.clear();
+                                                if (mMap != null)
+                                                    mMap.clear();
                                                 PreviousStatus = status;
                                                 flowValue = 8;
                                                 layoutChanges();
@@ -4312,9 +4324,12 @@ public class HomeFragment extends Fragment implements
 
             utils.print("LatLng", "Source:" + sourceLatLng + " Destination: " + destLatLng);
             //String url = getDirectionsUrl(sourceLatLng, destLatLng);
-            String url = getUrl(sourceLatLng.latitude, sourceLatLng.longitude, destLatLng.latitude, destLatLng.longitude);
-            FetchUrl fetchUrl = new FetchUrl();
-            fetchUrl.execute(url);
+            String url = "";
+            if (sourceLatLng != null && destLatLng!= null) {
+                url = getUrl(sourceLatLng.latitude, sourceLatLng.longitude, destLatLng.latitude, destLatLng.longitude);
+                FetchUrl fetchUrl = new FetchUrl();
+                fetchUrl.execute(url);
+            }
         }
     }
 
@@ -4684,9 +4699,9 @@ public class HomeFragment extends Fragment implements
                     Log.e("position", position + "position");
                     try {
                         lnrHidePopup.setVisibility(View.VISIBLE);
-                        showProviderPopup(jsonArray.getJSONObject(position));
+                     //   showProviderPopup(jsonArray.getJSONObject(position));
 
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
