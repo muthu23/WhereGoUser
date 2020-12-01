@@ -219,7 +219,7 @@ public class UplaodImage extends AppCompatActivity implements BitmapCompletion {
         tvCourierDetails.setText(CourierType + " Details");
         tl_name.setHint(CourierType + " Name");
         tl_quantity.setHint(CourierType + " Quantity");
-        tl_weight.setHint(CourierType + " Weight(GM)");
+        tl_weight.setHint(CourierType + " Weight(KG)");
         tvSize.setText(CourierType + " Size");
 
 

@@ -10,7 +10,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/_196sdp"
-        android:layout_marginBottom="@dimen/_48sdp"
+        android:layout_marginBottom="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_10sdp"
         app:contentPadding="@dimen/_7sdp"
         app:cardBackgroundColor="@color/colorPrimary"
@@ -63,7 +63,7 @@
         android:layout_height="@dimen/_44sdp"
         android:backgroundTint="@color/colorButton"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="Complete"
+        android:text="Pay now"
         android:textSize="@dimen/_14sdp"
         android:textColor="@color/white"
         android:drawableStart="@drawable/right_arrow_new"

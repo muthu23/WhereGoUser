@@ -676,8 +676,11 @@ public class CustomGooglePlacesSearch extends AppCompatActivity implements Place
             CameraPosition cameraPosition = mGoogleMap.getCameraPosition();
             if (isEnableIdle) {
                 rvLocation.setVisibility(View.GONE);
-                String address = getAddress(cameraPosition.target);
-                System.out.println("onCameraIdle " + address);
+                runOnUiThread(() -> {
+                     address = getAddress(cameraPosition.target);
+                    System.out.println("onCameraIdle " + address);
+                });
+
                 isMapKeyShow = true;
                 if (isMapKeyShow) hideKeyboard();
                 else showKeyboard();

@@ -16,12 +16,12 @@ android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/backArrow"
-        android:layout_width="@dimen/_24sdp"
-        android:layout_height="@dimen/_32sdp"
-        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_gravity="center"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-
+        android:tint="@color/black"
         android:src="@drawable/back_icon" />
 
     <TextView

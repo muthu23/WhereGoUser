@@ -77,7 +77,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
     TextView empty_text;
     Utilities utils = new Utilities();
     JSONObject deleteCard = new JSONObject();
-    RadioButton chkPayPal,chkRazorPay;
+    RadioButton chkMolPay,chkRazorPay;
     CardView cashLayout;
     LinearLayout payPal_layout,wallet_layout,razor_layout;
     LinearLayout layoutStripe;
@@ -341,6 +341,10 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
             public void onErrorResponse(VolleyError error) {
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
+                layoutStripe.setVisibility(View.GONE);
+                payment_list_view.setVisibility(View.GONE);
+
+
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -509,7 +513,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
         tvWalletAmt =  findViewById(R.id.tvWalletAmt);
         tvaddAmt = findViewById(R.id.tvaddAmt);
         layoutStripe = findViewById(R.id.layoutStripe);
-        chkPayPal = findViewById(R.id.chkPayPal);
+        chkMolPay = findViewById(R.id.chkmolpay);
         chkRazorPay = findViewById(R.id.chkRazorPay);
         backArrow = (ImageView) findViewById(R.id.backArrow);
         addCard =  findViewById(R.id.addCard);
@@ -527,13 +531,14 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
         payPal_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedHelper.putKey(Payment.this,"selectedPaymentMode","PAYPAL");
+                SharedHelper.putKey(Payment.this,"selectedPaymentMode","MOLPAY");
                 CardInfo cardInfo=new CardInfo();
-                cardInfo.setLastFour("PAYPAL");
+                cardInfo.setLastFour("MOLPAY");
                 Intent intent=new Intent();
                 intent.putExtra("card_info",cardInfo);
                 setResult(RESULT_OK,intent);
                 finish();
+
             }
         });
 
@@ -556,23 +561,20 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
 
         }
         else if (SharedHelper.getKey(Payment.this,"selectedPaymentMode")
-                .equalsIgnoreCase("PAYPAL"))
+                .equalsIgnoreCase("MOLPAY"))
         {
 
 
-            chkPayPal.setChecked(true);
+            chkMolPay.setChecked(true);
         }
         else if (SharedHelper.getKey(Payment.this,"selectedPaymentMode")
-                .equalsIgnoreCase("RAZORPAY"))
-        {
-
-
+                .equalsIgnoreCase("RAZORPAY")) {
             chkRazorPay.setChecked(true);
         }
         else {
 
         }
-        chkPayPal.setOnCheckedChangeListener(this);
+        chkMolPay.setOnCheckedChangeListener(this);
         chkRazorPay.setOnCheckedChangeListener(this);
         getBalance();
         tvaddAmt.setOnClickListener(v -> startActivity(new Intent(Payment.this,ActivityWallet.class)));
@@ -689,11 +691,11 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView.getId()==R.id.chkPayPal)
+        if (buttonView.getId()==R.id.chkmolpay)
         {
-            SharedHelper.putKey(Payment.this,"selectedPaymentMode","PAYPAL");
+            SharedHelper.putKey(Payment.this,"selectedPaymentMode","MOLPAY");
             CardInfo cardInfo=new CardInfo();
-            cardInfo.setLastFour("PAYPAL");
+            cardInfo.setLastFour("MOLPAY");
             Intent intent=new Intent();
             intent.putExtra("card_info",cardInfo);
             setResult(RESULT_OK,intent);

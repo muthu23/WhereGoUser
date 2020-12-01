@@ -36,7 +36,7 @@ android {
         applicationId "com.wherego.delivery.user"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 16
+        versionCode 20
         versionName "2.0"
         multiDexEnabled true
         resConfigs "en"
@@ -45,6 +45,16 @@ android {
 
         resValue "string", "google_map_api", "AIzaSyBsJ8VpT5A8rBXSvDMzJ3SOAnx_meBkIl4"
         resValue "string", "google_place_api", "AIzaSyBsJ8VpT5A8rBXSvDMzJ3SOAnx_meBkIl4"
+
+        //MOLPAY details
+        buildConfigField "String", "mp_username", '"api_wherego"'
+        buildConfigField "String", "mp_merchant_ID", '"wherego"'
+        buildConfigField "String", "mp_app_name", '"wherego"'
+        buildConfigField "String", "mp_password", '"api_Tfavff523"'
+        buildConfigField "String", "mp_verification_key", '"db3e21888e4d20c52d600a4c77957688"'
+        buildConfigField "String", "mp_country", '"MY"'
+        buildConfigField "boolean", "mp_sandbox_mode", "true"
+
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -129,5 +139,9 @@ dependencies {
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
+
+    /*molpay*/
+    implementation 'com.molpay:molpay-mobile-xdk-android:3.26.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

@@ -59,6 +59,7 @@
                         android:layout_height="@dimen/_34sdp"
                         android:rotation="270"
                         android:visibility="gone"
+                        android:tint="@color/black"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/back_icon"/>
 
@@ -1831,7 +1832,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="right"
-                            android:text="Paypal"
+                            android:text="Molpay"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_13sdp"
                             android:visibility="gone" />
@@ -1839,17 +1840,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-<!--                <com.mycourier.user.Utils.MyButton-->
-<!--                    android:id="@+id/btnPayNow"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                    android:layout_marginRight="@dimen/_10sdp"-->
-<!--                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                    android:background="@drawable/home_button_shape"-->
-<!--                    android:text="@string/pay_now"-->
-<!--                    android:textColor="@color/button_text_color" />-->
 
 
             </LinearLayout>

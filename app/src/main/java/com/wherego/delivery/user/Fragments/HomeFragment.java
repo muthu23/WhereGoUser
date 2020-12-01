@@ -101,6 +101,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.molpay.molpayxdk.MOLPayActivity;
 import com.nguyenhoanglam.imagepicker.model.Image;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -120,6 +121,7 @@ import com.wherego.delivery.user.Activities.PickUpNotes;
 import com.wherego.delivery.user.Activities.ShowProfile;
 import com.wherego.delivery.user.Activities.UplaodImage;
 import com.wherego.delivery.user.Adapter.ImageAdapter;
+import com.wherego.delivery.user.BuildConfig;
 import com.wherego.delivery.user.Helper.ConnectionHelper;
 import com.wherego.delivery.user.Helper.CustomDialog;
 import com.wherego.delivery.user.Helper.DataParser;
@@ -239,6 +241,7 @@ public class HomeFragment extends Fragment implements
     DrawerLayout drawer;
     int NAV_DRAWER = 0;
     String reqStatus = "";
+    private static String ceckTripStatus = "";
     int PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST = 18945;
     private final int ADD_CARD_CODE = 435;
     private static final int REQUEST_LOCATION = 1450;
@@ -930,7 +933,7 @@ public class HomeFragment extends Fragment implements
 
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
+                getActivity().runOnUiThread(() -> currentAddress = utils.getCompleteAddressString(context, latitude, longitude));
                 source_lat = "" + latitude;
                 source_lng = "" + longitude;
                 source_address = currentAddress;
@@ -1099,15 +1102,13 @@ public class HomeFragment extends Fragment implements
                     break;
                 case R.id.btnPayNow:
 
-
                     if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase("CARD")) {
                         payNow();
 
                     } else if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase("PAYPAL")) {
 
                         Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
-                        //   confirmFinalPayment(lblTotalPrice.getText().toString());
-//       payNowCard();
+
                         PayPalConfiguration config = new PayPalConfiguration()
                                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
                                 // or live (ENVIRONMENT_PRODUCTION)
@@ -1124,6 +1125,8 @@ public class HomeFragment extends Fragment implements
                         intentPay.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
                         startActivityForResult(intentPay, 0);
 
+                    } else if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase("MOLPAY")) {
+                        goToMOLPAY(Integer.valueOf(SharedHelper.getKey(context, "request_id")), lblTotalPrice.getText().toString().replace("RM", ""));
                     } else {
                         Checkout.preload(getActivity());
                         startPayment();
@@ -1136,17 +1139,6 @@ public class HomeFragment extends Fragment implements
                 case R.id.btnSubmitReview:
                     submitReviewCall();
                     break;
-//                case R.id.imgfav:
-//                    if(favourite==false)
-//                    {
-//                        favourite=true;
-////                        imgfav.setBackgroundResource(R.drawable.ic_favourite_red);
-//                    }
-//                    else {
-//                        favourite=false;
-////                        imgfav.setBackgroundResource(R.drawable.ic_favourite);
-//                    }
-//                    break;
                 case R.id.lnrHidePopup:
                 case R.id.btnDonePopup:
                     lnrHidePopup.setVisibility(View.GONE);
@@ -1592,6 +1584,35 @@ public class HomeFragment extends Fragment implements
     }
 
 
+    private void goToMOLPAY(Integer id, String amount) {
+
+        HashMap<String, Object> paymentDetails = new HashMap<>();
+        paymentDetails.put(MOLPayActivity.mp_amount, amount);
+        paymentDetails.put(MOLPayActivity.mp_username, BuildConfig.mp_username);
+        paymentDetails.put(MOLPayActivity.mp_merchant_ID, BuildConfig.mp_merchant_ID);
+        paymentDetails.put(MOLPayActivity.mp_app_name, BuildConfig.mp_app_name);
+        paymentDetails.put(MOLPayActivity.mp_password, BuildConfig.mp_password);
+        paymentDetails.put(MOLPayActivity.mp_order_ID, id);
+        paymentDetails.put(MOLPayActivity.mp_currency, "RM");
+        paymentDetails.put(MOLPayActivity.mp_country, BuildConfig.mp_country);
+        paymentDetails.put(MOLPayActivity.mp_verification_key, BuildConfig.mp_verification_key);
+        paymentDetails.put(MOLPayActivity.mp_channel, "multi");
+        Date currentTime = Calendar.getInstance().getTime();
+
+        paymentDetails.put(MOLPayActivity.mp_bill_description, currentTime + "-" + SharedHelper.getKey(context, "email"));
+        paymentDetails.put(MOLPayActivity.mp_bill_name, SharedHelper.getKey(context, "first_name") + " " + SharedHelper.getKey(context, "last_name"));
+        paymentDetails.put(MOLPayActivity.mp_bill_email, SharedHelper.getKey(context, "email"));
+        paymentDetails.put(MOLPayActivity.mp_bill_mobile, SharedHelper.getKey(context, "mobile"));
+        paymentDetails.put(MOLPayActivity.mp_request_type, "");
+//        paymentDetails.put(MOLPayActivity.mp_sandbox_mode, true);
+
+
+        Intent intent = new Intent(context, MOLPayActivity.class);
+        intent.putExtra(MOLPayActivity.MOLPayPaymentDetails, paymentDetails);
+        startActivityForResult(intent, MOLPayActivity.MOLPayXDK);
+
+    }
+
     public void startPayment() {
         /*
           You need to pass current activity in order to let Razorpay create CheckoutActivity
@@ -1656,25 +1677,8 @@ public class HomeFragment extends Fragment implements
         }
     }
 
-//    @SuppressWarnings("unused")
-//    @Override
-//    public void onPaymentSuccess(String razorpayPaymentID) {
-
-//    }
-//
-//
-//    @SuppressWarnings("unused")
-//    @Override
-//    public void onPaymentError(int code, String response) {
-//        try {
-//            Toast.makeText(getActivity(), "Payment failed: " + code + " " + response, Toast.LENGTH_SHORT).show();
-//        } catch (Exception e) {
-//            Log.v(TAG, "Exception in onPaymentError", e);
-//        }
-//    }
 
     private void addPayment() {
-
 
         customDialog.setCancelable(false);
         if (customDialog != null)
@@ -1916,7 +1920,7 @@ public class HomeFragment extends Fragment implements
                                     String stringPrice = response.optString("estimated_fare");
                                     float floatPrice = Float.parseFloat(stringPrice);
                                     int intPrice = Math.round(floatPrice);
-                                    SharedHelper.putKey(context, "estimated_fare", format.format(floatPrice));
+                                    SharedHelper.putKey(context, "estimated_fare", stringPrice);
 
 //                                    SharedHelper.putKey(context, "estimated_fare",
 //                                            response.optString("estimated_fare"));
@@ -2621,6 +2625,25 @@ public class HomeFragment extends Fragment implements
             }
         }
 
+        if (requestCode == MOLPayActivity.MOLPayXDK && resultCode == Activity.RESULT_OK) {
+            Log.d(MOLPayActivity.MOLPAY, "MOLPay result = " + data.getStringExtra(MOLPayActivity.MOLPayTransactionResult));
+            JSONObject MolPay_Response;
+            try {
+                MolPay_Response = new JSONObject(data.getStringExtra(MOLPayActivity.MOLPayTransactionResult));
+
+                if (MolPay_Response.optString("status_code").equalsIgnoreCase("00")) {
+                    payNow(MolPay_Response.optString("status_code"), MolPay_Response.optString("amount"), MolPay_Response.optString("txn_ID"));
+                } else {
+                    Toast.makeText(context, MolPay_Response.optString("Error"), Toast.LENGTH_LONG).show();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
                 PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
@@ -2676,6 +2699,7 @@ public class HomeFragment extends Fragment implements
             Log.e("GPS Result Status else", "onActivityResult: " + data);
         }
     }
+
 
     void showProviderPopup(JSONObject jsonObject) {
         lnrSearchAnimation.startAnimation(slide_up_top);
@@ -2988,7 +3012,7 @@ public class HomeFragment extends Fragment implements
                                     String stringPrice = response.optString("estimated_fare");
                                     float floatPrice = Float.parseFloat(stringPrice);
                                     int intPrice = Math.round(floatPrice);
-                                    SharedHelper.putKey(context, "estimated_fare", format.format(floatPrice));
+                                    SharedHelper.putKey(context, "estimated_fare", stringPrice);
 
                                     SharedHelper.putKey(context, "distance", response.optString("distance"));
                                     SharedHelper.putKey(context, "eta_time", response.optString("time"));
@@ -3672,11 +3696,12 @@ public class HomeFragment extends Fragment implements
             //   imgPaymentType.setImageResource(R.drawable.money1);
             lblPaymentType.setText("CASH");
             chkWallet.setChecked(false);
-        } else if (cardInfo.getLastFour().equals("PAYPAL")) {
+        } else if (cardInfo.getLastFour().equals("MOLPAY")) {
             chkWallet.setChecked(false);
-            SharedHelper.putKey(context, "payment_mode", "PAYPAL");
-            //   imgPaymentType.setImageResource(R.drawable.money1);
-            lblPaymentType.setText("PAYPAL");
+            SharedHelper.putKey(context, "payment_mode", "MOLPAY");
+            imgPaymentType.setVisibility(View.VISIBLE);
+            imgPaymentType.setImageResource(R.drawable.ic_card);
+            lblPaymentType.setText("MOLPAY");
         } else if (cardInfo.getLastFour().equals("RAZORPAY")) {
             chkWallet.setChecked(false);
             SharedHelper.putKey(context, "payment_mode", "RAZORPAY");
@@ -3697,6 +3722,97 @@ public class HomeFragment extends Fragment implements
             lblPaymentType.setText("xxxx" + cardInfo.getLastFour());
         }
     }
+
+    private void payNow(String status_code, String amount, String txn_id) {
+
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("request_id", SharedHelper.getKey(context, "request_id"));
+            object.put("status", status_code);
+            object.put("amount", amount);
+            object.put("txn_ID", txn_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new
+                JsonObjectRequest(Request.Method.POST,
+                        URLHelper.MOLPAY_NOW_API,
+                        object,
+                        response -> {
+                            utils.print("PayNowRequestResponse", response.toString());
+                            if ((customDialog != null) && (customDialog.isShowing()))
+                                customDialog.dismiss();
+                            flowValue = 6;
+                            layoutChanges();
+                        }, error -> {
+                    if ((customDialog != null) && (customDialog.isShowing()))
+                        customDialog.dismiss();
+                    String json = "";
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.data != null) {
+                        try {
+                            JSONObject errorObj = new JSONObject(new String(response.data));
+
+                            if (response.statusCode == 400 ||
+                                    response.statusCode == 405 ||
+                                    response.statusCode == 500) {
+                                try {
+                                    utils.displayMessage(getView(),
+                                            errorObj.optString("message"));
+                                } catch (Exception e) {
+                                    utils.displayMessage(getView(),
+                                            getString(R.string.something_went_wrong));
+                                }
+                            } else if (response.statusCode == 401) {
+                                refreshAccessToken("PAY_NOW");
+                            } else if (response.statusCode == 422) {
+
+                                json = trimMessage(new String(response.data));
+                                if (json != "" && json != null) {
+                                    utils.displayMessage(getView(), json);
+                                } else {
+                                    utils.displayMessage(getView(),
+                                            getString(R.string.please_try_again));
+                                }
+                            } else if (response.statusCode == 503) {
+                                utils.displayMessage(getView(),
+                                        getString(R.string.server_down));
+                            } else {
+                                utils.displayMessage(getView(),
+                                        getString(R.string.please_try_again));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            utils.displayMessage(getView(),
+                                    getString(R.string.something_went_wrong));
+                        }
+
+                    } else {
+                        utils.displayMessage(getView(),
+                                getString(R.string.please_try_again));
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("Authorization", "" +
+                                SharedHelper.getKey(context, "token_type") + " " +
+                                SharedHelper.getKey(context, "access_token"));
+                        headers.put("X-Requested-With", "XMLHttpRequest");
+                        return headers;
+                    }
+                };
+
+        MyCourier.getInstance().addToRequestQueue(jsonObjectRequest);
+
+
+    }
+
 
     /// pay now options
     public void payNow() {
@@ -3863,11 +3979,13 @@ public class HomeFragment extends Fragment implements
                                                         dest_lng = userdrop.getJSONObject(i).optString("d_longitude");
                                                         status = userdrop.getJSONObject(i).optString("status");
                                                         reqStatus = userdrop.getJSONObject(i).optString("status");
+                                                        ceckTripStatus="";
                                                         break;
                                                     } else {
                                                         status = requestStatusCheckObject.optString("status");
-                                                        reqStatus = userdrop.getJSONObject(i).optString("status");
-
+                                                        reqStatus = requestStatusCheckObject.optString("status");
+                                                        ceckTripStatus = "COMPLETED";
+                                                        PreviousStatus="";
                                                     }
 
 
@@ -4094,7 +4212,10 @@ public class HomeFragment extends Fragment implements
                                                             e.printStackTrace();
                                                         }
                                                         break;
-                                                    case "DROPPED":
+
+
+
+
                                                     case "PICKEDUP":
                                                         once = true;
                                                         driveraccepted.setVisibility(View.GONE);
@@ -4141,11 +4262,107 @@ public class HomeFragment extends Fragment implements
                                                             e.printStackTrace();
                                                         }
                                                         break;
+                                                        case "DROPPED":
+                                                            if(ceckTripStatus.equalsIgnoreCase("COMPLETED")) {
+                                                                strTag = "";
+                                                                layoutdriverstatus.setVisibility(View.GONE);
+                                                                try {
+                                                                    if (requestStatusCheckObject.optJSONObject("payment") != null) {
+                                                                        JSONObject payment = requestStatusCheckObject.optJSONObject("payment");
+                                                                        lblBasePrice.setText(SharedHelper.getKey(context, "currency") + ""
+                                                                                + payment.optString("fixed"));
+                                                                        lblTaxPrice.setText(SharedHelper.getKey(context, "currency") + ""
+                                                                                + payment.optString("tax"));
+                                                                        lblDistancePrice.setText(SharedHelper.getKey(context, "currency") + ""
+                                                                                + payment.optString("distance"));
+                                                                        float mTotel = Float.parseFloat(payment.optString("total"));
+                                                                        lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
+                                                                                + format.format(mTotel));
+                                                                    }
 
-                                                    //imgShareRide.setVisibility(View.VISIBLE);
-                                                    //lblCommision.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("commision"));
-                                                    //                                                                lblProviderNameRate1.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
+                                                                    JSONObject provider = requestStatusCheckObject.optJSONObject("provider");
+                                                                    isPaid = requestStatusCheckObject.optString("paid");
+                                                                    paymentMode = requestStatusCheckObject.optString("payment_mode");
+                                                                    imgSos.setVisibility(View.GONE);
+                                                                    if (isPaid.equalsIgnoreCase("0")
+                                                                            && paymentMode.equalsIgnoreCase("CASH")) {
+                                                                        flowValue = 5;
+                                                                        layoutChanges();
+                                                                        btnPayNow.setVisibility(View.GONE);
+                                                                        imgPaymentTypeInvoice.setImageResource(R.drawable.money_icon);
+                                                                        lblPaymentTypeInvoice.setText("CASH");
+                                                                    } else if (isPaid.equalsIgnoreCase("0")
+                                                                            && paymentMode.equalsIgnoreCase("MOLPAY")) {
+                                                                        flowValue = 5;
+                                                                        layoutChanges();
+                                                                        imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
+                                                                        lblPaymentTypeInvoice.setText("MOLPAY");
+                                                                        btnPayNow.setVisibility(View.VISIBLE);
+                                                                        tvPaymentLabel.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
+                                                                    } else if (isPaid.equalsIgnoreCase("1")) {
+                                                                        btnPayNow.setVisibility(View.GONE);
+                                                                        lblProviderNameRate.setText(getString(R.string.rate_provider) + " " + provider.optString("first_name") + " " + provider.optString("last_name"));
+//                                                                lblProviderNameRate1.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
+                                                                        if (provider.optString("avatar").startsWith("http"))
+                                                                            Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProviderRate);
+                                                                        else
+                                                                            Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProviderRate);
+                                                                        flowValue = 6;
+                                                                        layoutChanges();
+                                                                        //imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
+                                                                        // lblPaymentTypeInvoice.setText("CARD");
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                            else {
+                                                                once = true;
+                                                        driveraccepted.setVisibility(View.GONE);
+                                                        driverArrived.setVisibility(View.GONE);
+                                                        driverPicked.setVisibility(View.VISIBLE);
+                                                        driverCompleted.setVisibility(View.GONE);
+                                                        txtdriverpicked.setText(getString(R.string.picked_up));
+                                                        imgarrived.setImageResource(R.drawable.arriveddisable);
+                                                        imgPicked.setImageResource(R.drawable.pickeddisable);
+                                                        imgDropped.setImageResource(R.drawable.complete);
+                                                        layoutdriverstatus.setVisibility(View.VISIBLE);
+                                                        strTag = "ride_picked";
+                                                        try {
+                                                            JSONObject provider = requestStatusCheckObject.getJSONObject("provider");
+                                                            JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
+                                                            JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
+                                                            JSONObject payment_method = requestStatusCheckObject.getJSONObject("user");
+                                                            tvCash.setText(payment_method.optString("payment_mode"));
+                                                            tvPrice.setText(SharedHelper.getKey(getActivity(), "currency") + " " + SharedHelper.getKey(context, "estimated_fare"));
+                                                            tvETA.setText(SharedHelper.getKey(context, "eta_time"));
+                                                            String d = requestStatusCheckObject.optString("distance");
+                                                            float dist = Float.parseFloat(d);
+                                                            tvDistance.setText(new DecimalFormat("##.#").format(dist) + "KM");
+//                                                            tvDistance.setText(requestStatusCheckObject.optString("distance"));
+                                                            lblProvider.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
+                                                            if (provider.optString("avatar").startsWith("http"))
+                                                                Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.user).error(R.drawable.user).into(imgProvider);
+                                                            else
+                                                                Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.user).error(R.drawable.user).into(imgProvider);
+                                                            lblServiceRequested.setText(service_type.optString("name"));
+                                                            lblModelNumber.setText(provider_service.optString("service_model") + "\n" + provider_service.optString("service_number"));
+                                                            Picasso.get().load(service_type.optString("image")).placeholder(R.drawable.car_select).error(R.drawable.car_select).into(imgServiceRequested);
+                                                            ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
+                                                            lnrAfterAcceptedStatus.setVisibility(View.VISIBLE);
+                                                            tripLine.setVisibility(View.VISIBLE);
+                                                            imgSos.setVisibility(View.VISIBLE);
 
+                                                            lblETA.setVisibility(View.VISIBLE);
+                                                            btnCancelTrip.setText(getString(R.string.share));
+                                                            AfterAcceptButtonLayout.setVisibility(View.VISIBLE);
+                                                            flowValue = 4;
+                                                            layoutChanges();
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                            }
+                                                        break;
                                                     case "COMPLETED":
                                                         strTag = "";
                                                         layoutdriverstatus.setVisibility(View.GONE);
@@ -4163,33 +4380,36 @@ public class HomeFragment extends Fragment implements
                                                                         + format.format(mTotel));
                                                             }
 
-
                                                             JSONObject provider = requestStatusCheckObject.optJSONObject("provider");
                                                             isPaid = requestStatusCheckObject.optString("paid");
                                                             paymentMode = requestStatusCheckObject.optString("payment_mode");
                                                             imgSos.setVisibility(View.GONE);
                                                             //imgShareRide.setVisibility(View.GONE);
                                                             // lblCommision.setText(payment.optString("commision"));
-                                                            if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CASH")) {
+                                                            if (isPaid.equalsIgnoreCase("0")
+                                                                    && paymentMode.equalsIgnoreCase("CASH")) {
                                                                 flowValue = 5;
                                                                 layoutChanges();
                                                                 btnPayNow.setVisibility(View.GONE);
                                                                 imgPaymentTypeInvoice.setImageResource(R.drawable.money_icon);
                                                                 lblPaymentTypeInvoice.setText("CASH");
-                                                            } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CARD")) {
+                                                            } else if (isPaid.equalsIgnoreCase("0")
+                                                                    && paymentMode.equalsIgnoreCase("MOLPAY")) {
                                                                 flowValue = 5;
                                                                 layoutChanges();
                                                                 imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                                lblPaymentTypeInvoice.setText("CARD");
+                                                                lblPaymentTypeInvoice.setText("MOLPAY");
                                                                 btnPayNow.setVisibility(View.VISIBLE);
                                                             } else if (isPaid.equalsIgnoreCase("1")) {
                                                                 btnPayNow.setVisibility(View.GONE);
-                                                                lblProviderNameRate.setText(getString(R.string.rate_provider) + " " + provider.optString("first_name") + " " + provider.optString("last_name"));
+                                                                if(provider!=null) {
+                                                                    lblProviderNameRate.setText(getString(R.string.rate_provider) + " " + provider.optString("first_name") + " " + provider.optString("last_name"));
 //                                                                lblProviderNameRate1.setText(provider.optString("first_name") + " " + provider.optString("last_name"));
-                                                                if (provider.optString("avatar").startsWith("http"))
-                                                                    Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProviderRate);
-                                                                else
-                                                                    Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProviderRate);
+                                                                    if (provider.optString("avatar").startsWith("http"))
+                                                                        Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProviderRate);
+                                                                    else
+                                                                        Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.user).into(imgProviderRate);
+                                                                }
                                                                 flowValue = 6;
                                                                 layoutChanges();
                                                                 //imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
@@ -4325,7 +4545,7 @@ public class HomeFragment extends Fragment implements
             utils.print("LatLng", "Source:" + sourceLatLng + " Destination: " + destLatLng);
             //String url = getDirectionsUrl(sourceLatLng, destLatLng);
             String url = "";
-            if (sourceLatLng != null && destLatLng!= null) {
+            if (sourceLatLng != null && destLatLng != null) {
                 url = getUrl(sourceLatLng.latitude, sourceLatLng.longitude, destLatLng.latitude, destLatLng.longitude);
                 FetchUrl fetchUrl = new FetchUrl();
                 fetchUrl.execute(url);
@@ -4699,7 +4919,7 @@ public class HomeFragment extends Fragment implements
                     Log.e("position", position + "position");
                     try {
                         lnrHidePopup.setVisibility(View.VISIBLE);
-                     //   showProviderPopup(jsonArray.getJSONObject(position));
+                        //   showProviderPopup(jsonArray.getJSONObject(position));
 
                     } catch (Exception e) {
                         e.printStackTrace();

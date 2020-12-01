@@ -107,7 +107,6 @@ public class HistoryDetails extends AppCompatActivity {
     LinearLayout layoutInfo;
     Button btnViewInvoice, btnViewHelp;
     MaterialButton btnCall;
-    NumberFormat format = new DecimalFormat("#.##");
     JSONObject itemObject;
 
     @Override
@@ -445,7 +444,7 @@ public class HistoryDetails extends AppCompatActivity {
                             String stringPrice = response.optJSONObject(0).optJSONObject("payment").optString("total");
                             float floatPrice = Float.parseFloat(stringPrice);
 
-                            tripAmount.setText(SharedHelper.getKey(context, "currency") + "" + format.format(floatPrice));
+                            tripAmount.setText(SharedHelper.getKey(context, "currency") + "" + stringPrice);
                             response.optJSONObject(0).optJSONObject("payment");
                             lblBasePrice.setText((SharedHelper.getKey(context, "currency") + ""
                                     + response.optJSONObject(0).optJSONObject("payment").optString("fixed")));
@@ -630,7 +629,7 @@ public class HistoryDetails extends AppCompatActivity {
                                 if (tag.equalsIgnoreCase("past_trips")) {
                                     String stringPrice = serviceObj.optString("price");
                                     float floatPrice = Float.parseFloat(stringPrice);
-                                    tripAmount.setText(SharedHelper.getKey(context, "currency") + format.format(floatPrice));
+                                    tripAmount.setText(SharedHelper.getKey(context, "currency") + stringPrice);
                                 } else {
                                     tripAmount.setVisibility(View.GONE);
                                 }

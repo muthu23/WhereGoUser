@@ -18,8 +18,9 @@
             android:id="@+id/backArrow"
 
             android:background="@drawable/back_icon"
-            android:layout_width="@dimen/_36sdp"
-            android:layout_height="@dimen/_48sdp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_gravity="start"
+            android:layout_height="@dimen/_20sdp"
             android:layout_margin="10dp"
             />
         <LinearLayout

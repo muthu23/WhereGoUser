@@ -17,8 +17,8 @@
 
             <ImageView
                 android:id="@+id/backArrow"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="37dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:padding="2sp"

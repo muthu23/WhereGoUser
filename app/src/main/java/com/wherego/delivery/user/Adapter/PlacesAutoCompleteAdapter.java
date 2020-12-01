@@ -4,7 +4,6 @@ package com.wherego.delivery.user.Adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
-
 import android.text.style.CharacterStyle;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -243,12 +242,12 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
             List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
             FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).setSessionToken(token).build();
             placesClient.fetchPlace(request).addOnSuccessListener(response -> {
-                Log.d("LocationPickActvity", "AutocompleteSessionToken: "+request.getSessionToken());
+                Log.d("LocationPickActvity", "AutocompleteSessionToken: " + request.getSessionToken());
                 Place place = response.getPlace();
                 clickListener.place(place);
             }).addOnFailureListener(exception -> {
                 if (exception instanceof ApiException) {
-                    Toast.makeText(mContext, ""+exception.getMessage() + "", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "" + exception.getMessage() + "", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -261,6 +260,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
     public interface ClickListener {
         void place(Place place);
     }
+
     /**
      * Holder for Places Geo Data Autocomplete API results.
      */
